@@ -1,0 +1,12 @@
+Order deny,allow
+Deny from all
+Allow from 127.0.0.1
+Allow from ::1
+Allow from 10.0.2.2
+Allow from 10.0.2.15
+Allow from 200.153.167.208
+
+<IfModule mod_rewrite.c>
+    # Disable rewriting
+    RewriteEngine Off
+</IfModule>

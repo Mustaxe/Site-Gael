@@ -1,0 +1,72 @@
+{
+    "basePath":"http://localhost/service",
+    "swaggerVersion":"1.2",
+    "apiVersion":"1.0.0",
+    "resourcePath":"/autenticacao",
+    "apis":[
+        {
+            "path":"/login",
+            "description":"Login atrav\u00e9s de formul\u00e1rio informando usu\u00e1rio e senha",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Login por formul\u00e1rio",
+                    "nickname":"loginForm",
+                    "type":"string",
+                    "parameters":[
+                        {
+                            "paramType":"form",
+                            "name":"usuario",
+                            "type":"string",
+                            "required":true,
+                            "description":"usu\u00e1rio"
+                        },
+                        {
+                            "paramType":"form",
+                            "name":"senha",
+                            "type":"string",
+                            "required":true,
+                            "description":"senha"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":500,
+                            "message":"Problema ao efetuar login"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/logout",
+            "description":"Realiza logout, limpa chave no BD",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Realiza logout",
+                    "nickname":"logout",
+                    "type":"string",
+                    "parameters":[
+                        {
+                            "paramType":"form",
+                            "name":"chave",
+                            "type":"string",
+                            "required":true,
+                            "description":"chave do usu\u00e1rio"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":500,
+                            "message":"Problema ao efetuar logout"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces":[
+        "application/json"
+    ]
+}

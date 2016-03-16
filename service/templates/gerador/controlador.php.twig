@@ -1,0 +1,31 @@
+{% autoescape false %}
+<?php
+/**
+ * @package
+ * @since  {{ controlador.gerado }}
+ * @category
+ * @subpackage
+ *
+ * @SWG\Resource(
+ *   apiVersion="1.0.0",
+ *   swaggerVersion="1.2",
+ *   basePath="{{ controlador.basePath }}",
+ *   resourcePath="/admin",
+ *   description="{{ controlador.descricao }}",
+ *   produces="{{ controlador.formatoResposta }}"
+ * )
+ */
+
+{% for modelCaminho in controlador.modelCaminhos %}
+{{ modelCaminho }}
+{% endfor %}
+
+{% for modelClasse in controlador.modelClasses %}
+{{ modelClasse }}
+{% endfor %}
+
+{% for closure in controlador.closures %}
+{{ closure }}
+{% endfor %}
+
+{% endautoescape %}

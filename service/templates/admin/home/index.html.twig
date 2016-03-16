@@ -1,0 +1,61 @@
+
+{% extends "/admin/base/main.html.twig" %}
+
+
+{% block titulo %}Home{% endblock titulo %}
+{% block descricao %}Home{% endblock descricao %}
+{% block header %}
+<ol class="breadcrumb">
+  <li><a href="#">Admin</a></li>
+  <li><a href="#">Home</a></li>
+</ol>
+<h1>Home</h1>
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+    <div class="row">
+        
+        <div class="widget col-sm-6 overflow:hidden">
+            <h2><span class="social facebook"><i></i></span>Facebook Fans</h2>
+            <hr>
+            <div class="content">
+                <div id="facebookChart" style="height:300px;" ></div>
+            </div>
+        </div><!--/col-->
+        
+        <div class="widget col-sm-6 overflow:hidden">
+            <h2><span class="social twitter"><i></i></span>Twitter Followers</h2>
+            <hr>
+            <div class="content">
+                <div id="twitterChart" style="height:300px;" ></div>
+            </div>
+        </div><!--/col-->
+    
+    </div><!--/row-->
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ assetUri }}/web/js/excanvas.min.js"></script><![endif]-->
+    <script src="{{ assetUri }}/web/js/jquery.flot.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.pie.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.stack.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.resize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.time.min.js"></script>
+    <script src="{{ assetUri }}/web/js/retina.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/index.js"></script>
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

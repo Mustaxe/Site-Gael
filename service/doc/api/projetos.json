@@ -1,0 +1,23 @@
+{
+    "basePath":"http://localhost/service",
+    "swaggerVersion":"1.2",
+    "apiVersion":"1.0.0",
+    "resourcePath":"/projetos",
+    "apis":[
+        {
+            "path":"/projetos",
+            "description":"Listagem dados do projeto",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Listagem dados projeto",
+                    "nickname":"listagemProjeto",
+                    "type":"string"
+                }
+            ]
+        }
+    ],
+    "produces":[
+        "application/json"
+    ]
+}

@@ -1,0 +1,82 @@
+/************************************
+ * CLIENTS - SLIDE 1
+ ************************************/
+
+#clients {
+	background-color: #ffffff;
+	position: relative;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+}
+
+#clients .container {
+	position: relative;
+}
+
+.ct-menu-home {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 20;
+}
+
+#clients .navigation li {
+	background-color: #623180;
+	position: relative;
+	margin: 0 3px 0 0;
+	width: 125px;
+	height: 96px;
+	padding: 0;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+
+#clients .navigation li a {
+	width: 125px;
+	height: 96px;
+	display: block;
+	color: #ffcf14;
+	font-weight: 900;
+	text-align: center;
+}
+
+#clients .navigation li:hover {
+	background-color: #d7352f;
+}
+
+#clients .navigation li i {
+	display: block;
+}
+
+#clients .navigation li.btn-h-clients i {
+	padding-top: 25px;
+}
+
+#clients .navigation li.btn-h-work i {
+	padding-top: 12px;
+}
+
+#clients .navigation li.btn-h-about i {
+	padding-top: 19px;
+}
+
+#clients .navigation li.btn-h-contact i {
+	padding-top: 20px;
+}
+
+#clients .navigation li span {
+	margin-top: 5px;
+	display: block;
+}
+

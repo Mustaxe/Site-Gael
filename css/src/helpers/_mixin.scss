@@ -1,0 +1,32 @@
+@mixin image-text($image){
+	background: image-url($image) no-repeat center center;
+	width: image-width($image);
+	height: image-height($image);
+	display: block;
+	text-indent: -9999px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@mixin image-text-mobile($image){
+	background: image-url($image) no-repeat center center;
+	background-size: 50%;
+	width: image-width($image) / 2 ;
+	height: image-height($image) / 2;
+	display: block;
+	text-indent: -9999px;
+	white-space: nowrap;
+	overflow: hidden;
+
+}
+
+
+@mixin boxy-buttons($size , $color-left , $color-bottom){
+
+    $full:  -1px 0px $color-left , 0px 1px $color-bottom;
+    @for $i from 1 through $size - 1  {
+        $full: compact($full , (-1px - $i)  (0px + $i) $color-left,  (0px - $i) (1px+ $i) $color-bottom);
+    }
+
+    @include box-shadow($full);
+}

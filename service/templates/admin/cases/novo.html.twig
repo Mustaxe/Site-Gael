@@ -1,0 +1,267 @@
+{% extends "/admin/base/main.html.twig" %}
+
+{% block titulo %}Adicionar Cases{% endblock titulo %}
+{% block descricao %}Adicionar Cases{% endblock descricao %}
+{% block header %}
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{{ baseUri }}">Admin</a></li>
+      <li><a href="#">Cases</a></li>
+    </ol>
+    <h1>Adicionar Cases</h1>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Cases</h2>
+                    <div class="box-icon">
+                        <a href="form-elements.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                        <a href="form-elements.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="form-elements.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <form role="form" method="post" action="{{ baseUri }}/cases/novo" enctype="multipart/form-data" onSubmit="$('#editor_content').val($('.editor').html())" id="form">
+                        <div class="form-group">
+                            <label class="control-label" for="date01">Título</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="titulo" required="required"/>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label" for="date01">Subtítulo</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="descricao" required="required"/>
+                            </div>
+                        </div>
+
+						<div class="form-group hidden-xs">
+							<label class="control-label">Texto</label>
+							<div class="btn-toolbar" data-role="editor-toolbar" data-target=".editor">
+								<div class="btn-group">
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
+										<li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
+										<li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
+									</ul>
+								</div>
+								<div class="btn-group">
+									<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+									<a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+									<a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+									<a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+								</div>
+								<div class="btn-group">
+									<a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+									<a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+									<a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent"></i></a>
+									<a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+								</div>
+								<div class="btn-group">
+									<a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+									<a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+									<a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+									<a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+								</div>
+								<div class="btn-group">
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+									<div class="dropdown-menu input-append">
+										<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+										<button class="btn" type="button">Add</button>
+									</div>
+									<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+								</div>
+								<div class="btn-group">
+									<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+									<a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+								</div>
+							</div>
+
+							<div class="editor" name="texto">
+							</div>
+						</div>
+
+						<textarea name="editor_content" id="editor_content" style="display:none;"></textarea>
+
+
+
+
+
+                        <!--div class="form-group">
+                            <label class="control-label" for="texto">Texto</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="texto" required="required"/>
+                            </div>
+                         </div-->
+                        <div class="form-group">
+                            <label class="control-label" for="imagem_thumb">Imagem Thumb</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_thumb" required="required"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="imagem_thumb_over">Imagem Thumb Hover</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_thumb_over" required="required"/>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary assets">
+                            <div class="panel-heading">Imagens ou Video</div>
+                            <div class="panel-body">
+                                 <div class="panel panel-info panel-item">
+                                    <div class="panel-heading clearfix">
+                                        <div class="pull-left">Item</div>
+                                        <div class="btn-group pull-right">
+                                            <a href="#confirmDelete" data-toggle="modal" data-title="Excluir item!" data-message="Tem certeza que deseja excluir?" role="button"   class="btn btn-danger btn-sm btn-delete btn-hidden">
+                                                <span class="glyphicon glyphicon-remove"></span> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="image" style="display:table-cell;">
+                                            <img style="padding: 10px; width: 120px;" src="/service/web/img/not_found.jpg" />
+                                        </div>
+                                        <div class="field" style="display: table-cell; width: 100%; vertical-align: top;">
+                                            <div class="form-group">
+                                                <label class="control-label" for="imagem_integra1">Imagem</label>
+                                                <input type="file" class="form-control" id="imagem_integra1" name="imagem_integra[]"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="url_video[]" placeholder="URL Video"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="btn btn-default btn-primary" id="add-case">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Adicionar mais um asset
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="form-group">
+                            <label class="control-label" for="caseid">Categorias:</label>
+                            <div class="controls">
+								<p style="margin-left: 40px;"><b>Empresas:</b></p>
+								<ul style="width: 100%; list-style-type: none; display: block; min-height: 30px;">
+									{% for categoria in categorias %}
+										{% if categoria.tipo == 'E' %}
+											<li style="width: 100px; float: left;"><input type="checkbox" value="{{ categoria.id }}" name="categorias[]"> {{ categoria.nome }}</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+
+								<p style="margin-left: 40px;"><b>Job:</b></p>
+								<ul style="width: 100%; list-style-type: none; display: block; min-height: 30px;">
+									{% for categoria in categorias %}
+										{% if categoria.tipo == 'J' %}
+											<li style="width: 100px; float: left;"><input type="checkbox" value="{{ categoria.id }}" name="categorias[]"> {{ categoria.nome }}</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+                            </div>
+                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Ordem</label>
+
+                            <select name="ordem" class="form-control">
+									<option value="0" Selected>Novo</option>
+								{% for ordena in ordenacao %}
+									<option value="{{ ordena.ordem }}">{{ ordena.ordemTitulo }}</option>
+                                {% endfor %}
+                            </select>
+
+                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="date01">Ativo</label>
+                            <div class="controls">
+								<select name="ativo" class="form-control">
+									<option value="1">Sim</option>
+									<option value="0">Não</option>
+								</select>
+                            </div>
+                         </div>
+
+                        <div class="form-actions">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                          <a href="{{ baseUri }}/cases" class="btn">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Excluir</h4>
+          </div>
+          <div class="modal-body">
+            <p>Você tem certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirm">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        window.baseUri = "{{ baseUri }}";
+    </script>
+
+    <!-- page scripts -->
+    <script src="{{ assetUri }}/web/js/jquery.chosen.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.cleditor.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.autosize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.placeholder.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.maskedinput.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-timepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/moment.min.js"></script>
+    <script src="{{ assetUri }}/web/js/daterangepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.hotkeys.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/form-elements.js"></script>
+
+    <script src="{{ assetUri }}/web/js/admin/cases.js"></script>
+
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

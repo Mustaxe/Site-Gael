@@ -1,0 +1,63 @@
+{% autoescape false %}
+{% raw %}
+{% extends "/admin/base/main.html.twig" %}
+{% endraw %}
+
+{% raw %}{% block titulo %}{% endraw %}{{ titulo }}{% raw %}{% endblock titulo %}{% endraw %}
+{% raw %}{% block descricao %}{% endraw %}{{ titulo }}{% raw %}{% endblock descricao %}{% endraw %}
+{% raw %}{% block header %}{% endraw %}
+<ol class="breadcrumb">
+  <li><a href="#">Admin</a></li>
+  <li><a href="#">{{ nome|capitalize }}</a></li>
+</ol>
+<h1>{{ titulo }}</h1>
+{% raw %}{% endblock header %}{% endraw %}
+
+{% raw %}
+{% block content %}
+{% endraw %}
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+    <div class="row">
+        
+        <div class="widget col-sm-6 overflow:hidden">
+            <h2><span class="social facebook"><i></i></span>Facebook Fans</h2>
+            <hr>
+            <div class="content">
+                <div id="facebookChart" style="height:300px;" ></div>
+            </div>
+        </div><!--/col-->
+        
+        <div class="widget col-sm-6 overflow:hidden">
+            <h2><span class="social twitter"><i></i></span>Twitter Followers</h2>
+            <hr>
+            <div class="content">
+                <div id="twitterChart" style="height:300px;" ></div>
+            </div>
+        </div><!--/col-->
+    
+    </div><!--/row-->
+</div>
+<!-- end: Content -->
+{% raw %}
+{% endblock content %}
+{% endraw %}
+
+{% raw %}{% block javascripts %}{% endraw %}
+    {% raw %}{{ parent() }}{% endraw %}
+
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{% raw %}{{ assetUri }}{% endraw %}/web/js/excanvas.min.js"></script><![endif]-->
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.flot.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.flot.pie.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.flot.stack.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.flot.resize.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.flot.time.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/retina.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/justgage.1.0.1.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/pages/index.js"></script>
+    <!-- end: JavaScript-->
+{% raw %}{% endblock javascripts %}{% endraw %}
+{% endautoescape %}

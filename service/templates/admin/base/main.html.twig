@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>Administração {% block titulo %}{% endblock titulo %}</title>
+    <meta name="description" content="{% block descricao %}{% endblock descricao %}">
+    <meta name="author" content="Inkuba">
+    <meta name="keyword" content="">
+    <!-- end: Meta -->
+    
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- end: Mobile Specific -->
+    
+    {% block stylesheets %}
+    <!-- start: CSS -->
+    <link href="{{ assetUri }}/web/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/style.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/retina.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/admin.css" rel="stylesheet">
+    <!-- end: CSS -->
+    {% endblock stylesheets %}
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="{{ assetUri }}/web/js/respond.min.js"></script>
+        <link href="{{ assetUri }}/web/css/ie.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!--[if IE 9]>
+        <link id="ie9style" href="{{ assetUri }}/web/css/ie9.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ assetUri }}/web/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ assetUri }}/web/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ assetUri }}/web/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ assetUri }}/web/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="{{ assetUri }}/web/ico/favicon.png">
+    <!-- end: Favicon and Touch Icons -->
+</head>
+
+<body>
+    {% block navbar %}
+    <!-- start: Header -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="navbar-brand" href="{{ baseUri }}/cases"><span>{% block brand %}Gael{% endblock brand %}</span></a>
+
+                <!-- start: Header Menu -->
+                <div class="nav-no-collapse header-nav">
+                    <ul class="nav pull-right">
+                        
+                        {% block menu %}
+                        {% for item in adminMenu %}
+                            <li {% if item.page in resourceUri %} class="active"{% endif %}><a href="{{ assetUri }}{{ item.url }}">{{ item.descricao }}</a></li> 
+                        {% endfor %}
+                        {% endblock menu %}
+
+
+                        <!-- start: User Dropdown -->
+                        <li class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="table.html#">
+                                <i class="halflings user white"></i> {{ usuarioAtual.nome }}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ baseUri }}/usuario/{{ usuarioAtual.id }}"><i class="halflings user white"></i> Profile</a></li>
+                                <li><a href="javascript:logout();"><i class="halflings off white"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                        <!-- end: User Dropdown -->
+
+                    </ul>
+                </div>
+                <!-- end: Header Menu -->
+                
+            </div>
+        </div>
+    </div>
+    {% endblock navbar %}
+
+    <div class="page-header">
+      {% block header %}
+      {% endblock header %}
+    </div>
+
+    <!-- start: Header -->
+    <div class="container">
+        <div class="row">
+        
+        {% block sidebar %}
+        {% endblock sidebar %}
+        
+        {% if flash %}
+            {% include "/admin/base/components/flash.twig" %}
+        {% endif %}
+		
+        {% block content %}
+        {% endblock content %}
+        
+     
+	</div>
+	<!-- end: Widgets Area -->
+
+
+        </div><!--/row-->
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Here settings can be configured...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div><!--/container-->
+
+    <div class="clearfix"></div>
+
+    <footer>
+        <div class="row">
+            <div class="col-sm-5">
+                &copy; 2014 Inkuba
+            </div><!--/.col-->
+            
+            <div class="col-sm-7 text-right">
+                Inkuba
+            </div><!--/.col-->  
+        </div><!--/.row-->
+    </footer>
+
+    {% block javascripts %}
+        <!-- start: JavaScript-->
+        <!--[if !IE]>-->
+                <script src="{{ assetUri }}/web/js/jquery-2.1.0.min.js"></script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script src="assets/js/jquery-1.11.0.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]>-->
+            <script type="text/javascript">
+                window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
+            </script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script type="text/javascript">
+            window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
+            </script>
+        <![endif]-->
+        <script src="{{ assetUri }}/web/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="{{ assetUri }}/web/js/bootstrap.min.js"></script>
+
+        <!-- page scripts -->
+        <script src="{{ assetUri }}/web/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="{{ assetUri }}/web/js/jquery.sparkline.min.js"></script>
+        <script src="{{ assetUri }}/web/js/raphael.min.js"></script>
+        
+        <!-- theme scripts -->
+        <script src="{{ assetUri }}/web/js/custom.min.js"></script>
+        <script src="{{ assetUri }}/web/js/core.min.js"></script>
+
+        <script type="text/javascript">
+                function logout(){
+                    $.post('{{ baseUri }}/logout', {}, function(data) {
+                        if(data.cod == 200){ 
+                            setTimeout(function(){
+                                 window.location.href = "{{ baseUri }}/login";
+                             },600); 
+                        } else {
+                            alert('Não foi possível efetuar o logout! Tente novamente');
+                        }
+                    }, "json");
+                }
+        </script>
+
+    {% endblock javascripts %}
+</body>
+</html>

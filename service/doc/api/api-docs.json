@@ -1,0 +1,26 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "apis":[
+        {
+            "path":"/admin.{format}",
+            "description":"Opera\u00e7\u00f5es Admin. Cases"
+        },
+        {
+            "path":"/cases.{format}",
+            "description":"Opera\u00e7\u00f5es Cases"
+        },
+        {
+            "path":"/contatos.{format}",
+            "description":"Opera\u00e7\u00f5es Contatos"
+        },
+        {
+            "path":"/destaques.{format}",
+            "description":"Opera\u00e7\u00f5es Cliente"
+        },
+        {
+            "path":"/projetos.{format}",
+            "description":"projetos do Projeto"
+        }
+    ]
+}

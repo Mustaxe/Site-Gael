@@ -1,0 +1,32 @@
+{
+    "basePath":"http://localhost/service",
+    "swaggerVersion":"1.2",
+    "apiVersion":"1.0.0",
+    "resourcePath":"/destaques",
+    "apis":[
+        {
+            "path":"/destaques/{ativo}",
+            "description":"Listagem de clientes",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Listagem de clientes",
+                    "nickname":"cliente",
+                    "type":"string",
+                    "parameters":[
+                        {
+                            "paramType":"path",
+                            "name":"ativo",
+                            "type":"string",
+                            "required":true,
+                            "description":"ativo"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces":[
+        "application/json"
+    ]
+}

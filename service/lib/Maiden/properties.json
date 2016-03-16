@@ -1,0 +1,48 @@
+{
+    "application": {
+        "name": "Framework PHP",
+        "path": "AOS",
+        "vhostPath": "Config/Apache/vhost.conf"
+    },
+    "apache": {
+        "vhostPath": "/etc/apache2/sites-enabled"
+    },
+    "scm": {
+        "type": "git",
+        "url": "git@github.com:inkuba/app.git",
+        "deploymentBranch" : "master"
+    },
+    "dev": {
+        "domain": "localhost",
+        "path": "/var/app",
+        "host": "localhost",
+        "sshPort": "17510",
+        "ipAddress": "*",
+        "user": "inkuba",
+        "logPath": "/var/log/",
+        "debugMode": true,
+        "memcache": {
+            "host": "localhost"
+        },
+        "email": {
+            "support": "dev@inkuba.com.br",
+            "developer": "dev@inkuba.com.br"
+        }
+    },
+    "prod": {
+        "domain": "www.app.com.br",
+        "path": "/var/app",
+        "host": "",
+        "sshPort": "",
+        "ipAddress": "",
+        "user": "inkuba",
+        "logPath": "/var/log/",
+        "memcache": {
+            "host": "localhost"
+        },
+        "email": {
+            "support": "dev@inkuba.com.br",
+            "developer": "dev@inkuba.com.br"
+        }
+    }
+}

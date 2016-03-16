@@ -1,0 +1,90 @@
+#!/usr/bin/php
+<?php
+namespace app;
+
+use lib\Maiden\MaidenRunner;
+
+setlocale(LC_ALL, "pt_BR.utf-8");
+date_default_timezone_set("Brazil/East");
+
+$path = realpath(dirname(__FILE__));
+ini_set("include_path", ".:{$path}:{$path}/lib:" . PEAR_INSTALL_DIR);
+
+require_once(__DIR__.'/../vendor/autoload.php');
+
+$logWriter = new \lib\Log\DateTimeFileWriter();
+$logger    = new \Slim\Log($logWriter);
+
+$maidenRunner = new MaidenRunner();
+
+$options = array();
+
+// opções de linha de comando
+$options = array(
+    "-b" => array(
+        "description" => "Exibe listagem dos targets",
+        "action" => function($args) use ($maidenRunner) {
+            $maidenRunner->listTargets();
+            return false;
+        },
+    ),
+    "-l" => array(
+        "description" => "Exibe listagem dos with descrições",
+        "action" => function($args) use ($maidenRunner) {
+            $maidenRunner->listTargetDescriptions();
+            return false;
+        },
+    ),
+    "-q" => array(
+        "description" => "Executa o target e não informa a saída",
+        "action" => function($args) use ($maidenRunner, $logger) {
+            $logger->setLevel($logger::WARN);
+        },
+    ),
+    "-v" => array(
+        "description" => "Executa o target com saída verbosa",
+        "action" => function($args) use ($maidenRunner, $logger) {
+            $logger->setLevel($logger::DEBUG);
+        },
+    ),
+    "--hide-duration" => array(
+        "description" => "Executa o target e não informa a duração",
+        "action" => function($args) use ($maidenRunner) {
+            $maidenRunner->setDisplayDuration(false);
+        },
+    ),
+    "-h" => array(
+        "description" => "Exibe essas opções",
+        "action" => function($args, $options) {
+            echo "\n\tMaiden a PHP build tool by Paul Serby\n\n";
+            foreach ($options as $option => $optionData) {
+                echo "\t$option\t{$optionData["description"]}\n";
+            }
+            echo "\n";
+            return false;
+        }
+    )
+);
+
+array_shift($argv);
+
+if (count($argv) == 0) {
+    $argv[] = "-l";
+}
+
+$arguments = array();
+foreach ($argv as $arg) {
+    if (!isset($target) && isset($options[$arg])) {
+        if ($options[$arg]["action"]($argv, $options) === false) {
+            exit;
+        }
+    } else {
+        if (isset($target)) {
+            $arguments[] = $arg;
+        } else {
+            $target = $arg;
+        }
+    }
+}
+// Executa o target selecionado
+$maidenRunner->run($target, $arguments);

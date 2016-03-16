@@ -1,0 +1,66 @@
+{% autoescape false %}
+/**
+ *
+ * @SWG\Api(
+ *   path="{{ urlDoc }}",
+ *   description="{{ closure.descricao }}",
+ *   @SWG\Operation(method="{{ metodoDoc|upper }}", summary="{{ closure.descricao }}", type="void", nickname="{{ closure.nickname }}",
+{% if closure.params_request %}
+ *      @SWG\Parameters(
+{% for param_request in closure.params_request %}
+ *          @SWG\Parameter(
+ *              name="{{ param_request.nome }}",
+ *              description="{{ param_request.descricao }}",
+ *              paramType="{{ param_request.param_type }}",
+ *              required={{ param_request.required }},
+ *              type="{{ param_request.tipo }}"
+ *          ){% if not loop.last %},{% endif %} 
+{% endfor %}
+ *      ),
+{% endif %}
+{% for response_message in closure.response_messages %}
+ *      @SWG\ResponseMessage(code={{ response_message.code }}, message="{{ response_message.message }}"){% if not loop.last %},{% endif %} 
+{% endfor %}
+ *   )
+ * )
+ */
+{% set metodo = (closure.metodo is iterable) ? 'map' : closure.metodo %}
+$app->{{ metodo|lower }}('{{ closure.url }}', function ({% for param in closure.params_closure %}${{ param }}{% if not loop.last %}, {% endif %}{% endfor %}) use ({% for param_use in closure.params_use %}${{ param_use }}{% if not loop.last %}, {% endif %}{% endfor %}){
+{% if closure.url == '/admin/login' %}
+    $params  = $app->request;
+    $error = '';
+
+    if ($app->request->isPost()) {
+{% if closure.params_request %}
+{% for param_request in closure.params_request %}
+        ${{ param_request.nome }} = $params->post('{{ param_request.nome }}');
+{% endfor %}
+{% endif %}
+
+        $res = $app->auth->login($usuario, $senha);
+
+        if ($res) {
+            $app->redirect($app->urlFor('home'));
+        }
+
+        $error = 'Não foi possível efetuar o login.';
+    }
+
+    $app->render('admin/base/login.html.twig', array('url' =>'login', 'error'=>$error));
+{% endif %}
+
+{% if closure.url == '/admin/logout' %}
+    $app->response->headers->set('Content-Type', 'application/json;charset=utf-8');
+    $res = $app->auth->logout();
+
+    if ($res) {
+        echo json_encode(array('cod' => 200));
+        // $app->redirect($app->urlFor('login'));
+    } else {
+        echo json_encode(array('cod' => 500));
+    }
+
+    // $app->flash('error', 'Ocorreu um problema ao efetuar logout');
+{% endif %}
+}){% if closure.metodo is iterable %}->via({% for m in closure.metodo %}"{{ m|upper }}"{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}{% if closure.nome_rota %}->name('{{ closure.nome_rota }}'){% endif %};
+{% endautoescape %}

@@ -1,0 +1,174 @@
+/************************************
+ * CONTACT - SLIDE 4
+ ************************************/
+#contact {
+	background-image: url('../images/bg-contact.jpg');
+	background-position: -1px top;
+	background-size: cover;
+}
+
+#contact h2 {
+	margin: 70px 0 0 -1px;
+	overflow: hidden;
+	height: 103px;
+}
+
+#contact hr {
+	margin: 0;
+	width: 960px;
+	border: 7px solid #d8352f;
+}
+
+.container-contact {
+	width: 480px;
+	height: 650px;
+	background-color: #FFCF14;
+	line-height: 30px;
+}
+
+.container-contact .ct-animation {
+	width: 500px;
+	padding-top: 45px;
+	overflow: hidden;
+	position: relative;
+	height: 420px;
+	max-height: 420px;
+}
+
+.icon-success {
+	display: none;
+	width: 480px;
+	text-align: center;
+}
+
+.icon-success img {
+	display: block;
+	margin: 45px 0 0 140px;
+	width: 200px;
+	height: 200px;
+}
+
+.icon-success p {
+	font-size: 24px;
+	font-weight: 400;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+
+#contact .bg-ico {
+	border-radius: 50%;
+	background-color: #d8352f;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 10px;
+}
+
+#contact label {
+	display: block;
+	color: #d7352f;
+	font-size: 24px;
+	font-family: 'DINNextLTPro-Bold';
+	font-weight: bold;
+}
+
+input.error {
+	text-align: left !important;
+}
+
+.error {
+	font-size: 12px !important;
+	text-align: right;
+	margin-right: 35px;
+}
+
+#contact ul {
+	list-style: none;
+	padding-left: 20px;
+	margin-top: -10px;
+}
+
+#contact i {
+	margin: 12px 0 0 10px;
+	display: block;
+}
+
+#contact ul li a {
+	display: inline-block;
+	vertical-align: top;
+	text-transform: uppercase;
+	color: #FFFFFF;
+	margin-left: 10px;
+	margin-top: 5px;
+	font-size: 22px;
+}
+
+#contact ul li.i-markee a {
+	width: 360px;
+}
+
+#contact * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#contact .ct-field {
+	padding-left: 20px;
+	margin-top: -20px;
+	position: relative;
+}
+
+#contact .ct-field:first-child {
+	padding-top: 50px;
+	margin-top: 0;
+}
+
+#contact .ct-field .input-small {
+	background: url("../images/bg-input.png") no-repeat;
+	height: 90px;
+	width: 487px;
+	padding: 8px;
+}
+
+.input-small input {
+	border: none;
+	height: 35px;
+	width: 360px;
+}
+
+#contact .ct-field .input-large {
+	background: url("../images/bg-input-large.png") no-repeat;
+	height: 130px;
+	width: 487px;
+	padding: 8px;
+}
+
+#contact button {
+	background: none;
+	border: none;
+	color: #d8352f;
+	font-family: 'DINNextLTPro-Heavy', sans-serif;
+	font-weight: 700;
+	font-size: 18px;
+	display: block;
+	left: 390px;
+	position: absolute;
+	top: 93px;
+}
+
+.input-large textarea {
+	border: none;
+	height: 75px;
+	width: 360px;
+}
+
+.i-telefone img {
+
+}
+
+.i-markee img {
+	margin: -3px 0 0 1px;
+}

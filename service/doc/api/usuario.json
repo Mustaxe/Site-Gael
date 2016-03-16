@@ -1,0 +1,45 @@
+{
+    "basePath":"http://localhost/service",
+    "swaggerVersion":"1.2",
+    "apiVersion":"1.0.0",
+    "resourcePath":"/usuario",
+    "apis":[
+        {
+            "path":"/usuario/{id}",
+            "description":"Alterar senha do usu\u00e1rio",
+            "operations":[
+                {
+                    "method":"PATCH",
+                    "summary":"Alterar senha do usu\u00e1rio",
+                    "nickname":"alteraSenhaUsuario",
+                    "type":"array",
+                    "parameters":[
+                        {
+                            "paramType":"form",
+                            "name":"senha",
+                            "type":"string",
+                            "required":true,
+                            "description":"nova senha"
+                        },
+                        {
+                            "paramType":"path",
+                            "name":"id",
+                            "type":"string",
+                            "required":true,
+                            "description":"id"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":500,
+                            "message":"Problema ao salvar usu\u00e1rio"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces":[
+        "application/json"
+    ]
+}

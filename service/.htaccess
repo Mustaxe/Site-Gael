@@ -1,0 +1,108 @@
+# ##############################################################################
+# # ENCODING                                                                   #
+# ##############################################################################
+
+# Usa UTF-8 encoding para qualquer documento do tipo `text/html` ou `text/plain`.
+AddDefaultCharset utf-8
+
+# Força UTF-8 para os formatos de arquivo definidos abaixo.
+<IfModule mod_mime.c>
+    AddCharset utf-8 .atom .css .js .json .jsonld .rss .vtt .webapp .xml
+</IfModule>
+
+
+# ##############################################################################
+# # URL REWRITES                                                               #
+# ##############################################################################
+
+RewriteEngine On
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+
+
+# ##############################################################################
+# # VARIÁVEIS DE AMBIENTE                                                      #
+# ##############################################################################
+
+RewriteCond %{HTTP_HOST} =localhost
+RewriteCond %{HTTP_HOST} =127.0.0.1
+RewriteRule ^ - [E=SLIM_ENVIRONMENT:dev]
+
+
+# ##############################################################################
+# # SEGURANÇA                                                                  #
+# ##############################################################################
+
+# Bloqueia acesso aos diretórios sem um documento default.
+# You should leave the following uncommented, as you shouldn't allow anyone to
+# surf through every directory on your server (which may includes rather private
+# places such as the CMS's directories).
+
+Options -indexes
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Bloqueia acesso a arquivos e diretórios ocultos.
+# Inclui diretórios utilizados para controle de versão (Git, SVN, ...)
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{SCRIPT_FILENAME} -d [OR]
+    RewriteCond %{SCRIPT_FILENAME} -f
+    RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+
+# ##############################################################################
+# # CROSS-ORIGIN RESOURCE SHARING (CORS)                                       #
+# ##############################################################################
+
+# ------------------------------------------------------------------------------
+# | Cross-domain AJAX requests                                                 |
+# ------------------------------------------------------------------------------
+
+# Habilita requisições AJAX cross-origin.
+# http://code.google.com/p/html5security/wiki/CrossOriginRequestSecurity
+# http://enable-cors.org/
+
+Header set Access-Control-Allow-Origin "*"
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# | CORS-enabled images                                                        |
+# ------------------------------------------------------------------------------
+
+# Envia o header CORS para imagens quando o browser requisitar.
+# https://developer.mozilla.org/en/CORS_Enabled_Image
+# http://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
+# http://hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
+
+<IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+        <FilesMatch "\.(gif|ico|jpe?g|png|svgz?|webp)$">
+            SetEnvIf Origin ":" IS_CORS
+            Header set Access-Control-Allow-Origin "*" env=IS_CORS
+        </FilesMatch>
+    </IfModule>
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# | Web fonts access                                                           |
+# ------------------------------------------------------------------------------
+
+# Permite acesso a todos os domínios para fontes web
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(eot|font.css|otf|ttc|ttf|woff)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>

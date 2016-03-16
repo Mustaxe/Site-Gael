@@ -1,0 +1,262 @@
+{% autoescape false %}
+/**
+ *
+ * @SWG\Api(
+ *   path="{{ urlDoc }}",
+ *   description="{{ closure.descricao }}",
+ *   @SWG\Operation(method="{{ metodoDoc|upper }}", summary="{{ closure.descricao }}", type="void", nickname="{{ nickname }}",
+{% if closure.params_request is not empty %}
+ *      @SWG\Parameters(
+{% for param_request in closure.params_request %}
+ *          @SWG\Parameter(
+ *              name="{{ param_request.nome }}",
+ *              description="{{ param_request.descricao }}",
+ *              paramType="{{ param_request.param_type }}",
+ *              required={{ param_request.required }},
+ *              type="{{ param_request.tipo }}"
+ *          ){% if not loop.last %},{% endif %} 
+{% endfor %}
+ *      ),
+{% endif %}
+{% for response_message in closure.response_messages %}
+ *      @SWG\ResponseMessage(code={{ response_message.code }}, message="{{ response_message.message }}"){% if not loop.last %},{% endif %} 
+{% endfor %}
+ *   )
+ * )
+ */
+{% set metodo = (closure.metodo is iterable) ? 'map' : closure.metodo %}
+$app->{{ metodo|lower }}('{{ closure.url }}', function ({% for param in closure.params_closure %}${{ param }}{% if not loop.last %}, {% endif %}{% endfor %}) use ({% for param_use in closure.params_use %}${{ param_use }}{% if not loop.last %}, {% endif %}{% endfor %}){
+{% if closure.metodo == 'delete' %}
+    $res = ${{ model }}->delete(array('id' => $id), 'id = :id');
+
+    if ($res) {
+        $app->flash('notice', 'Informação excluída com sucesso');
+    }else{
+        $app->flash('error', 'Não foi possível excluir a informação.');
+    }
+    $app->flashKeep();
+
+    $app->redirect($app->urlFor('listagem_{{ nomeControlador }}'));
+{% endif %}
+{% if closure.metodo == 'get' and closure.acao == 'unico' %}
+    $res = ${{ model }}->findById($id);
+
+    if ($res->cod == 404) {
+        $app->notFound();
+    }else{
+        $app->render('admin/{{ model }}/editar.html.twig', array('{{ model }}'=>$res->res));
+    }
+{% endif %}
+{% if closure.metodo == 'get' and closure.acao == 'todos' %}
+    $res = ${{ model }}->findAll();
+
+    $colunas = array_keys($res->res[0]);
+
+    $app->render('admin/{{ model }}/listagem.html.twig', array('{{ model }}'=>$res->res, 'colunas'=>$colunas));
+{% endif %}
+{% if (closure.metodo == 'post' or 'post' in closure.metodo) and closure.acao == 'criar' %}
+    $params = $app->request;
+
+    if ($params->isPost()) {
+{% if closure.params_request %}
+{% for param_request in closure.params_request %}
+{% set varParam = inflector.camelize( param_request.nome ) %} 
+{% if param_request.tipo == 'File' %}
+        ${{ varParam }} = isset($_FILES['{{ param_request.nome }}']) ? $_FILES['{{ param_request.nome }}'] : '';
+        if (empty(${{ varParam }}) || ${{ varParam }} == 'undefined') {
+            $app->flash('error', 'O arquivo não foi fornecido.');
+
+            return;
+        }
+
+        $uploader = $app->uploader;
+        $uploader->setArquivo('{{ param_request.nome }}');
+        $uploader->setTipo('{{ model }}');
+
+        ${{ varParam }}Upload = $uploader->salva();
+
+        ${{ model }}->{{ param_request.nome }} = ${{ varParam }}Upload->res['id'];
+{% else %}
+        ${{ model }}->{{ param_request.nome }} = $params->post('{{ param_request.nome }}');
+{% endif %}
+{% endfor %}
+
+        $res = ${{ model }}->create();
+
+        if ($res->cod == 200) {
+            $app->flash('notice', 'Informação adicionada com sucesso');
+        }else{
+            $app->flash('error', 'Não foi possível adicionar a informação.');
+        }
+        $app->flashKeep();
+
+        $app->redirect($app->urlFor('listagem_{{ nomeControlador }}'));
+{% endif %}
+    }
+
+    $app->render('admin/{{ model }}/novo.html.twig');
+{% endif %}
+{% if (closure.metodo == 'post' and closure.acao == 'editar') or closure.metodo == 'put' or closure.metodo == 'patch' %}
+    $params  = $app->request;
+
+    $res = ${{ model }}->findById($id);
+
+    if ($res->cod == 404) {
+        $app->notFound();
+        exit;
+    }
+
+{% if closure.params_request %}
+{% for param_request in closure.params_request %}
+{% if param_request.param_type != 'path' %}
+{% set varParam = inflector.camelize( param_request.nome ) %}
+{% if param_request.tipo == 'File' %}
+    ${{ varParam }} = isset($_FILES['{{ param_request.nome }}']) ? $_FILES['{{ param_request.nome }}'] : '';
+    if (!empty(${{ param_request.nome }}) && ${{ param_request.nome }} !== 'undefined') {
+        $uploader = $app->uploader;
+        $uploader->setArquivo('{{ param_request.nome }}');
+        $uploader->setTipo('{{ model }}');
+
+        ${{ varParam }}Upload = $uploader->salva();
+
+        ${{ model }}->{{ param_request.nome }} = ${{ varParam }}Upload->res['id'];
+    }
+{% else %}
+    ${{ param_request.nome }} = trim($params->post('{{ param_request.nome }}'));
+    if ({% if param_request.nome|lower == 'ativo' %}($ativo == '1' || $ativo == '0'){% else %}!empty(${{ param_request.nome }}){% endif %} && ${{ param_request.nome }} !== 'undefined') ${{ model }}->{{ param_request.nome }} = ${{ param_request.nome }};
+
+{% endif %}
+{% endif %}
+{% endfor %}
+
+    $vars = ${{ model }}->getVariables();
+
+    if (empty($vars)) {
+        $app->flash('error', 'Nenhuma informação foi salva.');
+        $app->redirect($app->urlFor('busca_{{ nomeControlador }}', array('id' => $id)));
+    }
+
+    $res = ${{ model }}->save(array('id' => $id), 'id = :id');
+
+    if ($res->cod == 200) {
+        $app->flash('notice', 'Informação atualizada com sucesso');
+        $app->redirect($app->urlFor('listagem_{{ nomeControlador }}'));
+    }
+
+    $app->flash('error', 'Não foi possível atualizar a informação.');
+    $app->redirect($app->urlFor('busca_{{ nomeControlador }}', array('id' => $id)));
+{% endif %}
+{% endif %}
+{% if nomeControlador == 'home' %}
+    $app->render('admin/home/index.html.twig', array());
+{% endif %}
+{% if closure.url == '/admin/esqueci-senha' %}
+    if ($app->request->isPost()) {
+        $params = $app->request;
+        $view   = $app->view();
+        $email  = $app->request->post('email');
+
+        // verifica se e-mail está cadastrado
+        $usr = $usuario->findOne(
+            array('email' => $email),
+            'email = :email'
+        );
+
+        $projeto = $projetos->findOne(
+             array('projeto' => '{{ projeto }}'),
+            'projeto = :projeto'
+        );
+
+        if ($usr->cod == 200) {
+            $tokenConfirmacao = $app->auth->geraTokenConfirmacao();
+
+            $usuario->tokenConfirmacao = $tokenConfirmacao;
+
+            $res = $usuario->save(array('id' => $usr->res['id']), 'id = :id');
+
+            if ($res->cod == 200) {
+                $urlTrocaSenha = $app->request->getUrl() . $app->request->getRootUri() . '/admin/troca-senha/' . $tokenConfirmacao;
+
+                $view->setData('link', $urlTrocaSenha);
+
+                $templateEmail = $view->render('esqueci-senha.html.twig');
+
+                $app->mailer->send(\Swift_Message::newInstance()
+                                    ->setSubject('[{{ projeto }}] Esqueci a minha senha')
+                                    ->setFrom(array($projeto->res['contato_email']))
+                                    ->setTo(array($params->post('email')))
+                                    ->setBody($templateEmail,'text/html'));
+
+                $app->render('admin/base/mensagem.html.twig', array('msg' => 'Favor verificar o seu e-mail e clicar no link enviado para trocar a sua senha.', 'titulo' => 'Esqueci minha senha'));
+
+                return;
+            }
+
+            $app->flash('error', 'Não foi possível salvar o token do usuário.');
+
+            return;
+        }
+
+        $app->flash('error', 'O e-mail informado não consta no sistema.');
+    }
+    $app->render('admin/base/esqueciSenha.html.twig', array());
+{% endif %}
+{% if '/admin/troca-senha' in closure.url and closure.metodo == 'get' %}
+    $params = $app->request;
+
+    // busca usuário pelo token
+    $usr = $usuario->findOne(
+        array('token' => $token),
+        'tokenConfirmacao = :token'
+    );
+
+    if ($usr->cod == 404) {
+        $app->response->setStatus(400);
+
+        $msg = sprintf('O usuário com token %s não foi encontrado.', $token);
+        $app->render('admin/base/mensagem.html.twig', array('msg' => $msg, 'titulo' => 'Trocar senha'));
+
+        return;
+    }
+
+    $app->render('admin/base/trocaSenha.html.twig', array('token' => $token));
+{% endif %}
+{% if closure.url == '/admin/troca-senha' and closure.metodo == 'post' %}
+    $params = $app->request;
+
+    $token            = trim($params->post('token'));
+    $senha            = trim($params->post('senha'));
+    $confirmacaoSenha = trim($params->post('confirma-senha'));
+
+    // busca usuário pelo token
+    $usr = $usuario->findOne(
+        array('token' => $token),
+        'tokenConfirmacao = :token'
+    );
+
+    if ($usr->cod == 404) {
+        $app->response->setStatus(404);
+
+        $msg = sprintf('O usuário com token %s não foi encontrado.', $token);
+        $app->render('admin/base/mensagem.html.twig', array('msg' => $msg, 'titulo' => 'Trocar senha'));
+
+        return;
+    }
+
+    if ($senha !== $confirmacaoSenha ) {
+        $app->response->setStatus(400);
+
+        $app->render('admin/base/trocaSenha.html.twig', array('token' => $token, 'error' => 'As senhas não conferem.'));
+
+        return;
+    }
+
+    $usuario->hashSenha        = $app->auth->hashPassword($senha);
+    $usuario->tokenConfirmacao = NULL;
+
+    $res = $usuario->save(array('token' => $token), 'tokenConfirmacao = :token');
+
+    $app->render('admin/base/mensagem.html.twig', array('msg' => 'Senha trocada com sucesso', 'titulo' => 'Trocar senha'));
+{% endif %}
+}){% if closure.metodo is iterable %}->via({% for m in closure.metodo %}"{{ m|upper }}"{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}{% if closure.nome_rota %}->name('{{ closure.nome_rota }}'){% endif %};
+{% endautoescape %}

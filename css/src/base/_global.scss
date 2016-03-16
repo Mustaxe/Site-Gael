@@ -1,0 +1,33 @@
+/* Global */
+body {
+	font-family: 'DINNextLTPro-Bold', sans-serif;
+	font-weight: 700;
+	font-size: 14px;
+	color: #8a8683;
+	background-color: #ffffff;
+	overflow-x: hidden;
+}
+
+img {
+	max-width: 100%;
+}
+
+a:link {
+	color: #f68f67;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #bde2df;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #f68f67;
+	text-decoration: none;
+}
+
+/*Remove border dotted moz*/
+a:active, a:active * { outline: none !important; -moz-outline-style: none !important; }
+a:focus, a:focus * { outline: none !important; -moz-outline-style: none !important; }
+

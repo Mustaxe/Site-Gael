@@ -1,0 +1,162 @@
+{% extends "/admin/base/main.html.twig" %}
+
+
+{% block titulo %}Listagem de cases{% endblock titulo %}
+{% block descricao %}Listagem de cases{% endblock descricao %}
+{% block header %}
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{{ baseUri }}">Admin</a></li>
+      <li><a href="#">Cases</a></li>
+    </ol>
+    <h1>Listagem de cases</h1>
+</div>
+
+<div id="titlebar_right">
+  <div class="action_items">
+    <span class="action_item"><a href="{{ baseUri }}/cases/novo" class="btn btn-large btn-primary">Novo</a></span>
+  </div>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+    <div class="row">
+        <div class="col-lg-12">
+            {% if flash.error %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ flash.error }}
+            </div>
+            {% endif %}
+            {% if flash.notice %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ flash.notice }}
+            </div>
+            {% endif %}
+            <div class="box">
+                <div class="box-header" data-original-title>
+                    <h2><i class="fa fa-user"></i><span class="break"></span>Cases</h2> 
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                      <thead>
+                          <tr>
+                              
+                              {% for coluna in colunas %}
+                              <th>{{ coluna }}</th>
+                              {% endfor %}
+                              
+                              <th>Ações</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+					  
+							{% for linha in cases %}
+									<tr>
+
+										{% for coluna in colunas %}
+											{% if coluna == 'Ativo' %}
+												{% if attribute(linha, coluna) == '1' %}<td><span class="label label-success">Ativo</span></td>{% endif %}
+												{% if attribute(linha, coluna) == '0' or attribute(linha, coluna) is empty %}<td><span class="label label-important">Inativo</span></td>{% endif %}
+
+											{% else %}
+												{% if (coluna == 'Thumb') or (coluna == 'ThumbHover') %}
+													<td><img width="100px" src="{{ attribute(linha, coluna) }}"></td>
+
+												{% elseif (coluna == 'Ordem') %}
+													{% if attribute(linha, coluna) == '0' %}<td></td>{% endif %}
+													{% if attribute(linha, coluna) != '0' %}<td>{{ attribute(linha, coluna) }}</td>{% endif %}
+													
+												{% else %}
+													<td>{% if attribute(linha, coluna)|raw|length > 20 %}{{ attribute(linha, coluna)[:20]|raw }}...{% else %}{{ attribute(linha, coluna)|raw }}{% endif %}</td>
+
+												{% endif %}
+											{% endif %}
+										{% endfor %}
+										
+										<td class="center">
+											<a class="btn btn-info" href="{{ baseUri }}/cases/{{ linha.id }}">
+												<i class="fa fa-edit "></i> 
+											</a>
+											<form action="{{ baseUri }}/cases/{{ linha.id }}" method="post" accept-charset="UTF-8" style="display:inline">
+												<input type="hidden" name="_METHOD" value="DELETE"> 
+												<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete" data-title="Excluir Cases" data-message="Tem certeza que deseja excluir?">
+													<i class="fa fa-trash-o "></i>
+												</button>
+											</form>
+										</td> 
+									</tr>
+									
+							{% endfor %}
+							
+						</div>
+                      </tbody>
+                  </table>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Excluir</h4>
+          </div>
+          <div class="modal-body">
+            <p>Você tem certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirm">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- page scripts -->
+    <script src="{{ assetUri }}/web/js/jquery.dataTables.min.js"></script>
+    <script src="{{ assetUri }}/web/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script> 
+	<script src="{{ assetUri }}/web/js/jquery.nestable.min.js"></script>
+	<script src="{{ assetUri }}/web/js/pages/ui-nestable-list.js"></script>
+	<script src="{{ assetUri }}/web/js/jquery.sparkline.min.js"></script>
+	<script src="{{ assetUri }}/web/js/jquery-ui-1.10.3.custom.min.js"></script>
+	
+	
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/table.js"></script>
+
+    <script type="text/javascript">
+      $('#confirmDelete').on('show.bs.modal', function (e) {
+          $message = $(e.relatedTarget).attr('data-message');
+          $(this).find('.modal-body p').text($message);
+          $title = $(e.relatedTarget).attr('data-title');
+          $(this).find('.modal-title').text($title);
+
+          // Pass form reference to modal for submission on yes/ok
+          var form = $(e.relatedTarget).closest('form');
+          $(this).find('.modal-footer #confirm').data('form', form);
+      });
+
+      $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
+          $(this).data('form').submit();
+      });
+    </script>
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

@@ -1,0 +1,147 @@
+{% autoescape false %}
+{% raw %}
+{% extends "/admin/base/main.html.twig" %}
+{% endraw %}
+
+{% raw %}{% block titulo %}{% endraw %}{{ titulo }}{% raw %}{% endblock titulo %}{% endraw %}
+{% raw %}{% block descricao %}{% endraw %}{{ titulo }}{% raw %}{% endblock descricao %}{% endraw %}
+{% raw %}{% block header %}{% endraw %}
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{% raw %}{{ baseUri }}{% endraw %}">Admin</a></li>
+      <li><a href="#">{{ nome|capitalize }}</a></li>
+    </ol>
+    <h1>{{ titulo }}</h1>
+</div>
+
+<div id="titlebar_right">
+  <div class="action_items">
+    <span class="action_item"><a href="{% raw %}{{ baseUri }}{% endraw %}/{{ model }}/novo" class="btn btn-large btn-primary">Novo</a></span>
+  </div>
+</div>
+{% raw %}{% endblock header %}{% endraw %}
+
+{% raw %}
+{% block content %}
+{% endraw %}
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+    <div class="row">
+        <div class="col-lg-12">
+            {% raw %}{% if flash.error %}{% endraw %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {% raw %}{{ flash.error }}{% endraw %}
+            </div>
+            {% raw %}{% endif %}{% endraw %}
+            {% raw %}{% if flash.notice %}{% endraw %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {% raw %}{{ flash.notice }}{% endraw %}
+            </div>
+            {% raw %}{% endif %}{% endraw %}
+            <div class="box">
+                <div class="box-header" data-original-title>
+                    <h2><i class="fa fa-user"></i><span class="break"></span>{{ model|capitalize }}</h2> 
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                      <thead>
+                          <tr>
+                              {% raw %}
+                              {% for coluna in colunas %}
+                              <th>{{ coluna }}</th>
+                              {% endfor %}
+                              {% endraw %}
+                              <th>Ações</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {{ '{%' }} for linha in {{ model }} {{ '%}' }}
+                        <tr>
+                            {% raw %}
+                            {% for coluna in colunas %}
+                                {% if coluna == 'ativo' %}
+                                    {% if attribute(linha, coluna) == '1' %}<td><span class="label label-success">Ativo</span></td>{% endif %}
+                                    {% if attribute(linha, coluna) == '0' or attribute(linha, coluna) is empty %}<td><span class="label label-important">Inativo</span></td>{% endif %}
+                                {% else %}
+                                    <td>{% if attribute(linha, coluna)|length > 20 %}{{ attribute(linha, coluna)[:20] }}...{% else %}{{ attribute(linha, coluna) }}{% endif %}</td>
+                                {% endif %}
+                            {% endfor %}
+                            {% endraw %}
+                            <td class="center">
+                                <a class="btn btn-info" href="{% raw %}{{ baseUri }}{% endraw %}/{{ model }}/{% raw %}{{{% endraw %} linha.id {% raw %}}}{% endraw %}">
+                                    <i class="fa fa-edit "></i> 
+                                </a>
+                                <form action="{% raw %}{{ baseUri }}{% endraw %}/{{ model }}/{% raw %}{{{% endraw %} linha.id {% raw %}}}{% endraw %}" method="post" accept-charset="UTF-8" style="display:inline">
+                                    <input type="hidden" name="_METHOD" value="DELETE"> 
+                                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete" data-title="Excluir {{ model|capitalize }}" data-message="Tem certeza que deseja excluir?">
+                                        <i class="fa fa-trash-o "></i>
+                                    </button>
+                                </form>
+                            </td> 
+                        </tr>
+                        {% raw %}
+                        {% endfor %}
+                        {% endraw %}
+                      </tbody>
+                  </table>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Excluir</h4>
+          </div>
+          <div class="modal-body">
+            <p>Você tem certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirm">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- end: Content -->
+{% raw %}
+{% endblock content %}
+{% endraw %}
+
+{% raw %}{% block javascripts %}{% endraw %}
+    {% raw %}{{ parent() }}{% endraw %}
+
+    <!-- page scripts -->
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/jquery.dataTables.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/dataTables.bootstrap.min.js"></script>
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/justgage.1.0.1.min.js"></script> 
+
+    <!-- inline scripts related to this page -->
+    <script src="{% raw %}{{ assetUri }}{% endraw %}/web/js/pages/table.js"></script>
+
+    <script type="text/javascript">
+      $('#confirmDelete').on('show.bs.modal', function (e) {
+          $message = $(e.relatedTarget).attr('data-message');
+          $(this).find('.modal-body p').text($message);
+          $title = $(e.relatedTarget).attr('data-title');
+          $(this).find('.modal-title').text($title);
+
+          // Pass form reference to modal for submission on yes/ok
+          var form = $(e.relatedTarget).closest('form');
+          $(this).find('.modal-footer #confirm').data('form', form);
+      });
+
+      $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
+          $(this).data('form').submit();
+      });
+    </script>
+    <!-- end: JavaScript-->
+{% raw %}{% endblock javascripts %}{% endraw %}
+{% endautoescape %}
