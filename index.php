@@ -52,6 +52,8 @@
 	<head>
 		<title><?php echo $title?></title>
 
+		<!-- -->
+
 		<!-- metas -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta name="viewport" content="width=1000">
