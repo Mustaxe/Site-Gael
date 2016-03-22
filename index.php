@@ -61,10 +61,10 @@
 		<meta name="keywords" content="Live, Live Marketing, Ativação, Experiências de marca, Ao vivo, Ação de Marketing, Case de Marketing, Case publicitário, Agência de comunicação, Ideias inovadoras, Estratégia de marketing, Estratégia de comunicação, Criação publicitária, Advertising, Campanha publicitária, Comunicação, Publicidade, Propaganda, Publicitário, Planejamento, Evento, Ponto de Venda, Promoção,  Promocional, Projeto Especial, Público-alvo, Target">
 
 		<!-- tags facebook -->
-		<meta property="og:title" content="<?php echo $title?>" />
-		<meta property="og:description" content="<?php echo $description?>" />
+		<meta property="og:title" content="<?php echo $title ?>" />
+		<meta property="og:description" content="<?php echo $description ?>" />
 		<meta property="og:image" content="<?php echo $currentURL?>images/share.png" />
-		<meta property="og:url" content="<?php echo $currentURL?>" />
+		<meta property="og:url" content="<?php echo $currentURL ?>" />
 		<meta property="og:type" content="website" />
 
 		<!-- stylesheets -->
@@ -161,7 +161,7 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</div>		
 
 		<!--WORK-->
 		<div class="slide" id="work" data-slide="2" data-stellar-background-ratio="0.5">

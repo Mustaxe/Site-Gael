@@ -75,16 +75,32 @@ $arquivos = new Arquivo(array(), $app->db);
 $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos, $arquivos) {
     $params = $app->request;
 
-    if ($params->isPost()) {
+    if ($params->isPost())
+    {
+        /**
+        * Lang
+        */
+        $lang = trim($params->post('lang'));
+        if($lang == 'pt' || $lang == 'en')
+        {
+            $destaques->lang = $lang;
+        }
+        else
+        {
+            /**
+            * Lang default
+            */
+            $destaques->lang = $lang;
+        }
 
         $destaques->titulo = $params->post('titulo');
 
         $destaques->link = $params->post('link');
 
         $Imagem = isset($_FILES['imagem']) ? $_FILES['imagem'] : '';
-        if (empty($Imagem) || $Imagem == 'undefined') {
+        if (empty($Imagem) || $Imagem == 'undefined')
+        {
             $app->flash('error', 'O arquivo não foi fornecido.');
-
             return;
         }
 
@@ -120,6 +136,8 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
         if ($res->cod == 200) {
 
 			/***************** Redimensionamento de imagens para Mobile *******************/
+            /* TODO: Descomentar esse bloco
+            
 			$baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
 			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
@@ -156,6 +174,8 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 			$mask->setImageCompressionQuality(70);
 			$mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
 			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+            
+            */
 			/***************** Redimensionamento de imagens para Mobile *******************/
 
 		    $app->flash('notice', 'Informação adicionada com sucesso');
@@ -244,6 +264,24 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
         $app->notFound();
         exit;
     }
+
+
+    /**
+    * Lang
+    */
+    $lang = $params->post('lang');
+    if($lang == 'pt' || $lang == 'en')
+    {
+        $destaques->lang = $lang;
+    }
+    else
+    {
+        /**
+        * Lang default
+        */
+        $destaques->lang = 'pt';
+    }
+
 
 	$destaques->titulo = $params->post('titulo');
 
@@ -337,16 +375,19 @@ $app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projeto
     $destaques = new DestaquesDao($app);
     $res   = $destaques->getDestaquesComArquivosUnico($id);
 
-    if ($res->cod == 404) {
+    if ($res->cod == 404)
+    {
         $app->notFound();
-    }else{
+    }
+    else
+    {
 		// Pega cases para enviar ao template e montar select com ID e descricao
 		$cases = new CasesDao($app);
 		$resCases   = $cases->getCasesComArquivosListagem();
 
 		$colunas = array_keys($resCases->res[0]);
 
-        $app->render('admin/destaques/editar.html.twig', array('destaques'=>$res->res, 'cases'=>$resCases->res, 'colunas'=>$colunas));
+        $app->render('admin/destaques/editar.html.twig', array('destaques' => $res->res, 'cases' => $resCases->res, 'colunas' => $colunas));
     }
 })->name('busca_destaques');
 

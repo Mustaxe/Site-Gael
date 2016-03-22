@@ -54,6 +54,7 @@ $app->map('/admin/categorias/novo', function () use ($app, $categorias, $projeto
  
         $categorias->nome = $params->post('nome');
 		$categorias->status = 1;
+        $categorias->lang = $params->post('lang');
         $categorias->ativo = $params->post('ativo');
 		$categorias->tipo = $params->post('tipo');
 
@@ -106,6 +107,7 @@ $app->map('/admin/categorias/novo', function () use ($app, $categorias, $projeto
  * )
  */
 $app->post('/admin/categorias/:id', function ($id) use ($app, $categorias, $projetos){
+    
     $params  = $app->request;
 
     $res = $categorias->findById($id);
@@ -116,13 +118,41 @@ $app->post('/admin/categorias/:id', function ($id) use ($app, $categorias, $proj
     }
 	
     $titulo = trim($params->post('nome'));
-    if (!empty($titulo) && $titulo !== 'undefined') $categorias->nome = $titulo;
+    if (!empty($titulo) && $titulo !== 'undefined')
+    {
+        $categorias->nome = $titulo;
+    } 
 
     $ativo = trim($params->post('ativo'));
-    if (($ativo == '1' || $ativo == '0') && $ativo !== 'undefined') $categorias->ativo = $ativo;
+    if (($ativo == '1' || $ativo == '0') && $ativo !== 'undefined')
+    {
+        $categorias->ativo = $ativo;
+    }
+
+
+    /**
+    * Lang
+    */    
+    $lang = trim($params->post('lang'));
+    if ($lang == 'pt' || $lang == 'en')
+    {
+        $categorias->lang = $lang;
+    }
+    else 
+    {
+        /**
+        * Lang padrão do sistema
+        */
+        $categorias->lang = 'pt';
+    }
+
+
 
     $tipo = trim($params->post('tipo'));
-    if (($tipo == 'E' || $tipo == 'J') && $tipo !== 'undefined') $categorias->tipo = $tipo;
+    if (($tipo == 'E' || $tipo == 'J') && $tipo !== 'undefined')
+    {
+        $categorias->tipo = $tipo;
+    } 
 	
     $vars = $categorias->getVariables();
 
@@ -175,12 +205,22 @@ $app->delete('/admin/categorias/:id', function ($id) use ($app, $categorias, $pr
  *   )
  * )
  */
-$app->get('/admin/categorias', function () use ($app, $categorias, $projetos){
-    $res = $categorias->findQuery("SELECT id AS 'ID', nome AS 'Nome', IF(tipo = 'E', 'Empresa', 'Job') AS Tipo, ativo AS 'Ativo'
-									FROM tbl_categorias 
-									WHERE 
-										status = 1
-									ORDER BY 2, 4");
+$app->get('/admin/categorias', function () use ($app, $categorias, $projetos) {
+
+    $q = "
+        SELECT 
+            id AS 'ID', 
+            nome AS 'Nome', 
+            IF(tipo = 'E', 'Empresa', 'Job') AS Tipo, 
+            IF(lang = 'pt', 'Português', 'Inglês') AS 'Idioma',
+            ativo AS 'Ativo'
+        FROM
+            tbl_categorias 
+        WHERE
+            status = 1
+        ORDER BY 2, 4";
+
+    $res = $categorias->findQuery($q);
 										
 	$colunas = array_keys($res->res[0]);
 	

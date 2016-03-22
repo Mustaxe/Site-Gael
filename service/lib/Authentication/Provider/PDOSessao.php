@@ -126,6 +126,8 @@ class PDOSessao extends ProviderSessao
             $user = $stmt->fetch(\PDO::FETCH_OBJ);
         }
 
+        //echo crypt($password, $user->hashSenha); die;
+
         if(is_object($user) && ($user->email === $usernameOrEmail) && crypt($password, $user->hashSenha) === $user->hashSenha) {
             return $this->completeLogin($user);
         }

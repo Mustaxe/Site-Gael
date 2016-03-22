@@ -31,6 +31,17 @@
                 </div>
                 <div class="box-content">
                     <form role="form" method="post" action="{{ baseUri }}/destaques/novo" enctype="multipart/form-data"> 
+                        
+                        <div class="form-group">
+                         	<label class="control-label" for="lang">Idioma</label>
+                         	<div class="controls">
+                         		<select name="lang" class="form-control">
+                         			<option value="pt">Português</option>
+                         			<option value="en">Inglês</option>
+                         		</select>
+                         	</div>
+                        </div>                        
+                        
                         <div class="form-group">
                             <label class="control-label" for="date01">Título</label>
                             <div class="controls">
