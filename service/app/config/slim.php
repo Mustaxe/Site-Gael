@@ -53,6 +53,10 @@ $settings = array(
                                     array(
                                         'descricao' => 'Destaques',
                                         'url'       => '/admin/destaques',
+                                    ),
+                                    array(
+                                        'descricao' => 'Sobre',
+                                        'url'       => '/admin/sobre/pt',
                                     )
                                 ),
     ),
