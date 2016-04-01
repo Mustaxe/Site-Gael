@@ -40,9 +40,12 @@ foreach(glob(ROOT.'/app/controller/*.php') as $router) {
     include $router;
 }
 
+
 $app->get('/', function () use ($app) {
     echo 'inicio';
 });
+
+
 
 $app->get('/admin', function () use ($app) {
     $app->redirect($app->urlFor('home'));

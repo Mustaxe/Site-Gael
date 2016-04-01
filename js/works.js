@@ -8,7 +8,9 @@
 		this.menu = $("#bg-menu");
 		this.window = $(window);
 
-		this.url = 'http://gael.ag/service/cases/1';
+		this.url = 'http://70.32.77.170/~gael/gael.ag/service/cases/1/' + LANG;
+		//this.url = 'http://localhost:8080/git/site_gael/Site-Gael/service/cases/1/' + LANG;
+		//this.url = 'http://gael.ag/service/cases/1';
 		this.data = null;
 
 		this.combo = new ComboBox(this.elem.find('.combobox'));

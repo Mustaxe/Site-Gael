@@ -31,16 +31,30 @@ class DestaquesDao
         $this->app = $app;
     }
 
-    public function getDestaquesComArquivos($ativo = '')
+    public function getDestaquesComArquivos($ativo = '', $lang = 'pt')
     {
         $ativo = trim($ativo);
+        $lang = trim($lang);
+
         $sql = "
-            SELECT c.titulo, c.link, a1.nome AS 'texto', a2.nome AS 'imagem', a1.extensao AS 'thumb_extensao', a2.extensao AS 'imagem_extensao', c.caseid
-            FROM  tbl_destaques AS c
-            LEFT OUTER JOIN tbl_arquivo AS a1 ON c.imagem = a1.id
-            LEFT OUTER JOIN tbl_arquivo AS a2 ON c.thumb = a2.id
-            WHERE c.STATUS = 1
-        ";
+            SELECT 
+                c.titulo, 
+                c.link, 
+                a1.nome AS 'texto',
+                a2.nome AS 'imagem',
+                a1.extensao AS 'thumb_extensao',
+                a2.extensao AS 'imagem_extensao',
+                c.caseid
+            FROM
+                tbl_destaques AS c
+            LEFT OUTER JOIN
+                tbl_arquivo AS a1 ON c.imagem = a1.id
+            LEFT OUTER JOIN
+                tbl_arquivo AS a2 ON c.thumb = a2.id
+            WHERE
+                c.STATUS = 1 AND c.lang = '" . $lang . "'";
+
+
         if($ativo == '1' || $ativo == '0'){
             $sql .= " AND ativo = :ativo";
             $result = $this->db->query($sql, array('ativo' => $ativo));
@@ -67,7 +81,7 @@ class DestaquesDao
         return $result;
     }
 
-    public function getDestaquesComArquivosUnico($id)
+    public function getDestaquesComArquivosUnico($id, $lang = 'pt')
     {
         $sql = '
             SELECT 

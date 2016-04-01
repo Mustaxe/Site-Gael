@@ -136,13 +136,20 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
         if ($res->cod == 200) {
 
 			/***************** Redimensionamento de imagens para Mobile *******************/
-            /* TODO: Descomentar esse bloco
+            
+            /**
+            * Config de path para upload
+            */
+            // $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+            $_path = '/service/web/uploads/';
+            $_pathMobile = '/service/web/uploads/mobile/';
+
             
 			$baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
 			$maskData = $arquivos->findById($ImagemUpload->res['id'], array("id", "nome", "extensao"));
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
 
             $d = $base->getImageGeometry();
             $w = ($d['width'] * 0.7);
@@ -161,21 +168,21 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 
 			$mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
 
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 			$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 			$mask->setImageCompressionQuality(70);
 			$mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 			$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 			$mask->setImageCompressionQuality(70);
 			$mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
             
-            */
+            
 			/***************** Redimensionamento de imagens para Mobile *******************/
 
 		    $app->flash('notice', 'Informação adicionada com sucesso');
@@ -391,6 +398,7 @@ $app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projeto
     }
 })->name('busca_destaques');
 
+
 /**
  *
  * @SWG\Api(
@@ -417,46 +425,54 @@ $app->delete('/admin/destaques/:id', function ($id) use ($app, $destaques){
 
 $app->get('/admin/merge-destaques', function ($id) use ($app, $destaques, $arquivos) {
 
+
+    /**
+    * Config de path para upload
+    */
+    // $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+    $_path = '/service/web/uploads/';
+    $_pathMobile = '/service/web/uploads/mobile/';
+
 	$R = $destaques->findAll();
 
 	for($i=0; $i < sizeof($R->res); $i++) {
 
 		$baseData = $arquivos->findById($R->res[$i]['thumb'], array("id", "nome", "extensao"));
-		$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+		$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
 		$maskData = $arquivos->findById($R->res[$i]['imagem'], array("id", "nome", "extensao"));
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
 
-$d = $base->getImageGeometry();
-$w = ($d['width'] * 0.7);
+        $d = $base->getImageGeometry();
+        $w = ($d['width'] * 0.7);
 
-$maskWidth = $mask->getImageWidth();
-$maskHeight = $mask->getImageHeight();
+        $maskWidth = $mask->getImageWidth();
+        $maskHeight = $mask->getImageHeight();
 
-$baseWidth = $base->getImageWidth();
-$baseHeight = $base->getImageHeight();
+        $baseWidth = $base->getImageWidth();
+        $baseHeight = $base->getImageHeight();
 
-$left = ($maskWidth - $baseWidth + 100);
-$top = ($maskHeight - $baseHeight + 100);
+        $left = ($maskWidth - $baseWidth + 100);
+        $top = ($maskHeight - $baseHeight + 100);
 
-$base->resizeImage($w,0,Imagick::FILTER_LANCZOS,1);
+        $base->resizeImage($w,0,Imagick::FILTER_LANCZOS,1);
 
 		$mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
 
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
 		$mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
 		$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 		$mask->setImageCompressionQuality(70);
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 		$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 		$mask->setImageCompressionQuality(70);
 		$mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $_pathMobile . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
 
 	}
 

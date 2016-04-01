@@ -31,7 +31,7 @@ class CasesDao
         $this->app = $app;
     }
 
-    public function getCasesComArquivos($ativo = '')
+    public function getCasesComArquivos($ativo = '', $lang = 'pt')
     {
         $ativo = trim($ativo);
 
@@ -58,7 +58,7 @@ class CasesDao
 			LEFT OUTER JOIN
                 tbl_arquivo AS a2 ON c.imagem_thumb_over = a2.id
 			WHERE
-                c.STATUS = 1";
+                c.STATUS = 1 AND c.lang = '" . $lang . "'";
 
         if($ativo == '1' || $ativo == '0')
         {

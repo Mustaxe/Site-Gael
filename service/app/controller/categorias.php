@@ -39,11 +39,43 @@ $categorias = new Categorias(array(), $app->db);
  */
 $app->get('/categorias/:ativo', function ($ativo) use ($app, $categorias, $projetos) {
     //$R = $categorias->find(array(), 'ativo = 1', array("id", "nome", "tipo"), array("nome"), array(), '');
-	$R = $categorias->Query("SELECT D.id, D.nome, D.tipo
-								FROM tbl_cases C
-								INNER JOIN tbl_categorias D ON FIND_IN_SET(D.id, C.categorias)
-								WHERE D.ativo = 1 AND D.status = 1
-								GROUP BY D.id
-								ORDER BY D.nome");
+
+    $query = "
+    	SELECT 
+    		D.id, D.nome, D.tipo
+		FROM 
+			tbl_cases C
+		INNER JOIN
+			tbl_categorias D ON FIND_IN_SET(D.id, C.categorias)
+		WHERE
+			D.ativo = 1 AND D.status = 1
+		GROUP BY 
+			D.id
+		ORDER BY 
+			D.nome";	
+
+	$R = $categorias->Query($query);	
+
+    echo json_encode($R);
+});
+
+
+$app->get('/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categorias, $projetos) {
+
+	$query = "
+		SELECT 
+			D.id, D.nome, D.tipo
+		FROM
+			tbl_cases C
+		INNER JOIN
+			tbl_categorias D ON FIND_IN_SET(D.id, C.categorias)
+		WHERE 
+			D.ativo = 1 AND D.status = 1 AND D.lang = '" . $lang . "'
+		GROUP BY 
+			D.id
+		ORDER BY 
+			D.nome"; 	
+
+	$R = $categorias->Query($query);
     echo json_encode($R);
 });

@@ -44,3 +44,10 @@ $app->get('/cases/:ativo', function ($ativo) use ($app, $cases, $projetos) {
 
     echo json_encode($res);
 });
+
+$app->get('/cases/:ativo/:lang', function ($ativo, $lang) use ($app, $cases, $projetos) {
+    $cases = new CasesDao($app);
+    $res   = $cases->getCasesComArquivos($ativo, $lang);
+
+    echo json_encode($res);
+});
