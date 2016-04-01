@@ -2,12 +2,12 @@
 	ini_set("display_errors", 0);
 
 
-	$_SERVER[HTTP_HOST] = "homologacao.gael.ag/";
+	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
 	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
 	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
 	//$_SERVER[HTTP_HOST] = "gael.ag";
 	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
-	
+
 
 	//JSON INFO
 	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
