@@ -43,7 +43,7 @@ use lib\Authentication\Authentication;
  *   )
  * )
  */
-$app->map('/admin/login', function () use ($app){
+$app->map('/admin/login', function () use ($app) {
     $params  = $app->request;
     $error = '';
 

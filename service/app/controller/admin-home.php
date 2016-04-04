@@ -21,6 +21,7 @@ use app\model\Projetos;
 $cases = new Cases(array(), $app->db);
 $projetos = new Projetos(array(), $app->db);
 
+
 /**
  *
  * @SWG\Api(
@@ -32,6 +33,7 @@ $projetos = new Projetos(array(), $app->db);
  * )
  */
 $app->get('/admin/home', function () use ($app, $cases, $projetos){
+
     //$app->render('admin/cases/listagem.html.twig', array());
 	$app->redirect('/service/admin/cases');
 })->name('home');

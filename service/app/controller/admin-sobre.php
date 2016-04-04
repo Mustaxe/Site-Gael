@@ -47,11 +47,11 @@ $app->post('/admin/sobre', function () use ($app) {
     /**
     * Obtem o arquivo JSON com as informações "Sobre"       
     *
-    * TODO: Refatorar path do arquivo JSON
+    * TODO_CONFIG: Refatorar path do arquivo JSON
     *
     */
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
 
     
     $json = (array) json_decode($json);
@@ -133,11 +133,11 @@ $app->post('/admin/sobre', function () use ($app) {
                 *
                 * O nome do arquivo sempre será o idioma + "_sobre.pdf"
                 *
-                * TODO: Refatorar path do arquivo PDF
+                * TODO_CONFIG: Refatorar path do arquivo PDF
                 *
                 */
-                $path = $_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
-                //$path = $_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
+                //$path = $_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
 
 
 
@@ -176,12 +176,7 @@ $app->post('/admin/sobre', function () use ($app) {
     */
     try
     {        
-        /**
-        *        
-        *
-        * TODO: Refatorar path do arquivo PDF
-        *
-        */
+       
 
         $json[$_lang]->titulo = $_titulo;
         $json[$_lang]->subtitulo = $_subtitulo;
@@ -190,8 +185,16 @@ $app->post('/admin/sobre', function () use ($app) {
         
         $json = json_encode($json);        
 
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/sobre/sobre.json', $json);
-        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
+
+
+        /**        
+        *        
+        *
+        * TODO_CONFIG: Refatorar path do arquivo PDF
+        *
+        */
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/sobre/sobre.json', $json);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
     }
     catch (Exception $e)
     {
@@ -239,11 +242,11 @@ $app->get('/admin/sobre/:id', function ($id) use ($app) {
     /**
     *    
     *
-    * TODO: Refatorar path do arquivo JSON
+    * TODO_CONFIG: Refatorar path do arquivo JSON
     *
     */
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
 
 
     $json = (object) json_decode($json); 

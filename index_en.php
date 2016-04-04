@@ -2,9 +2,14 @@
 	ini_set("display_errors", 0);
 
 
-	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
+	/**
+	*
+	* TODO_CONFIG: Config de path
+	*	
+	*/
+	//$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
 	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
-	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
+	$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
 	//$_SERVER[HTTP_HOST] = "gael.ag";
 	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
 
@@ -321,6 +326,20 @@
 							<div class="title">GAEL is not a communications agency.</div>
 							<div class="sub-title">It's a group <br/>activation <br/>and live experiences. </div>
 							<div class="button-know hidden-mobile">Click to know</div>
+
+							<?php 
+							/**
+							*
+							* TODO_CONFIG: Config de path
+							*
+							*/
+							$_pathPdfSobre = '/git/site_gael/Site-Gael/service/web/uploads/pdf/en_sobre.pdf';
+							//$_pathPdfSobre = '/service/web/uploads/pdf/en_sobre.pdf';
+							?>
+							<br>
+							<br>
+							<a href="<?= $_pathPdfSobre ?>" class="button-know hidden-mobile" target="_blank">Presentation</a>
+
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
 						</div>
 						<div class="step2" id="step2">

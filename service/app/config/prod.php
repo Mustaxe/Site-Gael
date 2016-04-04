@@ -7,10 +7,10 @@
 */
 $settings = array(
     'dbmysql' => array(
-        'host'     => 'HOST',
-        'username' => 'USERNAME',
-        'password' => 'PASSWORD',
-        'database' => 'DATABASENAME'
+        'host'     => '127.0.0.1',
+    	'username' => 'root',
+    	'password' => '',
+    	'database' => 'gael_db'
     )
 );
 

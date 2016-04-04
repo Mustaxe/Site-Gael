@@ -41,7 +41,6 @@ $app->get('/destaques/:ativo', function ($ativo) use ($app, $destaques, $projeto
 	$destaques = new DestaquesDao($app);
     $res   = $destaques->getDestaquesComArquivos($ativo);
 	
-	die;
     echo json_encode($res);
 });
 
