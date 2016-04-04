@@ -138,13 +138,15 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 			/***************** Redimensionamento de imagens para Mobile *******************/
             
             /**
+            *
             * TODO_CONFIG: Config de path para upload
+            *
             */
-            $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-            $_pathMobile = '/git/site_gael/Site-Gael/service/web/uploads/mobile/';
+            //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+            //$_pathMobile = '/git/site_gael/Site-Gael/service/web/uploads/mobile/';
 
-            //$_path = '/service/web/uploads/';
-            //$_pathMobile = '/service/web/uploads/mobile/';
+            $_path = '/service/web/uploads/';
+            $_pathMobile = '/service/web/uploads/mobile/';
 
             
 			$baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
@@ -431,12 +433,12 @@ $app->get('/admin/merge-destaques', function ($id) use ($app, $destaques, $arqui
     /**
     * TODO_CONFIG: Config de path para upload
     */
-    $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-    $_pathMobile = '/git/site_gael/Site-Gael/service/web/uploads/mobile/';
+    //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+    //$_pathMobile = '/git/site_gael/Site-Gael/service/web/uploads/mobile/';
 
     // Ambiente GAEL
-    //$_path = '/service/web/uploads/';
-    //$_pathMobile = '/service/web/uploads/mobile/';
+    $_path = '/service/web/uploads/';
+    $_pathMobile = '/service/web/uploads/mobile/';
 
 	$R = $destaques->findAll();
 

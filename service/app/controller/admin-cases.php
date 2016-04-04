@@ -171,8 +171,8 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
             * TODO_CONFIG: Config de path para upload
             *
             */
-            $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-            //$_path = '/service/web/uploads/';
+            //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+            $_path = '/service/web/uploads/';
 
 
 			$baseData = $arquivos->findById($ImagemIntegraUpload->res['id'], array("id", "nome", "extensao"));
@@ -479,8 +479,8 @@ $app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arq
     * TODO_CONFIG: Config de path para upload
     *
     */
-    $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-    //$_path = '/service/web/uploads/';
+    //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+    $_path = '/service/web/uploads/';
 
 	$_FILES = $cases->reArrayFiles($_FILES['imagem_integra']);
 
@@ -752,8 +752,8 @@ $app->get('/admin/merge-cases', function ($id) use ($app, $cases, $arquivos) {
     * TODO_CONFIG: Config de path para upload
     *
     */
-    $_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-    //$_path = '/service/web/uploads/';
+    //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
+    $_path = '/service/web/uploads/';
 
 	$R = $cases->findAll();
 	

@@ -7,9 +7,9 @@
 	* TODO_CONFIG: Config de path
 	*	
 	*/
-	//$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
+	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
 	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
-	$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
+	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
 	//$_SERVER[HTTP_HOST] = "gael.ag";
 	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
 
@@ -319,8 +319,8 @@
 							* TODO_CONFIG: Config de path
 							*
 							*/
-							$_pathPdfSobre = '/git/site_gael/Site-Gael/service/web/uploads/pdf/pt_sobre.pdf';
-							//$_pathPdfSobre = '/service/web/uploads/pdf/pt_sobre.pdf';
+							//$_pathPdfSobre = '/git/site_gael/Site-Gael/service/web/uploads/pdf/pt_sobre.pdf';
+							$_pathPdfSobre = '/service/web/uploads/pdf/pt_sobre.pdf';
 							?>
 							<br>
 							<br>

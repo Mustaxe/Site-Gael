@@ -50,8 +50,8 @@ $app->post('/admin/sobre', function () use ($app) {
     * TODO_CONFIG: Refatorar path do arquivo JSON
     *
     */
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
+    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
 
     
     $json = (array) json_decode($json);
@@ -136,8 +136,8 @@ $app->post('/admin/sobre', function () use ($app) {
                 * TODO_CONFIG: Refatorar path do arquivo PDF
                 *
                 */
-                //$path = $_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
-                $path = $_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
+                //$path = $_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
 
 
 
@@ -193,8 +193,8 @@ $app->post('/admin/sobre', function () use ($app) {
         * TODO_CONFIG: Refatorar path do arquivo PDF
         *
         */
-        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/sobre/sobre.json', $json);
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . 'service/web/uploads/sobre/sobre.json', $json);
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
     }
     catch (Exception $e)
     {
@@ -245,8 +245,8 @@ $app->get('/admin/sobre/:id', function ($id) use ($app) {
     * TODO_CONFIG: Refatorar path do arquivo JSON
     *
     */
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
+    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
 
 
     $json = (object) json_decode($json); 
