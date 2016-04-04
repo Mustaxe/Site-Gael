@@ -49,6 +49,6 @@ $app->get('/cases/:ativo/:lang', function ($ativo, $lang) use ($app, $cases, $pr
 	
     $cases = new CasesDao($app);
     $res   = $cases->getCasesComArquivos($ativo, $lang);
-
+    //print_r($res);
     echo json_encode($res);
 });
