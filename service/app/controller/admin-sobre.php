@@ -100,10 +100,11 @@ $app->post('/admin/sobre', function () use ($app) {
         /**
         * Se estiver vazio pegamos o valor atual
         */
-        $_texto = $json[$_lang]->texto;
+        $_texto = str_replace(array("\n","\r","\t"), "", $json[$_lang]->texto);
     }
     else
     {
+        $_texto = str_replace(array("\n","\r","\t"), "", $_texto);
         $_texto = addslashes($_texto);
     }
 
@@ -246,10 +247,12 @@ $app->get('/admin/sobre/:id', function ($id) use ($app) {
     *
     */
     $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');    
+    $json = (object) json_decode($json);
 
-
-    $json = (object) json_decode($json); 
+    $json->{$id}->titulo = stripslashes($json->{$id}->titulo);
+    $json->{$id}->subtitulo = stripslashes($json->{$id}->subtitulo);
+    $json->{$id}->texto = stripslashes($json->{$id}->texto);    
    
     $app->render('admin/sobre/editar.html.twig', array('sobre' => $json->{$id}, 'lang' => $id) );
 

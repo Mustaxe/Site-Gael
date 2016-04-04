@@ -323,47 +323,46 @@
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
-							<div class="title">GAEL is not a communications agency.</div>
-							<div class="sub-title">It's a group <br/>activation <br/>and live experiences. </div>
-							<div class="button-know hidden-mobile">Click to know</div>
+							
 
 							<?php 
-							/**
+							/**														
 							*
-							* TODO_CONFIG: Config de path
+							* Obtem o sobre
 							*
 							*/
-							//$_pathPdfSobre = '/git/site_gael/Site-Gael/service/web/uploads/pdf/en_sobre.pdf';
-							$_pathPdfSobre = '/service/web/uploads/pdf/en_sobre.pdf';
+
+							$sobre = file_get_contents('http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/sobre/sobre.json');							
+							$sobre = (array) json_decode($sobre);
+
+							if(!empty($sobre[$lang]->arquivo))
+							{							
+								$sobre[$lang]->arquivo = 'http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/pdf/' . $sobre[$lang]->arquivo;								
+							}
 							?>
+
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="button-know hidden-mobile">Click to know</div>
+
+							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
 							<br>
 							<br>
-							<a href="<?= $_pathPdfSobre ?>" class="button-know hidden-mobile" target="_blank">Presentation</a>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Presentation</a>
+							<?php } ?>
 
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
 						</div>
 						<div class="step2" id="step2">
 							<div class="back"></div>
-							<div class="movie">
-
-							</div>
-
+							<div class="movie"></div>
 						</div>
 						<div class="step3" id="step3">
-							<div class="back"></div>
-							<div class="title">GAEL is not a communications agency.</div>
-							<div class="sub-title">It's a group activation and live experiences. </div>
-							<div class="text">
-								<p>PEOPLE LIVING EXPERIENCE ALL THE TIME , EVERYWHERE . PARKS , BEACHES , CONCERTS , SHOPPING MALLS . AND ARE THE MOMENTS THAT ARE BORN GOOD RELATIONSHIPS WITH MORE REAL AND DURABLE BRANDS.</p>
-								<p>SO WE ARE ONE <strong> GROUP</strong> ACTIVATION AND EXPERIENCE LIVE.</p>
-                                
-								<p><strong>GROUP,</strong> WHY WE BELIEVE THAT TOGETHER , THE PEOPLE CREATING IDEAS THAT MAKE THE DIFFERENCE . LIVE, BECAUSE THE IMPACT OF RIGHT TIME CONSUMER IS LIVE , HERE , NOW , WHERE IT IS .</p>
-                                
-                                <p><strong>INNOVATIVE IDEAS + STRATEGIES RELEVANT + FLAWLESS EXECUTION.</strong> THESE THREE PILLARS TRANSLATE THE ESSENCE OF GAEL.</p>
-                                
-                                <p>E PARA COMPLETAR A FÓRMULA DA AGÊNCIA IDEAL, MISTURAMOS A EXPERTISE DE PROFISSIONAIS COM MAIS DE 20 ANOS DE EXPERIÊNCIA, COM JOVENS TALENTOS CHEIOS DE VONTADE DE FAZER ACONTECER. UMA EQUIPE COM OS MESMOS OBJETIVOS, QUE TRABALHA, E MUITO, EM BUSCA DELES.</p>                               
-                                
-								<p>AFTER ALL , STRATEGIES , IDEAS AND EXECUTIONS NEED PEOPLE TO BECOME REALITY .</p>
+							<div class="back"></div>							
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="text"> 
+								<?php echo str_ireplace(array('<div>', '</div>'), array('<p>', '</p>'),$sobre[$lang]->texto); ?>
 							</div>
 						</div>
 					</div>

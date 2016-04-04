@@ -9,7 +9,7 @@
 	*/
 	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
 	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
-	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
+	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael";
 	//$_SERVER[HTTP_HOST] = "gael.ag";
 	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
 
@@ -309,22 +309,34 @@
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo <br/>de ativação <br/>e experiencias live. </div>
-							<div class="button-know hidden-mobile">Clique e conheça</div>
+							
 
 							<?php 
-							/**
+							/**							
 							*
-							* TODO_CONFIG: Config de path
+							* Obtem o sobre
 							*
 							*/
-							//$_pathPdfSobre = '/git/site_gael/Site-Gael/service/web/uploads/pdf/pt_sobre.pdf';
-							$_pathPdfSobre = '/service/web/uploads/pdf/pt_sobre.pdf';
+
+							$sobre = file_get_contents('http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/sobre/sobre.json');							
+							$sobre = (array) json_decode($sobre);
+
+							if(!empty($sobre[$lang]->arquivo))
+							{							
+								$sobre[$lang]->arquivo = 'http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/pdf/' . $sobre[$lang]->arquivo;								
+							}
 							?>
+
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="button-know hidden-mobile">Clique e conheça</div>
+
+
+							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
 							<br>
 							<br>
-							<a href="<?= $_pathPdfSobre ?>" class="button-know hidden-mobile" target="_blank">Apresentação</a>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Apresentação</a>
+							<?php } ?>
 
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
 						</div>
@@ -337,20 +349,10 @@
 						</div>
 						<div class="step3" id="step3">
 							<div class="back"></div>
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo de ativação e experiencias live. </div>
-							<div class="text">
-								<p>PESSOAS VIVEM DE EXPERIÊNCIAS O TEMPO TODO, EM TODOS OS LUGARES. PARQUES, PRAIAS, SHOWS, SHOPPINGS. E SÃO DOS MOMENTOS BONS QUE NASCEM OS RELACIONAMENTOS MAIS VERDADEIROS E DURADOUROS COM AS MARCAS.       </p>
-								<p>POR ISSO, SOMOS UM <strong> GRUPO</strong> DE ATIVAÇÃO E EXPERIÊNCIAS LIVE.</p>
-                                
-								<p><strong>GRUPO,</strong> PORQUE ACREDITAMOS QUE JUNTAS, AS PESSOAS CRIAM IDEIAS QUE FAZEM A DIFERENÇA. LIVE, PORQUE A HORA CERTA DE IMPACTAR O CONSUMIDOR É AO VIVO, É AQUI, AGORA, ONDE ELE ESTIVER.</p>
-                                
-                                <p><strong>IDEIAS INOVADORAS + ESTRATÉGIAS RELEVANTES + EXECUÇÃO IMPECÁVEL.</strong> ESTES TRÊS PILARES TRADUZEM A ESSÊNCIA DA GAEL.    </p>
-                                
-                                <p>E PARA COMPLETAR A FÓRMULA DA AGÊNCIA IDEAL, MISTURAMOS A EXPERTISE DE PROFISSIONAIS COM MAIS DE 20 ANOS DE EXPERIÊNCIA, COM JOVENS TALENTOS CHEIOS DE VONTADE DE FAZER ACONTECER. UMA EQUIPE COM OS MESMOS OBJETIVOS, QUE TRABALHA, E MUITO, EM BUSCA DELES. </p>
-                                
-                                
-								<p>AFINAL, ESTRATÉGIAS, IDEIAS E EXECUÇÕES PRECISAM DE PESSOAS PARA SE TORNAREM REALIDADE.</p>
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="text"> 
+								<?php echo str_ireplace(array('<div>', '</div>'), array('<p>', '</p>'),$sobre[$lang]->texto); ?>
 							</div>
 						</div>
 					</div>
