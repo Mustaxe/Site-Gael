@@ -9,8 +9,22 @@
  */
 
 
+/**
+*
+* TODO_CONFIG: Config de path para upload
+*
+*/
+$_URL_UPLOAD = array(
+    'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'homologacao.gael.ag' => '/service/web/uploads/',
+    'gael.ag' => '/service/web/uploads/'
+);
+$URL_UPLOAD = $_URL_UPLOAD[$_SERVER['HTTP_HOST']];
 
-$app->post('/admin/sobre', function () use ($app) {
+
+
+$app->post('/admin/sobre', function () use ($app, $URL_UPLOAD) {
     
     /**
     *
@@ -23,7 +37,7 @@ $app->post('/admin/sobre', function () use ($app) {
     *       titulo =>
     *       subtitulo => 
     *       texto =>
-    *       arquivo =>
+    *       arquivo => 
     *   en =>
     *       titulo =>
     *       subtitulo =>
@@ -45,13 +59,12 @@ $app->post('/admin/sobre', function () use ($app) {
 
 
     /**
-    * Obtem o arquivo JSON com as informações "Sobre"       
     *
-    * TODO_CONFIG: Refatorar path do arquivo JSON
+    * Obtem o arquivo JSON com as informações "Sobre"    
     *
     */
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . 'sobre/sobre.json');
+    
 
     
     $json = (array) json_decode($json);
@@ -130,19 +143,8 @@ $app->post('/admin/sobre', function () use ($app) {
             */
             if($_FILES['arquivo']['type'] == 'application/pdf')
             {
-                /**
-                *
-                * O nome do arquivo sempre será o idioma + "_sobre.pdf"
-                *
-                * TODO_CONFIG: Refatorar path do arquivo PDF
-                *
-                */
-                $path = $_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
-                //$path = $_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/pdf/' . $_lang . '_sobre.pdf';
 
-
-
-                if(!copy($_FILES['arquivo']['tmp_name'], $path))
+                if(!copy($_FILES['arquivo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . 'pdf/' . $_lang . '_sobre.pdf'))
                 {
                     $app->flash('error', 'O arquivo "' . $_FILES['arquivo']['name'] . '" não pode ser salvo.');
                     $app->redirect($app->urlFor('visualizar_sobre', array('id' => $_lang)));
@@ -184,18 +186,9 @@ $app->post('/admin/sobre', function () use ($app) {
         $json[$_lang]->texto = $_texto;
         $json[$_lang]->arquivo = $_arquivo;
         
-        $json = json_encode($json);        
+        $json = json_encode($json);
 
-
-
-        /**        
-        *        
-        *
-        * TODO_CONFIG: Refatorar path do arquivo PDF
-        *
-        */
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json', $json);
-        //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . 'sobre/sobre.json', $json);        
     }
     catch (Exception $e)
     {
@@ -207,12 +200,12 @@ $app->post('/admin/sobre', function () use ($app) {
     $app->flash('notice', 'Alteração efetuada com sucesso.');
     $app->redirect($app->urlFor('visualizar_sobre', array('id' => $_lang)));
 
-})->name('editar_sobre');
+})->via('POST')->name('editar_sobre');
 
 
 
 
-$app->get('/admin/sobre/:id', function ($id) use ($app) {
+$app->get('/admin/sobre/:id', function ($id) use ($app, $URL_UPLOAD) {
     
     /**
     *
@@ -238,16 +231,10 @@ $app->get('/admin/sobre/:id', function ($id) use ($app) {
     *       arquivo =>
     *
     *
-    */
+    */    
 
-    /**
-    *    
-    *
-    * TODO_CONFIG: Refatorar path do arquivo JSON
-    *
-    */
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json');
-    //$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json');    
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . 'sobre/sobre.json');
+    
     $json = (object) json_decode($json);
 
     $json->{$id}->titulo = stripslashes($json->{$id}->titulo);

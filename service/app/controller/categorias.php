@@ -38,7 +38,7 @@ $categorias = new Categorias(array(), $app->db);
  * )
  */
 $app->get('/categorias/:ativo', function ($ativo) use ($app, $categorias, $projetos) {
-    //$R = $categorias->find(array(), 'ativo = 1', array("id", "nome", "tipo"), array("nome"), array(), '');
+    //$R = $categorias->find(array(), 'ativo = 1', array("id", "nome", "tipo"), array("nome"), array(), '');	
 
     $query = "
     	SELECT 

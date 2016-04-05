@@ -1,17 +1,5 @@
 <?php
-	ini_set("display_errors", 0);
-
-
-	/**
-	*
-	* TODO_CONFIG: Config de path
-	*	
-	*/
-	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
-	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
-	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael";
-	//$_SERVER[HTTP_HOST] = "gael.ag";
-	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
+	ini_set("display_errors", 0);	
 
 
 	//JSON INFO
@@ -48,8 +36,7 @@
 		}
 	}
 
-
-	$currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
 	$title = "GAEL – Grupo de Ativações e Experiências Live";
 	$description = "Grupo de Ativações e Experiências Live A agência que inova na relação entre marcas e consumidores. - Tel.: (11) 2395-4400";
 ?>
@@ -81,7 +68,10 @@
 		<link rel="stylesheet" href="css/main.css" type="text/css">
 
 		<!-- Define o idioma -->
-		<script> var LANG = '<?= $_SESSION['lang'] ?>' </script>
+		<script>
+			var LANG = '<?= $_SESSION['lang'] ?>';
+			var XPATH = '<?= $_SERVER[HTTP_HOST] ?>';
+		</script>
 
 		<!-- fallback -->
 		<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -305,7 +295,7 @@
 				</script>
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-about.svg" alt="About"/></h2>
+					<h2><img src="svg/tlt-sobre.svg" alt="About"/></h2>
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
@@ -366,7 +356,7 @@
 			<div class="container clearfix">
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-contact.svg" alt="Contact"/></h2>
+					<h2><img src="svg/tlt-contato.svg" alt="Contact"/></h2>
 					<hr/>
 					<form id="form-padrao" class="container-contact">
 						<div class="ct-animation">
@@ -396,7 +386,14 @@
 						</div>
 						<ul>
 							<li class="i-email">
-								<div class="bg-ico"><i><img src="svg/ico-email.svg" alt="E-mail"/></i></div><a style="font-size: 20px;" href="mailto:<?php echo $json_info["res"]["contato_email"]; ?>"><?php echo $json_info["res"]["contato_email"]; ?></a>
+								<div class="bg-ico">
+									<i>
+										<img src="svg/ico-email.svg" alt="E-mail"/>
+									</i>
+								</div>
+								<a style="font-size: 20px;" href="mailto:<?php echo $json_info["res"]["contato_email"]; ?>">
+									<?php echo $json_info["res"]["contato_email"]; ?>
+								</a>
 							</li>
 							<li class="i-telefone">
 								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div><a style="font-size: 20px;"><?php echo $json_info["res"]["contato_fone"]; ?></a>

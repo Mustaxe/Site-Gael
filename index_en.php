@@ -1,29 +1,22 @@
 <?php
 	ini_set("display_errors", 0);
-
-
-	/**
-	*
-	* TODO_CONFIG: Config de path
-	*	
-	*/
-	$_SERVER[HTTP_HOST] = "homologacao.gael.ag";
-	//$_SERVER[HTTP_HOST] = "70.32.77.170/~gael/";
-	//$_SERVER[HTTP_HOST] = "localhost:8080/git/site_gael/Site-Gael/";
-	//$_SERVER[HTTP_HOST] = "gael.ag";
-	//$_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
+	
 
 	//JSON INFO
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "service/projetos");
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_info = curl_exec($ch);
     $json_info = json_decode($json_info, TRUE);
 
+    /**
+    * Tradução desse campo
+    */
+    $json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
 
 
 
 	//JSON DESTAQUES
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "service/destaques/1/en");
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_destaques = curl_exec($ch);
     $json_destaques = json_decode($json_destaques, TRUE);
@@ -31,13 +24,10 @@
     
 
 
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "service/categorias/1/en");
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_categorias = curl_exec($ch);
     $json_categorias = json_decode($json_categorias, TRUE);
-
-
-
 
 
 	// $json_categorias = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1");
@@ -57,7 +47,7 @@
 	}
 
 
-	$currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
 	$title = "GAEL – Group Activations and Experiences Live";
 	$description = "Group Activations and Experiences Live the agency to innovate in the relationship between brands and consumers. - Tel.: (11) 2395-4400";
 ?>
@@ -92,7 +82,10 @@
 		<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 		<!-- Define o idioma -->
-		<script> var LANG = '<?= $_SESSION['lang'] ?>' </script>
+		<script>
+			var LANG = '<?= $_SESSION['lang'] ?>';
+			var XPATH = '<?= $_SERVER[HTTP_HOST] ?>';
+		</script>
 
 		<style>
 			#about .step1 .thumb-video {
@@ -319,7 +312,7 @@
 				</script>
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-about.svg" alt="About"/></h2>
+					<h2><img src="svg/tlt-about.svg" alt="About" style="max-width: 68%"/></h2>
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
@@ -376,7 +369,9 @@
 			<div class="container clearfix">
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-contact.svg" alt="Contact"/></h2>
+					<h2>
+						<img src="svg/tlt-contact.svg" alt="Contact" style="max-width: 91%" />
+					</h2>
 					<hr/>
 					<form id="form-padrao" class="container-contact">
 						<div class="ct-animation">

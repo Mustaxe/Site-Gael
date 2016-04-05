@@ -26,6 +26,23 @@ $categorias = new Categorias(array(), $app->db);
 $projetos = new Projetos(array(), $app->db);
 $arquivos = new Arquivo(array(), $app->db);
 
+
+/**
+*
+* TODO_CONFIG: Config de path para upload
+*
+*/
+$_URL_UPLOAD = array(
+    'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'homologacao.gael.ag' => '/service/web/uploads/',
+    'gael.ag' => '/service/web/uploads/'
+);
+$URL_UPLOAD = $_URL_UPLOAD[$_SERVER['HTTP_HOST']];
+
+
+
+
 /**
  *
  * @SWG\Api(
@@ -87,7 +104,7 @@ $arquivos = new Arquivo(array(), $app->db);
  *   )
  * )
  */
-$app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $categorias, $arquivos){
+$app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $categorias, $arquivos, $URL_UPLOAD){
     $params = $app->request;
 
     if ($params->isPost()) {
@@ -165,29 +182,20 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
 			
 
 			/***************** Redimensionamento de imagens para Mobile *******************/
-			
-            /**
-            *
-            * TODO_CONFIG: Config de path para upload
-            *
-            */
-            //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-            $_path = '/service/web/uploads/';
-
 
 			$baseData = $arquivos->findById($ImagemIntegraUpload->res['id'], array("id", "nome", "extensao"));
 			
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD  . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 			$base->setImageCompression(Imagick::COMPRESSION_JPEG); 
 			$base->setImageCompressionQuality(70);
 			$base->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
+			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD  . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
 			
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD  . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 			$base->setImageCompression(Imagick::COMPRESSION_JPEG); 
 			$base->setImageCompressionQuality(70);
 			$base->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
+			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD  . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
 			
 			/***************** Redimensionamento de imagens para Mobile *******************/
 			
@@ -353,7 +361,7 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
  *   )
  * )
  */
-$app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arquivos){
+$app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arquivos, $URL_UPLOAD){
     $params  = $app->request;
 
     $res = $cases->findById($id);
@@ -472,15 +480,7 @@ $app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arq
         $ImagemIntegraUpload = $uploader->salva();
         $cases->imagem_integra5 = $ImagemIntegraUpload->res['id'];
     } */
-
-
-    /**
-    *
-    * TODO_CONFIG: Config de path para upload
-    *
-    */
-    //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-    $_path = '/service/web/uploads/';
+    
 
 	$_FILES = $cases->reArrayFiles($_FILES['imagem_integra']);
 
@@ -503,17 +503,17 @@ $app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arq
 
 			$baseData = $arquivos->findById($ImagemIntegraUpload->res['id'], array("id", "nome", "extensao"));
 			
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 			$base->setImageCompression(imagick::COMPRESSION_JPEG); 
 			$base->setImageCompressionQuality(70);
 			$base->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
+			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
 			
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 			$base->setImageCompression(imagick::COMPRESSION_JPEG); 
 			$base->setImageCompressionQuality(70);
 			$base->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
+			$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
 			
 			/***************** Redimensionamento de imagens para Mobile *******************/
 			
@@ -745,16 +745,8 @@ $app->delete('/admin/cases/imagem/:caseid/:id', function ($caseid, $id) use ($ap
 });
 
 
-$app->get('/admin/merge-cases', function ($id) use ($app, $cases, $arquivos) {
-	
-    /**
-    *
-    * TODO_CONFIG: Config de path para upload
-    *
-    */
-    //$_path = '/git/site_gael/Site-Gael/service/web/uploads/';
-    $_path = '/service/web/uploads/';
-
+$app->get('/admin/merge-cases', function ($id) use ($app, $cases, $arquivos, $URL_UPLOAD) {
+   
 	$R = $cases->findAll();
 	
 	for($i=0; $i < sizeof($R->res); $i++) {
@@ -775,17 +767,17 @@ $app->get('/admin/merge-cases', function ($id) use ($app, $cases, $arquivos) {
 				
 				if($baseData->cod == 200) {
 				
-					$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+					$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 					$base->setImageCompression(imagick::COMPRESSION_JPEG); 
 					$base->setImageCompressionQuality(70);
 					$base->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-					$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
+					$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-1024.jpg');
 					
-					$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+					$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 					$base->setImageCompression(imagick::COMPRESSION_JPEG); 
 					$base->setImageCompressionQuality(70);
 					$base->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-					$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $_path . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
+					$base->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . substr($baseData->res['nome'], 0, strlen($baseData->res['nome']) -4) . '-640.jpg');
 				}
 					
 			}
