@@ -213,18 +213,26 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 
         $app->redirect($app->urlFor('listagem_destaques'));
 
-    } else {
-		// Pega cases para enviar ao template e montar select com ID e descricao
-		$cases = new CasesDao($app);
-		$res   = $cases->getCasesComArquivosListagem();
-
-		$colunas = array_keys($res->res[0]);
-
+    }
+    else
+    {		
+        /**
+        * 
+        * O idioma por default é PT
+        *
+        *
+        *
+        * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+        *
+        */
+		$caseDao = new CasesDao($app);
+		$cases = $caseDao->getCasesComArquivosListagem('pt');
 	}
 
-	$app->render('admin/destaques/novo.html.twig', array('cases'=>$res->res, 'colunas'=>$colunas));
-
+	$app->render('admin/destaques/novo.html.twig', array('cases' => $cases->res));
 })->via("POST", "GET")->name('adiciona_destaques');
+
+
 
 /**
  *
@@ -355,8 +363,44 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
     $app->flash('error', 'Não foi possível atualizar a informação.');
 
     $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
-
 })->name('edita_destaques');
+
+
+
+/**
+ *
+ * Obtem a listagem de cases baseado no idioma
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+$app->get('/admin/destaques/:cases/:lang', function ($cases, $lang) use ($app, $destaques, $projetos) {
+    
+    /**
+    * 
+    * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+    *
+    */
+    $caseDao = new CasesDao($app);
+    $cases = $caseDao->getCasesComArquivosListagem($lang);
+
+    $html = '';
+
+    foreach($cases->res as $case) 
+    {
+        $html .= '<option value="' . $case['id'] . '">' . $case['Descrição'] . '</option>';
+    }
+
+
+    $app->response->headers->set('Content-Type', 'text/html;charset=utf-8');
+    echo $html;
+    
+})->name('listagem_cases_ajax');
+
+
 
 /**
  *
@@ -377,6 +421,8 @@ $app->get('/admin/destaques', function () use ($app, $destaques, $projetos){
     $app->render('admin/destaques/listagem.html.twig', array('destaques'=>$res->res, 'colunas'=>$colunas));
 })->name('listagem_destaques');
 
+
+
 /**
  *
  * @SWG\Api(
@@ -396,7 +442,8 @@ $app->get('/admin/destaques', function () use ($app, $destaques, $projetos){
  *   )
  * )
  */
-$app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos){
+$app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos) {
+
     $destaques = new DestaquesDao($app);
     $res   = $destaques->getDestaquesComArquivosUnico($id);
 
@@ -406,9 +453,13 @@ $app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projeto
     }
     else
     {
-		// Pega cases para enviar ao template e montar select com ID e descricao
+		/**
+        *
+        * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+        *
+        */
 		$cases = new CasesDao($app);
-		$resCases   = $cases->getCasesComArquivosListagem();
+		$resCases   = $cases->getCasesComArquivosListagem($res->res['lang']);
 
 		$colunas = array_keys($resCases->res[0]);
 
@@ -486,5 +537,4 @@ $app->get('/admin/merge-destaques', function ($id) use ($app, $destaques, $arqui
 		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
 
 	}
-
 });

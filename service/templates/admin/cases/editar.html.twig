@@ -211,23 +211,56 @@
                         <div class="form-group">
                             <label class="control-label" for="caseid">Categorias:</label>
                             <div class="controls">
-								<p style="margin-left: 40px;"><b>Empresas:</b></p>
-								<ul style="width: 100%; list-style-type: none; display: block; min-height: 30px;">
-									{% for categoria in categorias %}
-										{% if categoria.tipo == 'E' %}
-											<li style="width: 100px; float: left;"><input type="checkbox" value="{{ categoria.id }}" name="categorias[]" {% if categoria.id in categoriasArray %}Checked{% endif %}> {{ categoria.nome }}</li>
-										{% endif %}
-									{% endfor %}
-								</ul>
 
-								<p style="margin-left: 40px;"><b>Job:</b></p>
-								<ul style="width: 100%; list-style-type: none; display: block; min-height: 30px;">
-									{% for categoria in categorias %}
-										{% if categoria.tipo == 'J' %}
-											<li style="width: 100px; float: left;"><input type="checkbox" value="{{ categoria.id }}" name="categorias[]" {% if categoria.id in categoriasArray %}Checked{% endif %}> {{ categoria.nome }}</li>
-										{% endif %}
-									{% endfor %}
-								</ul>
+                                <style>
+                                    .categoriaEmpresa, .categoriaJob {
+                                        background-color: rgba(0, 0, 0, .05);
+                                        border-radius: 5px;
+                                        border: 1px solid #ddd;
+                                        padding: 10px;
+                                        margin-right: 0px;
+                                    }            
+                                </style>
+
+
+                                <div class="row">
+                                    <div class="col-sm-12">                                        
+                                        <h3><strong>EMPRESAS</strong></h3>
+                                    </div>
+                                </div>
+                                <div class="row categoriaEmpresa">
+                                    {% for empresa in empresas %}
+                                        {% if empresa.tipo == 'E' %}
+                                            <div class="col-sm-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="{{ empresa.id }}" name="categorias[]" {% if empresa.id in categoriasArray %}Checked{% endif %}> {{ empresa.nome }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3><strong>JOB</strong></h3>
+                                    </div>
+                                </div>
+                                <div class="row categoriaJob">
+                                    {% for job in jobs %}
+                                        {% if job.tipo == 'J' %}
+                                            <div class="col-sm-2">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="{{ job.id }}" name="categorias[]" {% if job.id in categoriasArray %}Checked{% endif %}> {{ job.nome }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
                             </div>
                          </div>
 
@@ -298,6 +331,26 @@
 
     <script type="text/javascript">
         window.baseUri = "{{ baseUri }}";
+
+
+        /**
+        * Ao alteração o idioma obtemos os cases referente ao idioma para ordenar
+        */
+        $('select[name="lang"]').change(function () {
+            $.get('{{ baseUri }}/cases/categoria/' + $(this).val(), function(data) {
+                $('select[name="ordem"]').html(data);
+            });
+        });
+
+        /**
+        * Ao alteração o idioma obtemos as categorias referente ao idioma
+        */
+        $('select[name="lang"]').change(function () {
+            $.get('{{ baseUri }}/categorias/1/' + $(this).val(), function(data) {
+                $('.categoriaJob').html(data);
+            });
+        });
+
     </script>
 
     <!-- page scripts -->

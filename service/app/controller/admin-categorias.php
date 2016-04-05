@@ -227,6 +227,43 @@ $app->get('/admin/categorias', function () use ($app, $categorias, $projetos) {
     $app->render('admin/categorias/listagem.html.twig', array('categorias'=>$res->res, 'colunas'=>$colunas));
 })->name('listagem_categorias');
 
+
+/**
+ *
+ * Obtem as categorias baseado no idioma e o status
+ *  
+ */
+$app->get('/admin/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categorias, $projetos) {
+
+    $q = "
+        SELECT 
+            *
+        FROM
+            tbl_categorias
+        WHERE
+            status = " . $ativo . " AND lang = '" . $lang . "' ORDER BY 2";
+    $res = $categorias->Query($q);    
+
+    $html = '';
+
+    foreach($res->res as $item) {
+        if($item['tipo'] == 'J') {
+            $html .= '
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="' . $item['id'] . '" name="categorias[]"> ' . $item['nome'] . '
+                        </label>
+                    </div>
+                </div>';
+        }
+    }
+
+    $app->response->headers->set('Content-Type', 'text/html;charset=utf-8');
+    echo $html;
+})->name('busca_categorias_ajax');
+
+
 /**
  *
  * @SWG\Api(
@@ -255,3 +292,4 @@ $app->get('/admin/categorias/:id', function ($id) use ($app, $categorias, $proje
         $app->render('admin/categorias/editar.html.twig', array('categorias'=>$res->res));
     }
 })->name('busca_categorias');
+

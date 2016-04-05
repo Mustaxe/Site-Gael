@@ -118,6 +118,17 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <script>
+        /**
+        * Ao alteração o idioma obtemos os cases referente ao idioma para ordenar
+        */
+        $('select[name="lang"]').change(function () {
+            $.get('{{ baseUri }}/destaques/cases/' + $(this).val(), function(data) {
+                $('select[name="caseid"]').html(data);
+            });
+        });
+    </script>
+
     <!-- page scripts -->
     <script src="{{ assetUri }}/web/js/jquery.chosen.min.js"></script>
     <script src="{{ assetUri }}/web/js/jquery.cleditor.min.js"></script>

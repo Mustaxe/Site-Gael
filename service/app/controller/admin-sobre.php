@@ -199,10 +199,7 @@ $app->post('/admin/sobre', function () use ($app, $URL_UPLOAD) {
 
     $app->flash('notice', 'Alteração efetuada com sucesso.');
     $app->redirect($app->urlFor('visualizar_sobre', array('id' => $_lang)));
-
 })->via('POST')->name('editar_sobre');
-
-
 
 
 $app->get('/admin/sobre/:id', function ($id) use ($app, $URL_UPLOAD) {
@@ -242,7 +239,6 @@ $app->get('/admin/sobre/:id', function ($id) use ($app, $URL_UPLOAD) {
     $json->{$id}->texto = stripslashes($json->{$id}->texto);    
    
     $app->render('admin/sobre/editar.html.twig', array('sobre' => $json->{$id}, 'lang' => $id) );
-
 })->via('GET')->name('visualizar_sobre');
 
 

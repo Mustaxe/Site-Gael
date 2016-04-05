@@ -160,7 +160,7 @@ class CasesDao
         return $result;
     }
 
-    public function getCasesComArquivosListagem()
+    public function getCasesComArquivosListagem($lang = 'pt')
     {
         $sql = '
             SELECT
@@ -180,7 +180,7 @@ class CasesDao
             LEFT OUTER JOIN
                 tbl_arquivo A2 ON A2.id = C.imagem_thumb_over
             WHERE
-                C.status = 1 AND A1.status = 1 AND A2.status = 1
+                C.status = 1 AND A1.status = 1 AND A2.status = 1 AND lang = \'' . $lang . '\'
 			ORDER BY
                 C.ordem ASC';
 
