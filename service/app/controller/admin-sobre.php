@@ -194,7 +194,7 @@ $app->post('/admin/sobre', function () use ($app) {
         * TODO_CONFIG: Refatorar path do arquivo PDF
         *
         */
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . 'service/web/uploads/sobre/sobre.json', $json);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/sobre/sobre.json', $json);
         //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/git/site_gael/Site-Gael/service/web/uploads/sobre/sobre.json', $json);
     }
     catch (Exception $e)
