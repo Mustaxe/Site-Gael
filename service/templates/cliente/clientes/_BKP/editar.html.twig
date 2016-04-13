@@ -1,0 +1,187 @@
+{% extends "/admin/base/main.html.twig" %}
+
+{% block titulo %}Editar Cases{% endblock titulo %}
+{% block descricao %}Editar Cases{% endblock descricao %}
+{% block header %}
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{{ baseUri }}">Admin</a></li>
+      <li><a href="#">Cases</a></li>
+    </ol>
+    <h1>Editar Cases</h1>
+</div>
+
+<!--div id="titlebar_right">
+  <div class="action_items">
+    <span class="action_item">
+    <form action="{{ baseUri }}/cases/{{cases.id }}" method="post">
+        <input type="hidden" name="_METHOD" value="DELETE"> 
+        <button type="submit" class="btn btn-large btn-danger" name="delete" value="delete"><i class="icon-trash icon-white"></i> Remover</button>
+    </form>
+    </span>
+  </div>
+</div-->
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Cases</h2>
+                    <div class="box-icon">
+                        <a href="form-elements.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                        <a href="form-elements.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="form-elements.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <form role="form" method="post" action="{{ baseUri }}/cases/{{cases.id}}" enctype="multipart/form-data"> 
+                        <div class="form-group">
+                            <label class="control-label">Título</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="titulo" value="{{cases.titulo}}"/>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Subtítulo</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="descricao" value="{{cases.descricao}}"/>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Texto</label>
+                            <div class="controls">
+                                <input type="text" class="form-control" name="texto" value="{{cases.texto}}"/>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Imagem Thumb</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_thumb" />
+								<td><img width="100px" style="margin: 10px;" src="{% if cases.thumb == '' %}/web/img/not_found.jpg{% else %}{{ cases.thumb }}{% endif %}"></td>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Imagem Thumb Over</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_thumb_over" value="{{cases.thumbHover}}" />
+								<td><img width="100px" style="margin: 10px;" src="{% if cases.thumbHover == '' %}/service/web/img/not_found.jpg{% else %}{{ cases.thumbHover }}{% endif %}"></td>
+                            </div>
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Imagem na íntegra 1</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_integra1"/>
+								<td>
+									{% if cases.integra1 == '' %}
+										<img width="100px" style="margin: 10px;" src="/service/web/img/not_found.jpg">
+									{% else %}
+										<img width="100px" style="margin: 10px;" src="{{ cases.integra1 }}">
+									{% endif %}
+								</td>
+                            </div>
+							<label class="control-label">Imagem na íntegra 2</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_integra2"/>
+								<td>
+									{% if cases.integra2 == '' %}
+										<img width="100px" style="margin: 10px;" src="/service/web/img/not_found.jpg">
+									{% else %}
+										<img width="100px" style="margin: 10px;" src="{{ cases.integra2 }}">
+
+									{% endif %}
+								</td>
+                            </div>
+							<label class="control-label">Imagem na íntegra 3</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_integra3"/>
+								<td>
+									{% if cases.integra3 == '' %}
+										<img width="100px" style="margin: 10px;" src="/service/web/img/not_found.jpg">
+									{% else %}
+										<img width="100px" style="margin: 10px;" src="{{ cases.integra3 }}">
+										
+									{% endif %}
+								</td>
+                            </div>
+							<label class="control-label">Imagem na íntegra 4</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_integra4"/>
+								<td>
+									{% if cases.integra4 == '' %}
+										<img width="100px" style="margin: 10px;" src="/service/web/img/not_found.jpg">
+									{% else %}
+										<img width="100px" style="margin: 10px;" src="{{ cases.integra4 }}">
+
+									{% endif %}
+								</td>
+                            </div>
+							<label class="control-label">Imagem na íntegra 5</label>
+                            <div class="controls">
+                                <input type="file" class="form-control" name="imagem_integra5"/>
+								<td>
+									{% if cases.integra5 == '' %}
+										<img width="100px" style="margin: 10px;" src="/service/web/img/not_found.jpg">
+									{% else %}
+										<img width="100px" style="margin: 10px;" src="{{ cases.integra5 }}">
+
+									{% endif %}
+								</td>
+                            </div>
+							
+                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Ativo</label>
+
+							<select name="ativo" class="form-control">
+								<option value="1" {% if cases.ativo == '1' %}Selected{% endif %}>Sim</option>
+								<option value="0" {% if cases.ativo	== '0' %}Selected{% endif %}>Não</option>
+							</select>
+							
+                         </div>
+
+                        <div class="form-actions">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                          <a href="{{ baseUri }}/cases" class="btn">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- page scripts -->
+    <script src="{{ assetUri }}/web/js/jquery.chosen.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.cleditor.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.autosize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.placeholder.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.maskedinput.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-timepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/moment.min.js"></script>
+    <script src="{{ assetUri }}/web/js/daterangepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.hotkeys.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/form-elements.js"></script>
+
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

@@ -54,6 +54,7 @@ $app->map('/admin/categorias/novo', function () use ($app, $categorias, $projeto
  
         $categorias->nome = $params->post('nome');
 		$categorias->status = 1;
+        $categorias->lang = $params->post('lang');
         $categorias->ativo = $params->post('ativo');
 		$categorias->tipo = $params->post('tipo');
 
@@ -106,6 +107,7 @@ $app->map('/admin/categorias/novo', function () use ($app, $categorias, $projeto
  * )
  */
 $app->post('/admin/categorias/:id', function ($id) use ($app, $categorias, $projetos){
+    
     $params  = $app->request;
 
     $res = $categorias->findById($id);
@@ -116,13 +118,41 @@ $app->post('/admin/categorias/:id', function ($id) use ($app, $categorias, $proj
     }
 	
     $titulo = trim($params->post('nome'));
-    if (!empty($titulo) && $titulo !== 'undefined') $categorias->nome = $titulo;
+    if (!empty($titulo) && $titulo !== 'undefined')
+    {
+        $categorias->nome = $titulo;
+    } 
 
     $ativo = trim($params->post('ativo'));
-    if (($ativo == '1' || $ativo == '0') && $ativo !== 'undefined') $categorias->ativo = $ativo;
+    if (($ativo == '1' || $ativo == '0') && $ativo !== 'undefined')
+    {
+        $categorias->ativo = $ativo;
+    }
+
+
+    /**
+    * Lang
+    */    
+    $lang = trim($params->post('lang'));
+    if ($lang == 'pt' || $lang == 'en')
+    {
+        $categorias->lang = $lang;
+    }
+    else 
+    {
+        /**
+        * Lang padrão do sistema
+        */
+        $categorias->lang = 'pt';
+    }
+
+
 
     $tipo = trim($params->post('tipo'));
-    if (($tipo == 'E' || $tipo == 'J') && $tipo !== 'undefined') $categorias->tipo = $tipo;
+    if (($tipo == 'E' || $tipo == 'J') && $tipo !== 'undefined')
+    {
+        $categorias->tipo = $tipo;
+    } 
 	
     $vars = $categorias->getVariables();
 
@@ -175,17 +205,64 @@ $app->delete('/admin/categorias/:id', function ($id) use ($app, $categorias, $pr
  *   )
  * )
  */
-$app->get('/admin/categorias', function () use ($app, $categorias, $projetos){
-    $res = $categorias->findQuery("SELECT id AS 'ID', nome AS 'Nome', IF(tipo = 'E', 'Empresa', 'Job') AS Tipo, ativo AS 'Ativo'
-									FROM tbl_categorias 
-									WHERE 
-										status = 1
-									ORDER BY 2, 4");
+$app->get('/admin/categorias', function () use ($app, $categorias, $projetos) {
+
+    $q = "
+        SELECT 
+            id AS 'ID', 
+            nome AS 'Nome', 
+            IF(tipo = 'E', 'Empresa', 'Job') AS Tipo, 
+            IF(lang = 'pt', 'Português', 'Inglês') AS 'Idioma',
+            ativo AS 'Ativo'
+        FROM
+            tbl_categorias 
+        WHERE
+            status = 1
+        ORDER BY 2, 4";
+
+    $res = $categorias->findQuery($q);
 										
 	$colunas = array_keys($res->res[0]);
 	
     $app->render('admin/categorias/listagem.html.twig', array('categorias'=>$res->res, 'colunas'=>$colunas));
 })->name('listagem_categorias');
+
+
+/**
+ *
+ * Obtem as categorias baseado no idioma e o status
+ *  
+ */
+$app->get('/admin/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categorias, $projetos) {
+
+    $q = "
+        SELECT 
+            *
+        FROM
+            tbl_categorias
+        WHERE
+            status = " . $ativo . " AND lang = '" . $lang . "' ORDER BY 2";
+    $res = $categorias->Query($q);    
+
+    $html = '';
+
+    foreach($res->res as $item) {
+        if($item['tipo'] == 'J') {
+            $html .= '
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="' . $item['id'] . '" name="categorias[]"> ' . $item['nome'] . '
+                        </label>
+                    </div>
+                </div>';
+        }
+    }
+
+    $app->response->headers->set('Content-Type', 'text/html;charset=utf-8');
+    echo $html;
+})->name('busca_categorias_ajax');
+
 
 /**
  *
@@ -215,3 +292,4 @@ $app->get('/admin/categorias/:id', function ($id) use ($app, $categorias, $proje
         $app->render('admin/categorias/editar.html.twig', array('categorias'=>$res->res));
     }
 })->name('busca_categorias');
+

@@ -21,7 +21,7 @@ $settings = array(
         'login.url'           => '/admin/login',
         'secured.urls'        => array(
                                     array('path' => '/admin'),
-                                    array('path' => '/admin/.+')
+                                    array('path' => '/admin/.+'),                                    
                                 ),
         'upload.mimetypes'    => array(
                                     'image/png',
@@ -30,7 +30,7 @@ $settings = array(
                                     'image/jpg',
                                 ),
         'upload.max_size'     => '5M',
-        'upload.path'         => ROOT.'/web/uploads/',
+        'upload.path'         => ROOT . '/web/uploads/',        
         'ip.servidor'         => array('127.0.0.1', 'fe80::1', '::1', '10.0.2.2', '10.0.2.15', 'localhost', 'abb1-gael-site-institucional-dev.inkubaapps.com.br'),
         'dominio.frontend'    => 'http://www.gael.ag',
         'admin.menu'          => array(
@@ -53,7 +53,15 @@ $settings = array(
                                     array(
                                         'descricao' => 'Destaques',
                                         'url'       => '/admin/destaques',
-                                    )
+                                    ),
+                                    array(
+                                        'descricao' => 'Sobre',
+                                        'url'       => '/admin/sobre/pt',
+                                    ),
+                                    array(
+                                        'descricao' => 'Clientes',
+                                        'url'       => '/admin/clientes',
+                                    )                                    
                                 ),
     ),
     'session_cookies' => array(
@@ -75,5 +83,4 @@ $settings = array(
         'redirect.uri' => 'http://localhost/framework-php/loginfb/',
     ),
 );
-
 return $settings;

@@ -25,6 +25,31 @@ $destaques = new Destaques(array(), $app->db);
 $projetos = new Projetos(array(), $app->db);
 $arquivos = new Arquivo(array(), $app->db);
 
+
+/**
+*
+* TODO_CONFIG: Config de path para upload
+*
+*/
+$_URL_UPLOAD = array(
+    'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'homologacao.gael.ag' => '/service/web/uploads/',
+    'gael.ag' => '/service/web/uploads/'
+);
+$URL_UPLOAD = $_URL_UPLOAD[$_SERVER['HTTP_HOST']];
+
+$_URL_UPLOAD_MOBILE = array(
+    'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
+    'homologacao.gael.ag' => '/service/web/uploads/',
+    'gael.ag' => '/service/web/uploads/'
+);
+$URL_UPLOAD_MOBILE = $_URL_UPLOAD_MOBILE[$_SERVER['HTTP_HOST']];
+
+
+
+
 /**
  *
  * @SWG\Api(
@@ -72,19 +97,36 @@ $arquivos = new Arquivo(array(), $app->db);
  *   )
  * )
  */
-$app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos, $arquivos) {
+$app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos, $arquivos, $URL_UPLOAD, $URL_UPLOAD_MOBILE) {
+
     $params = $app->request;
 
-    if ($params->isPost()) {
+    if ($params->isPost())
+    {
+        /**
+        * Lang
+        */
+        $lang = trim($params->post('lang'));
+        if($lang == 'pt' || $lang == 'en')
+        {
+            $destaques->lang = $lang;
+        }
+        else
+        {
+            /**
+            * Lang default
+            */
+            $destaques->lang = $lang;
+        }
 
         $destaques->titulo = $params->post('titulo');
 
         $destaques->link = $params->post('link');
 
         $Imagem = isset($_FILES['imagem']) ? $_FILES['imagem'] : '';
-        if (empty($Imagem) || $Imagem == 'undefined') {
+        if (empty($Imagem) || $Imagem == 'undefined')
+        {
             $app->flash('error', 'O arquivo não foi fornecido.');
-
             return;
         }
 
@@ -120,11 +162,12 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
         if ($res->cod == 200) {
 
 			/***************** Redimensionamento de imagens para Mobile *******************/
+            
 			$baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
-			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+			$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
 			$maskData = $arquivos->findById($ImagemUpload->res['id'], array("id", "nome", "extensao"));
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
 
             $d = $base->getImageGeometry();
             $w = ($d['width'] * 0.7);
@@ -143,19 +186,21 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 
 			$mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
 
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 			$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 			$mask->setImageCompressionQuality(70);
 			$mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 
-			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+			$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 			$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 			$mask->setImageCompressionQuality(70);
 			$mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+			$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+            
+            
 			/***************** Redimensionamento de imagens para Mobile *******************/
 
 		    $app->flash('notice', 'Informação adicionada com sucesso');
@@ -168,18 +213,26 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
 
         $app->redirect($app->urlFor('listagem_destaques'));
 
-    } else {
-		// Pega cases para enviar ao template e montar select com ID e descricao
-		$cases = new CasesDao($app);
-		$res   = $cases->getCasesComArquivosListagem();
-
-		$colunas = array_keys($res->res[0]);
-
+    }
+    else
+    {		
+        /**
+        * 
+        * O idioma por default é PT
+        *
+        *
+        *
+        * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+        *
+        */
+		$caseDao = new CasesDao($app);
+		$cases = $caseDao->getCasesComArquivosListagem('pt');
 	}
 
-	$app->render('admin/destaques/novo.html.twig', array('cases'=>$res->res, 'colunas'=>$colunas));
-
+	$app->render('admin/destaques/novo.html.twig', array('cases' => $cases->res));
 })->via("POST", "GET")->name('adiciona_destaques');
+
+
 
 /**
  *
@@ -245,6 +298,24 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
         exit;
     }
 
+
+    /**
+    * Lang
+    */
+    $lang = $params->post('lang');
+    if($lang == 'pt' || $lang == 'en')
+    {
+        $destaques->lang = $lang;
+    }
+    else
+    {
+        /**
+        * Lang default
+        */
+        $destaques->lang = 'pt';
+    }
+
+
 	$destaques->titulo = $params->post('titulo');
 
 	$destaques->link = $params->post('link');
@@ -292,8 +363,44 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
     $app->flash('error', 'Não foi possível atualizar a informação.');
 
     $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
-
 })->name('edita_destaques');
+
+
+
+/**
+ *
+ * Obtem a listagem de cases baseado no idioma
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+$app->get('/admin/destaques/:cases/:lang', function ($cases, $lang) use ($app, $destaques, $projetos) {
+    
+    /**
+    * 
+    * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+    *
+    */
+    $caseDao = new CasesDao($app);
+    $cases = $caseDao->getCasesComArquivosListagem($lang);
+
+    $html = '';
+
+    foreach($cases->res as $case) 
+    {
+        $html .= '<option value="' . $case['id'] . '">' . $case['Descrição'] . '</option>';
+    }
+
+
+    $app->response->headers->set('Content-Type', 'text/html;charset=utf-8');
+    echo $html;
+    
+})->name('listagem_cases_ajax');
+
+
 
 /**
  *
@@ -314,6 +421,8 @@ $app->get('/admin/destaques', function () use ($app, $destaques, $projetos){
     $app->render('admin/destaques/listagem.html.twig', array('destaques'=>$res->res, 'colunas'=>$colunas));
 })->name('listagem_destaques');
 
+
+
 /**
  *
  * @SWG\Api(
@@ -333,22 +442,31 @@ $app->get('/admin/destaques', function () use ($app, $destaques, $projetos){
  *   )
  * )
  */
-$app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos){
+$app->get('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos) {
+
     $destaques = new DestaquesDao($app);
     $res   = $destaques->getDestaquesComArquivosUnico($id);
 
-    if ($res->cod == 404) {
+    if ($res->cod == 404)
+    {
         $app->notFound();
-    }else{
-		// Pega cases para enviar ao template e montar select com ID e descricao
+    }
+    else
+    {
+		/**
+        *
+        * Pega cases para enviar ao template e montar select com ID e descricao, levando em consideração o idioma
+        *
+        */
 		$cases = new CasesDao($app);
-		$resCases   = $cases->getCasesComArquivosListagem();
+		$resCases   = $cases->getCasesComArquivosListagem($res->res['lang']);
 
 		$colunas = array_keys($resCases->res[0]);
 
-        $app->render('admin/destaques/editar.html.twig', array('destaques'=>$res->res, 'cases'=>$resCases->res, 'colunas'=>$colunas));
+        $app->render('admin/destaques/editar.html.twig', array('destaques' => $res->res, 'cases' => $resCases->res, 'colunas' => $colunas));
     }
 })->name('busca_destaques');
+
 
 /**
  *
@@ -374,49 +492,49 @@ $app->delete('/admin/destaques/:id', function ($id) use ($app, $destaques){
 });
 
 
-$app->get('/admin/merge-destaques', function ($id) use ($app, $destaques, $arquivos) {
+$app->get('/admin/merge-destaques', function ($id) use ($app, $destaques, $arquivos, $URL_UPLOAD, $URL_UPLOAD_MOBILE) {
+    
 
 	$R = $destaques->findAll();
 
 	for($i=0; $i < sizeof($R->res); $i++) {
 
 		$baseData = $arquivos->findById($R->res[$i]['thumb'], array("id", "nome", "extensao"));
-		$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+		$base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
 		$maskData = $arquivos->findById($R->res[$i]['imagem'], array("id", "nome", "extensao"));
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/' . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
 
-$d = $base->getImageGeometry();
-$w = ($d['width'] * 0.7);
+        $d = $base->getImageGeometry();
+        $w = ($d['width'] * 0.7);
 
-$maskWidth = $mask->getImageWidth();
-$maskHeight = $mask->getImageHeight();
+        $maskWidth = $mask->getImageWidth();
+        $maskHeight = $mask->getImageHeight();
 
-$baseWidth = $base->getImageWidth();
-$baseHeight = $base->getImageHeight();
+        $baseWidth = $base->getImageWidth();
+        $baseHeight = $base->getImageHeight();
 
-$left = ($maskWidth - $baseWidth + 100);
-$top = ($maskHeight - $baseHeight + 100);
+        $left = ($maskWidth - $baseWidth + 100);
+        $top = ($maskHeight - $baseHeight + 100);
 
-$base->resizeImage($w,0,Imagick::FILTER_LANCZOS,1);
+        $base->resizeImage($w,0,Imagick::FILTER_LANCZOS,1);
 
 		$mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
 
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
 		$mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
 		$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 		$mask->setImageCompressionQuality(70);
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 
-		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+		$mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 		$mask->setImageCompression(imagick::COMPRESSION_JPEG);
 		$mask->setImageCompressionQuality(70);
 		$mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . '/service/web/uploads/mobile/' . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
+		$mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');
 
 	}
-
 });

@@ -8,7 +8,14 @@
 		this.menu = $("#bg-menu");
 		this.window = $(window);
 
-		this.url = 'http://gael.ag/service/cases/1';
+		/**
+		*
+		* TODO_CONFIG: Config de PATH
+		*
+		*/
+		this.url = 'http://' + XPATH + '/service/cases/1/' + LANG;
+		
+		
 		this.data = null;
 
 		this.combo = new ComboBox(this.elem.find('.combobox'));

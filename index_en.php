@@ -1,29 +1,43 @@
 <?php
 	ini_set("display_errors", 0);
+	
 
-	$_SERVER[HTTP_HOST] = "gael.ag";
-	// $_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
-
-	//JSON INFO
+	/**
+	*
+	* JSON INFO
+	*
+	*/
 	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_info = curl_exec($ch);
     $json_info = json_decode($json_info, TRUE);
 
-	//JSON DESTAQUES
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1");
+    /**
+    * Tradução desse campo
+    */
+    $json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
+
+
+	/**
+	*
+	* Obtem os destaques ativos baseado no idioma
+	*
+	*/
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_destaques = curl_exec($ch);
     $json_destaques = json_decode($json_destaques, TRUE);
+    
 
-
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1");
+    /**
+    *
+    * Obtem as categorias ativas baseado no idioma
+    *
+    */
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_categorias = curl_exec($ch);
-    $json_categorias = json_decode($json_categorias, TRUE);
-
-	// $json_categorias = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1");
-	// $json_categorias = json_decode($json_categorias, TRUE);
+    $json_categorias = json_decode($json_categorias, TRUE);	
 
 	$length = sizeof($json_categorias['res']);
 	$json_categorias_e =  array();
@@ -39,9 +53,9 @@
 	}
 
 
-	$currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	$title = "GAEL – Grupo de Ativações e Experiências Live";
-	$description = "Grupo de Ativações e Experiências Live A agência que inova na relação entre marcas e consumidores. - Tel.: (11) 2395-4400";
+	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+	$title = "GAEL – Group Activations and Experiences Live";
+	$description = "Group Activations and Experiences Live the agency to innovate in the relationship between brands and consumers. - Tel.: (11) 2395-4400";
 ?>
 
 <!DOCTYPE HTML>
@@ -52,17 +66,19 @@
 	<head>
 		<title><?php echo $title?></title>
 
+		<!-- -->
+
 		<!-- metas -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta name="viewport" content="width=1000">
 		<meta name="description" content="<?php echo $description?>">
-		<meta name="keywords" content="Live, Live Marketing, Ativação, Experiências de marca, Ao vivo, Ação de Marketing, Case de Marketing, Case publicitário, Agência de comunicação, Ideias inovadoras, Estratégia de marketing, Estratégia de comunicação, Criação publicitária, Advertising, Campanha publicitária, Comunicação, Publicidade, Propaganda, Publicitário, Planejamento, Evento, Ponto de Venda, Promoção,  Promocional, Projeto Especial, Público-alvo, Target">
+		<meta name="keywords" content="Live, Live Marketing, Activation, Brand Experience, Live, Marketing Action Marketing Case, Case advertising, communication agency, innovative ideas, marketing strategy, communication strategy, advertising creation, Advertising, Advertising Campaign, Communication, publicity, Advertising, publicity, Planning, Event, Point of Sale, Promotion, Promotional, Special Project, target, target">
 
 		<!-- tags facebook -->
-		<meta property="og:title" content="<?php echo $title?>" />
-		<meta property="og:description" content="<?php echo $description?>" />
+		<meta property="og:title" content="<?php echo $title ?>" />
+		<meta property="og:description" content="<?php echo $description ?>" />
 		<meta property="og:image" content="<?php echo $currentURL?>images/share.png" />
-		<meta property="og:url" content="<?php echo $currentURL?>" />
+		<meta property="og:url" content="<?php echo $currentURL ?>" />
 		<meta property="og:type" content="website" />
 
 		<!-- stylesheets -->
@@ -70,6 +86,18 @@
 
 		<!-- fallback -->
 		<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+		<!-- Define o idioma -->
+		<script>
+			var LANG = '<?= $_SESSION['lang'] ?>';
+			var XPATH = '<?= $_SERVER[HTTP_HOST] ?>';
+		</script>
+
+		<style>
+			#about .step1 .thumb-video {
+				bottom: -100px;
+			}
+		</style>
 	</head>
 	<body>
 		<!--MENU-->
@@ -97,6 +125,11 @@
 							<li class="btn-contact" data-slide="4">
 								<a href="#contact"><i><img src="svg/ico-contact.svg" alt="Contact"/></i></a>
 							</li>
+							<li class="btn-contact" data-slide="4">
+								<a href="index.php?lang=pt">
+									<i><img src="images/lang/bt_pt_peq.png" alt="Language" style="width: 26px; height: 18px; margin-top: 2px"/></i>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -113,7 +146,7 @@
 						<li class="btn-h-clients" data-slide="1">
 							<a href="#clients">
 								<i><img src="svg/ico-clients.svg" width="48" height="30" alt="Clients"/></i>
-							<span>NOVIDADES</span></a>
+							<span>NEWS</span></a>
 						</li>
 						<li id="btn-work" class="btn-h-work" data-slide="2">
 							<a href="#work">
@@ -123,12 +156,36 @@
 						<li class="btn-h-about" data-slide="3">
 							<a href="#about">
 								<i><img src="svg/ico-about.svg" width="35" height="35" alt="About"/></i>
-							<span>SOBRE</span></a>
+							<span>ABOUT</span></a>
 						</li>
 						<li class="btn-h-contact" data-slide="4">
 							<a href="#contact">
 								<i><img src="svg/ico-contact.svg" width="40" height="35" alt="Contact"/></i>
-							<span>CONTATO</span></a>
+							<span>CONTACT</span></a>
+						</li>
+						<li class="btn-h-contact" data-slide="4" style="padding-top: 14px">
+							<style>
+								.xx-custom-menu {
+									display: inline !important;
+								}
+								.xx-custom-menu-lang {
+									display: inline !important;
+									width: 45px;
+									margin: 5px;
+									opacity: .5;
+								}
+								.xx-custom-menu-lang.xx-this, .xx-custom-menu-lang:hover {
+									opacity: 1;
+								}
+							</style>		
+
+							<a href="index.php?lang=pt" class="xx-custom-menu">
+								<img src="images/lang/bt_pt_peq.png" class="xx-custom-menu-lang ">
+							</a>							
+							<a href="index.php?lang=en" class="xx-custom-menu">
+								<img src="images/lang/bt_en_peq.png" class="xx-custom-menu-lang xx-this">
+							</a>
+							<a href=""><span>LANGUAGE</span></a>
 						</li>
 					</ul>
 				</div>
@@ -159,7 +216,7 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</div>		
 
 		<!--WORK-->
 		<div class="slide" id="work" data-slide="2" data-stellar-background-ratio="0.5">
@@ -173,10 +230,10 @@
 						<div class="cel cel-50 nowork cel-frist">
 							<h2><img class="tlt-work" src="svg/tlt-work.svg" alt="Work"/></h2>
 							<div class="combobox">
-								<div class="combobox-field"> Filtrar </div>
+								<div class="combobox-field"> Filter </div>
 								<div class="combobox-content">
 									<div class="combobox-content-data">
-										<a href="#" class="see-all active">Ver Todos</a>
+										<a href="#" class="see-all active">See all</a>
 										<ul>
 											<?php
 											$length = sizeof($json_categorias_e);
@@ -204,10 +261,10 @@
 						<div class="cel cel-25 nowork">
 							<div class="paginate">
 								<div id="previous">
-									<a href="#" ><img src="svg/work/icon-arrow-left.svg" alt="Voltar"/></a>
+									<a href="#" ><img src="svg/work/icon-arrow-left.svg" alt="Previous"/></a>
 								</div>
 								<div id="next">
-									<a href="#"><img src="svg/work/icon-arrow-right.svg" alt="Voltar"/></a>
+									<a href="#"><img src="svg/work/icon-arrow-right.svg" alt="Next"/></a>
 								</div>
 
 							</div>
@@ -278,31 +335,50 @@
 				</script>
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-about.svg" alt="About"/></h2>
+					<h2><img src="svg/tlt-about.svg" alt="About" style="max-width: 68%"/></h2>
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo <br/>de ativação <br/>e experiencias live. </div>
-							<div class="button-know hidden-mobile">Clique e conheça</div>
+							
+
+							<?php 
+							/**														
+							*
+							* Obtem o sobre
+							*
+							*/
+
+							$sobre = file_get_contents('http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/sobre/sobre.json');							
+							$sobre = (array) json_decode($sobre);
+
+							if(!empty($sobre[$lang]->arquivo))
+							{							
+								$sobre[$lang]->arquivo = 'http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/pdf/' . $sobre[$lang]->arquivo;								
+							}
+							?>
+
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="button-know hidden-mobile">Click to know</div>
+
+							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
+							<br>
+							<br>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Presentation</a>
+							<?php } ?>
+
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
 						</div>
 						<div class="step2" id="step2">
 							<div class="back"></div>
-							<div class="movie">
-
-							</div>
-
+							<div class="movie"></div>
 						</div>
 						<div class="step3" id="step3">
-							<div class="back"></div>
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo de ativação e experiencias live. </div>
-							<div class="text">
-								<p>É um Grupo de Ativações e Experiências Live. Por que Grupo? Porque para fazer o diferente é preciso de cabeças diferentes. Por que Live? Porque a vida é ao vivo. A vida acontece nos parques, nas praias, nos shows, nos shoppings. É nestes momentos que surgem as melhores oportunidades das marcas se relacionarem com seus consumidores. E é para estes momentos que a GAEL foi criada.       </p>
-								<p>O DNA da empresa é formado por 3 pilares. Estratégia, Ideia e Execução. Mas não é qualquer estratégia. É uma estratégia que seja relevante para os clientes. Também não é qualquer ideia. Tem que ser “a” ideia. Tem que ser inovadora, inusitada, impactante. E, claro, também não é qualquer execução. Na GAEL, não aceita-se nada menos que o impecável. Para colocar tudo isso em prática, a GAEL une profissionais com mais de 20 anos de experiência e jovens talentos com a vontade de fazer acontecer. São pessoas com o expertise e a motivação que uma empreitada como essa precisa.</p>
-								<p>Um grupo que divide os mesmos objetivos. E que trabalha, e muito, em busca deles.</p>
-								<p>Afinal, estratégias, ideias e execuções não brotam em árvores.</p>
+							<div class="back"></div>							
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="text"> 
+								<?php echo str_ireplace(array('<div>', '</div>'), array('<p>', '</p>'),$sobre[$lang]->texto); ?>
 							</div>
 						</div>
 					</div>
@@ -316,16 +392,18 @@
 			<div class="container clearfix">
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-contact.svg" alt="Contact"/></h2>
+					<h2>
+						<img src="svg/tlt-contact.svg" alt="Contact" style="max-width: 91%" />
+					</h2>
 					<hr/>
 					<form id="form-padrao" class="container-contact">
 						<div class="ct-animation">
 							<div class="icon-success">
 								<img src="svg/ico-sucesso.svg" alt="Sua mensagem foi enviada"/>
-								<p>Sua mensagem foi enviada</p>
+								<p>Your message was sent</p>
 							</div>
 							<div class="ct-field">
-								<label for="fullname">NOME</label>
+								<label for="fullname">NAME</label>
 								<div class="input-small">
 									<input id="fullname" name="nome" type="text"/>
 								</div>
@@ -337,10 +415,10 @@
 								</div>
 							</div>
 							<div class="ct-field">
-								<label for="mind">MENSAGEM</label>
+								<label for="mind">MESSAGE</label>
 								<div class="input-large">
 									<textarea name="descricao" id="mind" cols="30" rows="10"></textarea>
-									<button type="submit" id="btn-enviar">ENVIAR</button>
+									<button type="submit" id="btn-enviar">SEND</button>
 								</div>
 							</div>
 						</div>

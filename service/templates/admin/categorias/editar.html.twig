@@ -43,6 +43,15 @@
                 </div>
                 <div class="box-content">
                     <form role="form" method="post" action="{{ baseUri }}/categorias/{{categorias.id}}" enctype="multipart/form-data"> 
+
+                        <div class="form-group">
+                            <label class="control-label">Idioma</label>
+                           <select name="lang" class="form-control">
+                                <option value="pt" {% if categorias.lang == 'pt' %}Selected{% endif %}>Português</option>
+                                <option value="en" {% if categorias.lang == 'en' %}Selected{% endif %}>Inglês</option>
+                            </select>                            
+                         </div>
+
                         <div class="form-group">
                             <label class="control-label">Nome</label>
                             <div class="controls">
@@ -56,15 +65,14 @@
                                 <option value="J" {% if categorias.tipo == 'J' %}Selected{% endif %}>Job</option>
                             </select>
                             
-                         </div>
+                         </div>                         
 						 
                         <div class="form-group">
                             <label class="control-label">Ativo</label>
-							<select name="ativo" class="form-control">
+						               <select name="ativo" class="form-control">
                                 <option value="1" {% if categorias.ativo == '1' %}Selected{% endif %}>Sim</option>
                                 <option value="0" {% if categorias.ativo == '0' %}Selected{% endif %}>Não</option>
-                            </select>
-                            
+                            </select>                            
                          </div>
 
                         <div class="form-actions">

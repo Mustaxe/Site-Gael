@@ -43,3 +43,11 @@ $app->get('/destaques/:ativo', function ($ativo) use ($app, $destaques, $projeto
 	
     echo json_encode($res);
 });
+
+$app->get('/destaques/:ativo/:lang', function ($ativo, $lang) use ($app, $destaques, $projetos) {
+	$destaques = new DestaquesDao($app);
+    $res   = $destaques->getDestaquesComArquivos($ativo, $lang);
+
+    echo json_encode($res);
+});
+

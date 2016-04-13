@@ -94,11 +94,24 @@
         
         {% block sidebar %}
         {% endblock sidebar %}
-        
-        {% if flash %}
-            {% include "/admin/base/components/flash.twig" %}
+       
+       
+        {% if flash.error %}
+        <br>
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ flash.error }}
+        </div>
         {% endif %}
-		
+        {% if flash.notice %}
+        <br>
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ flash.notice }}
+        </div>
+        {% endif %}
+
+
         {% block content %}
         {% endblock content %}
         

@@ -1,19 +1,38 @@
 <?php
-	ini_set("display_errors", 0);
+	ini_set("display_errors", 0);	
 
-	$_SERVER[HTTP_HOST] = "gael.ag";
-	// $_SERVER[HTTP_HOST] = "abb1-gael-site-institucional-homolog.inkubaapps.com.br";
 
-	//JSON INFO
-	$json_info = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
-	$json_info = json_decode($json_info, TRUE);
+	/**
+	*
+	* JSON INFO
+	*
+	*/
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json_info = curl_exec($ch);
+    $json_info = json_decode($json_info, TRUE);
 
-	//JSON DESTAQUES
-	$json_destaques = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1");
-	$json_destaques = json_decode($json_destaques, TRUE);
 
-	$json_categorias = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1");
-	$json_categorias = json_decode($json_categorias, TRUE);
+	/**
+	*
+	* Obtem os destaques ativos baseado no idioma
+	*
+	*/
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/pt");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json_destaques = curl_exec($ch);
+    $json_destaques = json_decode($json_destaques, TRUE);
+
+
+    /**
+    *
+    * Obtem as categorias ativas baseado no idioma
+    *
+    */
+	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/pt");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json_categorias = curl_exec($ch);
+    $json_categorias = json_decode($json_categorias, TRUE);	
 
 	$length = sizeof($json_categorias['res']);
 	$json_categorias_e =  array();
@@ -28,8 +47,7 @@
 		}
 	}
 
-
-	$currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
 	$title = "GAEL – Grupo de Ativações e Experiências Live";
 	$description = "Grupo de Ativações e Experiências Live A agência que inova na relação entre marcas e consumidores. - Tel.: (11) 2395-4400";
 ?>
@@ -42,6 +60,8 @@
 	<head>
 		<title><?php echo $title?></title>
 
+		<!-- -->
+
 		<!-- metas -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<meta name="viewport" content="width=1000">
@@ -49,14 +69,20 @@
 		<meta name="keywords" content="Live, Live Marketing, Ativação, Experiências de marca, Ao vivo, Ação de Marketing, Case de Marketing, Case publicitário, Agência de comunicação, Ideias inovadoras, Estratégia de marketing, Estratégia de comunicação, Criação publicitária, Advertising, Campanha publicitária, Comunicação, Publicidade, Propaganda, Publicitário, Planejamento, Evento, Ponto de Venda, Promoção,  Promocional, Projeto Especial, Público-alvo, Target">
 
 		<!-- tags facebook -->
-		<meta property="og:title" content="<?php echo $title?>" />
-		<meta property="og:description" content="<?php echo $description?>" />
+		<meta property="og:title" content="<?php echo $title ?>" />
+		<meta property="og:description" content="<?php echo $description ?>" />
 		<meta property="og:image" content="<?php echo $currentURL?>images/share.png" />
-		<meta property="og:url" content="<?php echo $currentURL?>" />
+		<meta property="og:url" content="<?php echo $currentURL ?>" />
 		<meta property="og:type" content="website" />
 
 		<!-- stylesheets -->
 		<link rel="stylesheet" href="css/main.css" type="text/css">
+
+		<!-- Define o idioma -->
+		<script>
+			var LANG = '<?= $_SESSION['lang'] ?>';
+			var XPATH = '<?= $_SERVER[HTTP_HOST] ?>';
+		</script>
 
 		<!-- fallback -->
 		<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -86,6 +112,11 @@
 							</li>
 							<li class="btn-contact" data-slide="4">
 								<a href="#contact"><i><img src="svg/ico-contact.svg" alt="Contact"/></i></a>
+							</li>
+							<li class="btn-contact" data-slide="4">
+								<a href="index.php?lang=en">
+									<i><img src="images/lang/bt_en_peq.png" alt="Language" style="width: 26px; height: 18px; margin-top: 2px" /></i>
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -120,6 +151,31 @@
 								<i><img src="svg/ico-contact.svg" width="40" height="35" alt="Contact"/></i>
 							<span>CONTATO</span></a>
 						</li>
+						<li class="btn-h-contact" data-slide="4" style="padding-top: 14px">
+
+							<style>
+								.xx-custom-menu {
+									display: inline !important;
+								}
+								.xx-custom-menu-lang {
+									display: inline !important;
+									width: 45px;
+									margin: 5px;
+									opacity: .5;
+								}
+								.xx-custom-menu-lang.xx-this, .xx-custom-menu-lang:hover {
+									opacity: 1;
+								}
+							</style>		
+
+							<a href="index.php?lang=pt" class="xx-custom-menu">
+								<img src="images/lang/bt_pt_peq.png" class="xx-custom-menu-lang xx-this">
+							</a>							
+							<a href="index.php?lang=en" class="xx-custom-menu">
+								<img src="images/lang/bt_en_peq.png" class="xx-custom-menu-lang">
+							</a>
+							<a href=""><span>LANGUAGE</span></a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -149,7 +205,7 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</div>		
 
 		<!--WORK-->
 		<div class="slide" id="work" data-slide="2" data-stellar-background-ratio="0.5">
@@ -268,13 +324,39 @@
 				</script>
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-about.svg" alt="About"/></h2>
+					<h2><img src="svg/tlt-sobre.svg" alt="About"/></h2>
 					<hr/>
 					<div class="container-steps">
 						<div class="step1" id="step1">
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo <br/>de ativação <br/>e experiencias live. </div>
+							
+
+							<?php 
+							/**							
+							*
+							* Obtem o sobre
+							*
+							*/
+
+							$sobre = file_get_contents('http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/sobre/sobre.json');							
+							$sobre = (array) json_decode($sobre);
+
+							if(!empty($sobre[$lang]->arquivo))
+							{							
+								$sobre[$lang]->arquivo = 'http://' . $_SERVER[HTTP_HOST] . '/service/web/uploads/pdf/' . $sobre[$lang]->arquivo;								
+							}
+							?>
+
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
 							<div class="button-know hidden-mobile">Clique e conheça</div>
+
+
+							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
+							<br>
+							<br>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Apresentação</a>
+							<?php } ?>
+
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
 						</div>
 						<div class="step2" id="step2">
@@ -286,13 +368,10 @@
 						</div>
 						<div class="step3" id="step3">
 							<div class="back"></div>
-							<div class="title">A GAEL não é uma agência de comunicação.</div>
-							<div class="sub-title">É um grupo de ativação e experiencias live. </div>
-							<div class="text">
-								<p>É um Grupo de Ativações e Experiências Live. Por que Grupo? Porque para fazer o diferente é preciso de cabeças diferentes. Por que Live? Porque a vida é ao vivo. A vida acontece nos parques, nas praias, nos shows, nos shoppings. É nestes momentos que surgem as melhores oportunidades das marcas se relacionarem com seus consumidores. E é para estes momentos que a GAEL foi criada.       </p>
-								<p>O DNA da empresa é formado por 3 pilares. Estratégia, Ideia e Execução. Mas não é qualquer estratégia. É uma estratégia que seja relevante para os clientes. Também não é qualquer ideia. Tem que ser “a” ideia. Tem que ser inovadora, inusitada, impactante. E, claro, também não é qualquer execução. Na GAEL, não aceita-se nada menos que o impecável. Para colocar tudo isso em prática, a GAEL une profissionais com mais de 20 anos de experiência e jovens talentos com a vontade de fazer acontecer. São pessoas com o expertise e a motivação que uma empreitada como essa precisa.</p>
-								<p>Um grupo que divide os mesmos objetivos. E que trabalha, e muito, em busca deles.</p>
-								<p>Afinal, estratégias, ideias e execuções não brotam em árvores.</p>
+							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
+							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
+							<div class="text"> 
+								<?php echo str_ireplace(array('<div>', '</div>'), array('<p>', '</p>'),$sobre[$lang]->texto); ?>
 							</div>
 						</div>
 					</div>
@@ -306,7 +385,7 @@
 			<div class="container clearfix">
 
 				<div class="grid_12">
-					<h2><img src="svg/tlt-contact.svg" alt="Contact"/></h2>
+					<h2><img src="svg/tlt-contato.svg" alt="Contact"/></h2>
 					<hr/>
 					<form id="form-padrao" class="container-contact">
 						<div class="ct-animation">
@@ -336,26 +415,33 @@
 						</div>
 						<ul>
 							<li class="i-email">
-								<div class="bg-ico"><i><img src="svg/ico-email.svg" alt="E-mail"/></i></div><a href="mailto:<?php echo $json_info["res"]["contato_email"]; ?>"><?php echo $json_info["res"]["contato_email"]; ?></a>
+								<div class="bg-ico">
+									<i>
+										<img src="svg/ico-email.svg" alt="E-mail"/>
+									</i>
+								</div>
+								<a style="font-size: 20px;" href="mailto:<?php echo $json_info["res"]["contato_email"]; ?>">
+									<?php echo $json_info["res"]["contato_email"]; ?>
+								</a>
 							</li>
 							<li class="i-telefone">
-								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div><a><?php echo $json_info["res"]["contato_fone"]; ?></a>
+								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div><a style="font-size: 20px;"><?php echo $json_info["res"]["contato_fone"]; ?></a>
 							</li>
 							<li class="i-markee">
 								<div class="bg-ico"><i><img src="svg/ico-markee.svg" alt="Localização"/></i></div>
-								<a href="https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f" target="_blank">
+								<a href="https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f" target="_blank" style="font-size: 20px;">
 									<?php echo $json_info["res"]["contato_endereco"]; ?>
 								</a>
 							</li>
 							<li class="i-facebook">
 								<div class="bg-ico"><i><img src="svg/ico-facebook.svg" alt="Localização"/></i></div>
-								<a href="https://www.facebook.com/agenciagael" target="_blank">
+								<a href="https://www.facebook.com/agenciagael" target="_blank" style="font-size: 20px;">
 									/AGENCIAGAEL
 								</a>
 							</li>
 							<li class="i-instagram">
 								<div class="bg-ico"><i><img src="svg/ico-instagram.svg" alt="Localização"/></i></div>
-								<a href="https://instagram.com/gael.ag" target="_blank">
+								<a href="https://instagram.com/gael.ag" target="_blank" style="font-size: 20px;">
 									@GAEL.AG
 								</a>
 							</li>

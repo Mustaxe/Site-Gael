@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt_BR" style="background-color: #3b3b41">
+<head>
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>Clientes {% block titulo %}{% endblock titulo %}</title>
+    <meta name="description" content="{% block descricao %}{% endblock descricao %}">
+    <meta name="author" content="Inkuba">
+    <meta name="keyword" content="">
+    <!-- end: Meta -->
+    
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- end: Mobile Specific -->
+    
+    {% block stylesheets %}
+    <!-- start: CSS -->
+    <link href="{{ assetUri }}/web/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/style.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/retina.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/admin.css" rel="stylesheet">
+    <!-- end: CSS -->
+    {% endblock stylesheets %}
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="{{ assetUri }}/web/js/respond.min.js"></script>
+        <link href="{{ assetUri }}/web/css/ie.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!--[if IE 9]>
+        <link id="ie9style" href="{{ assetUri }}/web/css/ie9.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ assetUri }}/web/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ assetUri }}/web/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ assetUri }}/web/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ assetUri }}/web/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="{{ assetUri }}/web/ico/favicon.png">
+    <!-- end: Favicon and Touch Icons -->
+
+    
+    <style>
+        body {
+            background-color: #ffce14;                        
+        }
+        footer {
+            bottom: 0px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        h2.x-title-file {
+            display: inline;
+            font-size: 1.5em;
+            font-weight: 100;            
+            bottom: 0px;
+        }
+        .row {
+            margin-left: -15px !important;            
+        }
+        .x-logo {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 135px
+        }
+        .x-content {
+            position: relative;
+            background-color: #fff;
+            height: 100%;
+            margin-top: -15px;
+            padding: 20px 20px;
+        }
+        .x-content .row {            
+            margin-top: 20px;
+        }
+        .x-menu {
+            background: #623180 !important;
+            margin: 0px 4px;
+            padding: 25px;
+        }
+        .x-menu .x-logo {
+            width: 4%;
+            margin: 0px;
+        }
+        .x-title-1 {
+            font-size: 2em;
+        }
+        .x-menu .x-title-1 {
+            color: #fff;
+            margin-left: 8%;
+        }
+        .glyphicon {
+            cursor: pointer;
+        }
+        .x-menu .glyphicon {
+            color: #fff;
+            font-size: 3em;            
+        }
+        .glyphicon:hover {
+            color: #d7352f;
+            transition: all .3s ease-in-out;
+        }
+        .glyphicon-plus-sign {
+            color: #623180;
+            cursor: pointer;
+            margin-left: 0px;
+            float: right;
+            font-size: 56px;
+        }
+        /*
+        .x-folder {
+            cursor: pointer;
+            width: 90px;
+            transition: all .3s ease-in-out;
+        }
+        .x-folder:hover{
+            opacity: 1;
+            margin-left: 5px;
+            width: 100px;
+            transition: all .3s ease-in-out;
+        }
+        */
+        
+        .x-files {            
+            margin-left: 10px;
+        }
+
+        .x-file {
+            opacity: .7;
+            transition: all .2s ease-in-out;
+        }
+        .x-file:hover {
+            opacity: 1;            
+            transition: all .2s ease-in-out;
+        }
+
+        /*
+        .x-file {
+            cursor: pointer;
+            width: 60px;
+            display: inline;
+            transition: all .3s ease-in-out;
+        }
+        .x-file:hover {
+            opacity: 1;
+            margin-left: 5px;
+            width: 45px;
+            transition: all .3s ease-in-out;
+        }
+        .x-folder, .x-file {
+            opacity: .7;
+        }
+        */
+        
+
+        .x-hr {
+            background: rgba(255, 206, 20, .3);
+            height: 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="{{ assetUri }}/web/img/svg/logo-large.svg" class="x-logo">
+
+    {% block navbar %}
+    <!-- start: Header -->
+    <div class="container">
+        <div class="x-menu">
+            <div class="row">
+                <div class="col-sm-10">                    
+                    <span class="x-title-1">{% block cliente %}{% endblock cliente %}</span>
+                </div>                
+                <div class="col-sm-2 text-right">                    
+                    <span class="glyphicon glyphicon-log-out" onclick="logout()">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock navbar %}
+
+    <div class="page-header">
+      {% block header %}
+      {% endblock header %}
+    </div>
+
+    <!-- start: Header -->
+    <div class="container">
+        <div class="row">
+        
+        {% block sidebar %}
+        {% endblock sidebar %}
+        
+        {% if flash %}
+            {% include "/admin/base/components/flash.twig" %}
+        {% endif %}
+		
+        {% block content %}
+        {% endblock content %}
+        
+     
+	</div>
+	<!-- end: Widgets Area -->
+
+
+        </div>
+
+        <!--
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Here settings can be configured...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div> /.modal-content 
+            </div> /.modal-dialog 
+        </div> /.modal 
+        -->
+
+    </div><!--/container-->
+
+    <div class="clearfix"></div>
+
+    
+    <footer>
+        <div class="row text-center">
+            <div class="col-sm-12">
+                &copy; {{ post.published_at|date("Y") }} IC Tecnologia
+            </div>
+        </div>
+    </footer>    
+
+    {% block javascripts %}
+        <!-- start: JavaScript-->
+        <!--[if !IE]>-->
+                <script src="{{ assetUri }}/web/js/jquery-2.1.0.min.js"></script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script src="assets/js/jquery-1.11.0.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]>-->
+            <script type="text/javascript">
+                window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
+            </script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script type="text/javascript">
+            window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
+            </script>
+        <![endif]-->
+        <script src="{{ assetUri }}/web/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="{{ assetUri }}/web/js/bootstrap.min.js"></script>
+
+        <!-- page scripts -->
+        <script src="{{ assetUri }}/web/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="{{ assetUri }}/web/js/jquery.sparkline.min.js"></script>
+        <script src="{{ assetUri }}/web/js/raphael.min.js"></script>
+        
+        <!-- theme scripts -->
+        <script src="{{ assetUri }}/web/js/custom.min.js"></script>
+        <script src="{{ assetUri }}/web/js/core.min.js"></script>
+
+        <script type="text/javascript">
+            function logout(){
+                $.post('{{ baseUri }}/logout', {}, function(data) {
+                    if(data.cod == 200) { 
+                        setTimeout(function() {
+                             window.location.href = "http://gael.ag";
+                         },600); 
+                    } else {
+                        alert('Não foi possível efetuar o logout! Tente novamente');
+                    }
+                }, "json");
+            }
+        </script>
+
+    {% endblock javascripts %}
+</body>
+</html>

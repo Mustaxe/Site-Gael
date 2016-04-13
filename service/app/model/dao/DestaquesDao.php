@@ -31,16 +31,30 @@ class DestaquesDao
         $this->app = $app;
     }
 
-    public function getDestaquesComArquivos($ativo = '')
+    public function getDestaquesComArquivos($ativo = '', $lang = 'pt')
     {
         $ativo = trim($ativo);
+        $lang = trim($lang);
+
         $sql = "
-            SELECT c.titulo, c.link, a1.nome AS 'texto', a2.nome AS 'imagem', a1.extensao AS 'thumb_extensao', a2.extensao AS 'imagem_extensao', c.caseid
-            FROM  tbl_destaques AS c
-            LEFT OUTER JOIN tbl_arquivo AS a1 ON c.imagem = a1.id
-            LEFT OUTER JOIN tbl_arquivo AS a2 ON c.thumb = a2.id
-            WHERE c.STATUS = 1
-        ";
+            SELECT 
+                c.titulo, 
+                c.link, 
+                a1.nome AS 'texto',
+                a2.nome AS 'imagem',
+                a1.extensao AS 'thumb_extensao',
+                a2.extensao AS 'imagem_extensao',
+                c.caseid
+            FROM
+                tbl_destaques AS c
+            LEFT OUTER JOIN
+                tbl_arquivo AS a1 ON c.imagem = a1.id
+            LEFT OUTER JOIN
+                tbl_arquivo AS a2 ON c.thumb = a2.id
+            WHERE
+                c.STATUS = 1 AND c.lang = '" . $lang . "'";
+
+
         if($ativo == '1' || $ativo == '0'){
             $sql .= " AND ativo = :ativo";
             $result = $this->db->query($sql, array('ativo' => $ativo));
@@ -67,38 +81,53 @@ class DestaquesDao
         return $result;
     }
 
-    public function getDestaquesComArquivosUnico($id)
+    public function getDestaquesComArquivosUnico($id, $lang = 'pt')
     {
         $sql = '
-            SELECT D.id, D.titulo AS "titulo", D.link AS "link", D.caseid AS "caseid",
-            CONCAT("/service/web/uploads/", A1.extensao, "/", A1.nome) AS "thumb",
-            CONCAT("/service/web/uploads/", A2.extensao, "/", A2.nome) AS "imagem",
-            D.thumb AS "thumb_id",
-            D.imagem AS "imagem_id",
-            D.ativo AS "ativo"
-            FROM tbl_destaques D
-            LEFT OUTER JOIN tbl_arquivo A1 ON A1.id = D.thumb
-            LEFT OUTER JOIN tbl_arquivo A2 ON A2.id = D.imagem
-            WHERE D.status = 1 AND A1.status = 1 AND A2.status = 1 AND D.id = :id
-        ';
+            SELECT 
+                D.id,
+                D.titulo AS "titulo",
+                D.link AS "link",
+                D.lang,
+                D.caseid AS "caseid",
+                CONCAT("/service/web/uploads/", A1.extensao, "/", A1.nome) AS "thumb",
+                CONCAT("/service/web/uploads/", A2.extensao, "/", A2.nome) AS "imagem",
+                D.thumb AS "thumb_id",
+                D.imagem AS "imagem_id",
+                D.ativo AS "ativo"
+            FROM
+                tbl_destaques D
+            LEFT OUTER JOIN
+                tbl_arquivo A1 ON A1.id = D.thumb
+            LEFT OUTER JOIN
+                tbl_arquivo A2 ON A2.id = D.imagem
+            WHERE
+                D.status = 1 AND A1.status = 1 AND A2.status = 1 AND D.id = :id';
 
         $result = $this->db->row($sql, array('id' => $id));
-
         return $result;
     }
 
     public function getDestaquesComArquivosListagem()
     {
         $sql = '
-            SELECT D.id, D.titulo AS "Título", D.link AS "Link", D.caseid,
-            CONCAT("/service/web/uploads/", A2.extensao, "/", A2.nome) AS "Imagem", 
-            CONCAT("/service/web/uploads/", A1.extensao, "/", A1.nome) AS "Imagem com Texto", 			
-            D.ativo AS "Ativo"
-            FROM tbl_destaques D
-            LEFT OUTER JOIN tbl_arquivo A1 ON A1.id = D.thumb
-            LEFT OUTER JOIN tbl_arquivo A2 ON A2.id = D.imagem
-            WHERE D.status = 1 AND A1.status = 1 AND A2.status = 1
-        ';
+            SELECT 
+                D.id,
+                D.titulo AS "Título",
+                D.link AS "Link",
+                D.caseid,
+                IF(D.lang = \'pt\', \'Português\', \'Inglês\') AS "Idioma",
+                CONCAT("/service/web/uploads/", A2.extensao, "/", A2.nome) AS "Imagem", 
+                CONCAT("/service/web/uploads/", A1.extensao, "/", A1.nome) AS "Imagem com Texto", 			
+                D.ativo AS "Ativo"
+            FROM
+                tbl_destaques D
+            LEFT OUTER JOIN
+                tbl_arquivo A1 ON A1.id = D.thumb
+            LEFT OUTER JOIN
+                tbl_arquivo A2 ON A2.id = D.imagem
+            WHERE
+                D.status = 1 AND A1.status = 1 AND A2.status = 1';
 
         $result = $this->db->query($sql);
 
