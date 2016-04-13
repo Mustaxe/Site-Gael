@@ -53,9 +53,7 @@ $app->get('/admin/clientes', function () use ($app, $clientes, $projetos) {
 			usuario AS Usuario,
 			ativo AS Ativo
 		FROM
-			tbl_clientes
-		WHERE
-			status = 1";
+			tbl_clientes";
 
 	$res   = $clientes->Query($q);
 
@@ -288,21 +286,23 @@ $app->post('/admin/cliente/editar/:clienteId', function ($clienteId) use ($app, 
 
 
 	/**
+	*
 	* Obtem o cliente
+	*
+	* - Necessário criar a query aqui, todos os métodos da interface buscam somente registros ativos 
+	*
 	*/
-	$resCliente = $clientes->findById($clienteId);	
-	if ($resCliente->cod == 404)
-	{
-		var_dump($resCliente);
-		return;
+	$q = "SELECT * FROM tbl_clientes WHERE id = " . $clienteId;
+
+	$resCliente = $clientes->Query($q);	
+	if ($resCliente->cod != 200)
+	{		
 		$app->notFound();
 		exit;
 	}
 
 
-
-
-	$_cliente = $resCliente->res;
+	$_cliente = $resCliente->res[0];
 
 	/**
 	* Propriedades do formulário
@@ -399,8 +399,7 @@ $app->post('/admin/cliente/editar/:clienteId', function ($clienteId) use ($app, 
 	$clientes->telefones = $_telefone;
 	$clientes->email = $_email;
 	$clientes->usuario = $_usuario;
-	$clientes->ativo = $_ativo;
-	$clientes->status = $_ativo;
+	$clientes->ativo = $_ativo;	
 
 
 
