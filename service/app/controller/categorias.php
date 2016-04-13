@@ -64,7 +64,7 @@ $app->get('/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categ
 
 	$query = "
 		SELECT 
-			D.id, D.nome, D.tipo
+			D.id, D.nome, D.tipo, D.lang
 		FROM
 			tbl_cases C
 		INNER JOIN

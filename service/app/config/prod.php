@@ -4,6 +4,8 @@
 *
 * Set Data Base
 *
+* TODO_CONFIG:
+*
 */
 $settings = array(
     'dbmysql' => array(

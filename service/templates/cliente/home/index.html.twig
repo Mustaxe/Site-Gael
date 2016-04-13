@@ -1,0 +1,79 @@
+
+{% extends "/cliente/base/main.html.twig" %}
+
+
+{% block cliente %}{{ usuario.nome }}{% endblock cliente %}
+{% block titulo %}Home{% endblock titulo %}
+{% block descricao %}Home{% endblock descricao %}
+
+{% block header %}
+<!--
+<ol class="breadcrumb">
+  <li><a href="#">Admin</a></li>
+  <li><a href="#">Home</a></li>
+</ol>
+<h1>Home</h1>
+-->
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Container -->
+<div class="container x-content">
+    
+    <div class="col-sm-12">        
+        <div class="x-files">
+
+
+            {% if arquivos|length > 0 %}
+                {% for arquivo in arquivos %}            
+                <div class="row x-file">
+                    <div class="col-sm-1">
+                        <img src="{{ assetUri }}/web/img/extensions/file.png" class="img-responsive">                    
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2 class="x-title-file">
+                                    {{ arquivo.nomeOriginal }}
+                                    <a href="{{ assetUri }}{{ arquivo.url }}"><span class="glyphicon glyphicon-download-alt"></span></a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">{{ arquivo.criacao }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12"><hr class="x-hr"></div>
+                {% endfor %}
+            {% else %}
+                <br>
+                <p>Nenhum arquivo encontrado</p>
+                <br>
+            {% endif %}
+        </div>
+    </div>      
+</div>
+<!-- end: Container -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }} 
+
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ assetUri }}/web/js/excanvas.min.js"></script><![endif]-->
+    <script src="{{ assetUri }}/web/js/jquery.flot.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.pie.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.stack.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.resize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.flot.time.min.js"></script>
+    <script src="{{ assetUri }}/web/js/retina.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/index.js"></script>
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

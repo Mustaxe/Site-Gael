@@ -2,7 +2,11 @@
 	ini_set("display_errors", 0);
 	
 
-	//JSON INFO
+	/**
+	*
+	* JSON INFO
+	*
+	*/
 	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_info = curl_exec($ch);
@@ -14,24 +18,26 @@
     $json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
 
 
-
-	//JSON DESTAQUES
+	/**
+	*
+	* Obtem os destaques ativos baseado no idioma
+	*
+	*/
 	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_destaques = curl_exec($ch);
     $json_destaques = json_decode($json_destaques, TRUE);
-
     
 
-
+    /**
+    *
+    * Obtem as categorias ativas baseado no idioma
+    *
+    */
 	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/en");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $json_categorias = curl_exec($ch);
-    $json_categorias = json_decode($json_categorias, TRUE);
-
-
-	// $json_categorias = file_get_contents("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1");
-	// $json_categorias = json_decode($json_categorias, TRUE);
+    $json_categorias = json_decode($json_categorias, TRUE);	
 
 	$length = sizeof($json_categorias['res']);
 	$json_categorias_e =  array();
@@ -121,9 +127,7 @@
 							</li>
 							<li class="btn-contact" data-slide="4">
 								<a href="index.php?lang=pt">
-									<i>
-										<img src="images/brasil.png" alt="Language" style="border-radius: 50%"/>
-									</i>
+									<i><img src="images/lang/bt_pt_peq.png" alt="Language" style="width: 26px; height: 18px; margin-top: 2px"/></i>
 								</a>
 							</li>
 						</ul>
@@ -159,10 +163,29 @@
 								<i><img src="svg/ico-contact.svg" width="40" height="35" alt="Contact"/></i>
 							<span>CONTACT</span></a>
 						</li>
-						<li class="btn-h-contact" data-slide="4">							
-							<a href="index.php?lang=pt">
-								<img src="images/brasil.png" style="width: 100%; height: 100%">
+						<li class="btn-h-contact" data-slide="4" style="padding-top: 14px">
+							<style>
+								.xx-custom-menu {
+									display: inline !important;
+								}
+								.xx-custom-menu-lang {
+									display: inline !important;
+									width: 45px;
+									margin: 5px;
+									opacity: .5;
+								}
+								.xx-custom-menu-lang.xx-this, .xx-custom-menu-lang:hover {
+									opacity: 1;
+								}
+							</style>		
+
+							<a href="index.php?lang=pt" class="xx-custom-menu">
+								<img src="images/lang/bt_pt_peq.png" class="xx-custom-menu-lang ">
+							</a>							
+							<a href="index.php?lang=en" class="xx-custom-menu">
+								<img src="images/lang/bt_en_peq.png" class="xx-custom-menu-lang xx-this">
 							</a>
+							<a href=""><span>LANGUAGE</span></a>
 						</li>
 					</ul>
 				</div>

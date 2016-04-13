@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="pt_BR" style="background-color: #3b3b41">
 <head>
     <!-- start: Meta -->
     <meta charset="utf-8">
-    <title>Administração {% block titulo %}{% endblock titulo %}</title>
+    <title>Clientes {% block titulo %}{% endblock titulo %}</title>
     <meta name="description" content="{% block descricao %}{% endblock descricao %}">
     <meta name="author" content="Inkuba">
     <meta name="keyword" content="">
@@ -40,44 +40,145 @@
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ assetUri }}/web/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="{{ assetUri }}/web/ico/favicon.png">
     <!-- end: Favicon and Touch Icons -->
+
+    
+    <style>
+        body {
+            background-color: #ffce14;                        
+        }
+        footer {
+            bottom: 0px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        h2.x-title-file {
+            display: inline;
+            font-size: 1.5em;
+            font-weight: 100;            
+            bottom: 0px;
+        }
+        .row {
+            margin-left: -15px !important;            
+        }
+        .x-logo {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 135px
+        }
+        .x-content {
+            position: relative;
+            background-color: #fff;
+            height: 100%;
+            margin-top: -15px;
+            padding: 20px 20px;
+        }
+        .x-content .row {            
+            margin-top: 20px;
+        }
+        .x-menu {
+            background: #623180 !important;
+            margin: 0px 4px;
+            padding: 25px;
+        }
+        .x-menu .x-logo {
+            width: 4%;
+            margin: 0px;
+        }
+        .x-title-1 {
+            font-size: 2em;
+        }
+        .x-menu .x-title-1 {
+            color: #fff;
+            margin-left: 8%;
+        }
+        .glyphicon {
+            cursor: pointer;
+        }
+        .x-menu .glyphicon {
+            color: #fff;
+            font-size: 3em;            
+        }
+        .glyphicon:hover {
+            color: #d7352f;
+            transition: all .3s ease-in-out;
+        }
+        .glyphicon-plus-sign {
+            color: #623180;
+            cursor: pointer;
+            margin-left: 0px;
+            float: right;
+            font-size: 56px;
+        }
+        /*
+        .x-folder {
+            cursor: pointer;
+            width: 90px;
+            transition: all .3s ease-in-out;
+        }
+        .x-folder:hover{
+            opacity: 1;
+            margin-left: 5px;
+            width: 100px;
+            transition: all .3s ease-in-out;
+        }
+        */
+        
+        .x-files {            
+            margin-left: 10px;
+        }
+
+        .x-file {
+            opacity: .7;
+            transition: all .2s ease-in-out;
+        }
+        .x-file:hover {
+            opacity: 1;            
+            transition: all .2s ease-in-out;
+        }
+
+        /*
+        .x-file {
+            cursor: pointer;
+            width: 60px;
+            display: inline;
+            transition: all .3s ease-in-out;
+        }
+        .x-file:hover {
+            opacity: 1;
+            margin-left: 5px;
+            width: 45px;
+            transition: all .3s ease-in-out;
+        }
+        .x-folder, .x-file {
+            opacity: .7;
+        }
+        */
+        
+
+        .x-hr {
+            background: rgba(255, 206, 20, .3);
+            height: 1px;
+        }
+    </style>
 </head>
 
 <body>
+
+    <img src="{{ assetUri }}/web/img/svg/logo-large.svg" class="x-logo">
+
     {% block navbar %}
     <!-- start: Header -->
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="navbar-brand" href="{{ baseUri }}/cases"><span>{% block brand %}Gael{% endblock brand %}</span></a>
-
-                <!-- start: Header Menu -->
-                <div class="nav-no-collapse header-nav">
-                    <ul class="nav pull-right">
-                        
-                        {% block menu %}
-                        {% for item in adminMenu %}
-                            <li {% if item.page in resourceUri %} class="active"{% endif %}><a href="{{ assetUri }}{{ item.url }}">{{ item.descricao }}</a></li> 
-                        {% endfor %}
-                        {% endblock menu %}
-
-
-                        <!-- start: User Dropdown -->
-                        <li class="dropdown">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="table.html#">
-                                <i class="halflings user white"></i> {{ usuarioAtual.nome }}
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ baseUri }}/usuario/{{ usuarioAtual.id }}"><i class="halflings user white"></i> Profile</a></li>
-                                <li><a href="javascript:logout();"><i class="halflings off white"></i> Logout</a></li>
-                            </ul>
-                        </li>
-                        <!-- end: User Dropdown -->
-
-                    </ul>
+    <div class="container">
+        <div class="x-menu">
+            <div class="row">
+                <div class="col-sm-10">                    
+                    <span class="x-title-1">{% block cliente %}{% endblock cliente %}</span>
+                </div>                
+                <div class="col-sm-2 text-right">                    
+                    <span class="glyphicon glyphicon-log-out" onclick="logout()">
                 </div>
-                <!-- end: Header Menu -->
-                
             </div>
         </div>
     </div>
@@ -94,24 +195,11 @@
         
         {% block sidebar %}
         {% endblock sidebar %}
-       
-       
-        {% if flash.error %}
-        <br>
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            {{ flash.error }}
-        </div>
+        
+        {% if flash %}
+            {% include "/admin/base/components/flash.twig" %}
         {% endif %}
-        {% if flash.notice %}
-        <br>
-        <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            {{ flash.notice }}
-        </div>
-        {% endif %}
-
-
+		
         {% block content %}
         {% endblock content %}
         
@@ -120,8 +208,9 @@
 	<!-- end: Widgets Area -->
 
 
-        </div><!--/row-->
+        </div>
 
+        <!--
         <div class="modal fade" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -136,25 +225,23 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </div> /.modal-content 
+            </div> /.modal-dialog 
+        </div> /.modal 
+        -->
 
     </div><!--/container-->
 
     <div class="clearfix"></div>
 
+    
     <footer>
-        <div class="row">
-            <div class="col-sm-5">
-                &copy; 2014 Inkuba
-            </div><!--/.col-->
-            
-            <div class="col-sm-7 text-right">
-                Inkuba
-            </div><!--/.col-->  
-        </div><!--/.row-->
-    </footer>
+        <div class="row text-center">
+            <div class="col-sm-12">
+                &copy; {{ post.published_at|date("Y") }} IC Tecnologia
+            </div>
+        </div>
+    </footer>    
 
     {% block javascripts %}
         <!-- start: JavaScript-->
@@ -190,17 +277,17 @@
         <script src="{{ assetUri }}/web/js/core.min.js"></script>
 
         <script type="text/javascript">
-                function logout(){
-                    $.post('{{ baseUri }}/logout', {}, function(data) {
-                        if(data.cod == 200){ 
-                            setTimeout(function(){
-                                 window.location.href = "{{ baseUri }}/login";
-                             },600); 
-                        } else {
-                            alert('Não foi possível efetuar o logout! Tente novamente');
-                        }
-                    }, "json");
-                }
+            function logout(){
+                $.post('{{ baseUri }}/logout', {}, function(data) {
+                    if(data.cod == 200) { 
+                        setTimeout(function() {
+                             window.location.href = "http://gael.ag";
+                         },600); 
+                    } else {
+                        alert('Não foi possível efetuar o logout! Tente novamente');
+                    }
+                }, "json");
+            }
         </script>
 
     {% endblock javascripts %}

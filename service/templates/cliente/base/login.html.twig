@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>Clientes - {% block titulo %}{% endblock titulo %} - Login</title>
+    <meta name="description" content="{% block descricao %}{% endblock descricao %}">
+    <meta name="author" content="Inkuba">
+    <meta name="keyword" content="ACME, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <!-- end: Meta -->
+
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- end: Mobile Specific -->
+
+    {% block stylesheets %}
+    <!-- start: CSS -->
+    <link href="{{ assetUri }}/web/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/style.min.css" rel="stylesheet">
+    <link href="{{ assetUri }}/web/css/retina.min.css" rel="stylesheet">
+    <!-- end: CSS -->
+    {% endblock stylesheets %}
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="{{ assetUri }}/web/js/respond.min.js"></script>
+        <link href="{{ assetUri }}/web/css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+        <link id="ie9style" href="{{ assetUri }}/web/css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ assetUri }}/web/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ assetUri }}/web/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ assetUri }}/web/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ assetUri }}/web/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="{{ assetUri }}/web/ico/favicon.png">
+    <!-- end: Favicon and Touch Icons -->
+
+    <style type="text/css">
+        /* reset */
+        body, .login-box, .input-wrap { 
+            background: #623180 !important;
+            background-color: #623180 !important;
+            border: none;
+            border-left: none !important;
+            box-shadow: none;
+        }
+        .login-box h2 {
+            font-family: 'Open Sans',sans-serif;
+        }
+        .login-box {
+            width: 100%;
+        }
+        .button-login {
+            width: 40%;
+            margin: 25px 0px 25px 0px !important;
+            float: right !important;
+        }
+        .login-box .input-group {
+            width: 100%!important;
+            margin: 0 auto;
+        }
+        .form-control {
+            height: 50px !important;
+        }
+        .xx-logo {
+            width: 100%;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+
+<body>
+        <div class="container">
+        <div class="row">
+
+            <div class="row">
+                <div class="col-sm-4 text-center hidden-xs">
+                    <img src="{{ assetUri }}/web/img/svg/logo-large.svg" class="xx-logo">
+                </div>
+                <div class="col-sm-6">
+                    <div class="login-box">
+                        <div class="icons">
+                            <a href="index.html"><i class="halflings-icon home"></i></a>
+                            <a href="login.html#"><i class="halflings-icon cog"></i></a>
+                        </div>
+                        
+                        {% if empresa is not empty %}
+                        <div class="row text-right">
+                            <div class="col-sm-12">
+                                <h1 style="color: #fff; font-size: 4em;">{{ empresa }}</h1>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <h2 style="color: #fff; font-size: 1.5em">Login</h2>                        
+                        {% if error is not empty %}                        
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{ error }}
+                        </div>                        
+                        {% endif %}
+                        
+                        <form class="form-horizontal" action="{{ baseUri }}/{{ url }}" method="post">
+                            <fieldset>                                
+                                <div class="input-wrap">
+                                    <div class="input-prepend input-group" title="Username">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                        <input class="form-control" name="usuario" id="username" type="text" placeholder="informe o usuário" autofocus required />
+                                    </div>
+                                </div>
+                                <div class="input-wrap">
+                                    <div class="input-prepend input-group" title="Password">
+                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                        <input class="form-control" name="senha" id="password" type="password" placeholder="informe a senha" required />
+                                    </div>
+                                </div>
+                                <!--label class="remember" for="remember"><input type="checkbox" id="remember" />Lembrar me</label-->
+
+                                <div class="button-login">                                    
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </fieldset>
+                        </form>                        
+                        <!--h3>Esqueceu sua senha?</h3>
+                        <p>
+                            <a href="{{ baseUri }}/esqueci-senha">Clique aqui</a> para obter uma nova senha.
+                        </p-->
+                    </div><!--/col-->
+                </div>
+                <div class="col-sm-2"></div>
+            </div><!--/row-->
+
+        </div><!--/row-->
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Here settings can be configured...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+    </div><!--/container-->
+
+    {% block javascripts %}
+        <!-- start: JavaScript-->
+        <!--[if !IE]>-->
+                <script src="{{ assetUri }}/web/js/jquery-2.1.0.min.js"></script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script src="assets/js/jquery-1.11.0.min.js"></script>
+        <![endif]-->
+
+        <!--[if !IE]>-->
+            <script type="text/javascript">
+                window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
+            </script>
+        <!--<![endif]-->
+
+        <!--[if IE]>
+            <script type="text/javascript">
+            window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
+            </script>
+        <![endif]-->
+        <script src="{{ assetUri }}/web/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="{{ assetUri }}/web/js/bootstrap.min.js"></script>
+
+        <!-- theme scripts -->
+        <script src="{{ assetUri }}/web/js/custom.min.js"></script>
+        <script src="{{ assetUri }}/web/js/core.min.js"></script>
+        <!-- end: JavaScript-->
+    {% endblock javascripts %}
+</body>
+</html>

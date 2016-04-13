@@ -46,9 +46,19 @@ class SlimBootstrap
         $app       = $this->app;
         $container = $this->container;
         $config    = $this->config;
+
 		
-        // dados disponíveis globalmente para a visão somente para interface administrativa e tipo de autenticação sessão
-        if (strpos($app->request()->getResourceUri(), '/admin') !== false && $app->config('auth.type') == 'sessao') {
+        /**
+        *
+        * Dados disponíveis globalmente para a visão somente para interface administrativa e tipo de autenticação sessão
+        *        
+        */
+        if (strpos($app->request()->getResourceUri(), '/admin') !== false && $app->config('auth.type') == 'sessao')
+        {
+            $this->configureView($app, $container);
+        }
+        else if (strpos($app->request()->getResourceUri(), '/cliente') !== false) // != de FALSE = VERDADEIRO
+        {            
             $this->configureView($app, $container);
         }
 
@@ -69,7 +79,23 @@ class SlimBootstrap
         $resourceUri   = $app->request()->getResourceUri(); // $_SERVER['REQUEST_URI'];
         $rootUri       = $app->request()->getRootUri();
         $assetUri      = $app->request()->getUrl() . $rootUri;
-        $baseUri       = $app->request()->getUrl() . $rootUri . '/admin';
+
+        /**
+        *
+        * Define a baseUri, se é de cliente ou admin
+        *
+        */
+        $arrUri = explode("/", $_SERVER['REQUEST_URI']);
+        if(array_search('admin', $arrUri) !== FALSE)
+        {
+            $baseUri = $app->request()->getUrl() . $rootUri . '/admin'; 
+        }
+        else
+        {
+            $baseUri = $app->request()->getUrl() . $rootUri . '/cliente'; 
+        }
+               
+        
         $usuarioLogado = $app->usuarioLogado;
         $usuario       = isset($usuarioLogado) ? ($usuarioLogado) : (null);
         $adminMenu     = $app->config('admin.menu');
@@ -84,14 +110,23 @@ class SlimBootstrap
         }
 
         $app->view()->appendData(
-                array( 'app'          => $app,
-                       'rootUri'      => $rootUri,
-                       'assetUri'     => $assetUri,
-                       'resourceUri'  => $resourceUri,
-                       'baseUri'      => $baseUri,
-                       'usuarioAtual' => $usuario,
-                       'adminMenu'    => $menuTopo,
+            array( 'app'          => $app,
+                   'rootUri'      => $rootUri,
+                   'assetUri'     => $assetUri,
+                   'resourceUri'  => $resourceUri,
+                   'baseUri'      => $baseUri,
+                   'usuarioAtual' => $usuario,
+                   'adminMenu'    => $menuTopo,
         ));
+    }
+
+    /**
+    *
+    * Sobrescreve a baseUri disponicel na View
+    *
+    */
+    public function setBaseUri($value) {
+        $app->view()->appendData(array( 'baseUri' => $value));
     }
 
     public function configureErrors(Slim $app)

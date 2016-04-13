@@ -1,0 +1,325 @@
+{% extends "/admin/base/main.html.twig" %}
+
+{% block titulo %}Editar Cliente{% endblock titulo %}
+{% block descricao %}Editar Cliente{% endblock descricao %}
+{% block header %}
+
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{{ baseUri }}">Admin</a></li>
+      <li><a href="#">Cliente</a></li>
+    </ol>
+    <h1>Editar Cliente</h1>
+</div>
+
+<!--div id="titlebar_right">
+  <div class="action_items">
+    <span class="action_item">
+    <form action="{{ baseUri }}/cliente/{{cliente.id }}" method="post">
+        <input type="hidden" name="_METHOD" value="DELETE">
+        <button type="submit" class="btn btn-large btn-danger" name="delete" value="delete"><i class="icon-trash icon-white"></i> Remover</button>
+    </form>
+    </span>
+  </div>
+</div-->
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+
+    <style>
+        .arquivos {
+            background-color: rgba(0, 0, 0, .05);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-right: 0px;
+        }
+        .arquivos img {
+            width: 60px;
+            height: 70px;
+        }                                                                 
+        .x-file-plus {
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 3em;                                        
+        }
+        .x-file-plus .glyphicon{
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        .x-message {
+            margin-left: 10px;
+        }
+    </style>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Cliente</h2>
+                    <!--
+                    <div class="box-icon">
+                        <a href="form-elements.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                        <a href="form-elements.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="form-elements.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>
+                    -->
+                </div>
+                <div class="box-content">
+                    <form role="form" method="post" action="{{ baseUri }}/cliente/editar/{{cliente.id}}" enctype="multipart/form-data" id="form">
+						<input type="hidden" name="imagens_atuais" value="{{ cliente.id }}"/>
+                        <input type="hidden" name="oldSenha" value="{{ cliente.senha }}"/>
+						
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="empresa">* Nome da Empresa</label>                            
+                                <input type="text" class="form-control" id="empresa" name="empresa" value="{{ cliente.empresa }}" required="required"/>
+                            </div>                        
+                            <div class="col-sm-5">
+                                <label class="control-label" for="nome">* Nome do Contato</label>                            
+                                <input type="text" class="form-control" name="nome" value="{{ cliente.nome }}" />
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">                                                  
+                            <div class="col-sm-5">
+                                <label class="control-label" for="telefone">Telefone</label>                            
+                                <input type="text" class="form-control" id="telefone" name="telefone" value="{{ cliente.telefones }}" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label" for="email">Email</label>                            
+                                <input type="text" class="form-control" name="email" value="{{ cliente.email }}" />
+                            </div>  
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="control-label" for="url">* URL Amigável</label>
+                                <input type="text" class="form-control" id="url" name="url" required="required" value="{{ cliente.url }}" readonly />
+                            </div>                            
+                        </div>
+
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="usuario">* Usuário</label>                            
+                                <input type="text" class="form-control" name="usuario" value="{{ cliente.usuario }}" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label" for="senha">* Senha</label>                            
+                                <input type="text" class="form-control" name="senha" />
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="checkbox">
+                                    <label for="alterarSenha">
+                                        <br>
+                                        <input type="checkbox" id="alterarSenha" name="alterarSenha" /> Alterar senha
+                                    </label>
+                                </div>                                
+                            </div>
+                        </div>
+
+                        
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-5">
+
+                                <label class="control-label">Ativo</label>
+                                <select name="ativo" class="form-control">
+                                    <option value="1" {% if cliente.ativo == '1' %}Selected{% endif %}>Sim</option>
+                                    <option value="0" {% if cliente.ativo == '0' %}Selected{% endif %}>Não</option>
+                                </select>
+                            </div>
+                        </div>
+				        
+                        <br>
+                        <div class="form-actions">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                          <a href="{{ baseUri }}/cases" class="btn">Cancelar</a>
+                        </div>
+
+                        <br>
+                        <br>
+                        <div class="form-group">                          
+                            <div class="controls">
+                                <div class="row">                                    
+                                    <h2>
+                                        <div class="x-file-plus">
+                                            ARQUIVOS
+                                            <span class="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#xUpload"></span>
+                                        </div>
+                                    </h2>
+                                </div>
+                                <div class="row arquivos">                                    
+                                </div>
+                            </div>
+                         </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+    
+    <!-- Modal Upload -->
+    <div class="modal fade" id="xUpload" role="dialog" aria-labelledby="xUploadLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1 class="modal-title">Adicionar arquivo</h1>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ baseUri }}/cliente/arquivo/{{cliente.id}}" enctype="multipart/form-data" role="form" id="x-form-arquivo">
+                        <input type="file" name="arquivo" >
+                        <br>
+                        
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <span class="x-loading" style="display: none;"><img src="{{ assetUri }}/web/img/loading.gif"></span>
+                        <span class="x-message"></span>
+                    </form>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        window.baseUri = "{{ baseUri }}";
+
+
+        function getArquivos() {
+            $.get('{{ baseUri }}/cliente/arquivo/{{ cliente.id }}', function(data) {
+                html = '';
+
+                if(data.arquivos != undefined && data.arquivos.length > 0) {
+                    for(i = 0; i < data.arquivos.length; i++) {
+                        html += '' + 
+                        '<div class="row">' + 
+                            '<div class="col-sm-1 text-center">' +
+                                '<img src="{{ assetUri }}/web/img/extensions/file.png" />' +
+                            '</div>' +
+                            '<div class="col-sm-8 text-left">' +
+                                '<h3><a href="{{ assetUri }}' + data.arquivos[i].url + '"><strong>' + data.arquivos[i].nomeOriginal + '</strong></a></h3>' +
+                                '<h5>' + data.arquivos[i].criacao + '</h5>' +
+                            '</div>' +
+                            '<div class="col-sm-2">' +
+                                '<a href="{{ baseUri }}/cliente/arquivo/apagar/' + data.arquivos[i].id + '" class="btn btn-danger" style="float: right">' + 
+                                    '<span class="glyphicon glyphicon-trash" title="Apagar arquivo"></span>' + 
+                                '</a>' +
+                            '</div>' +
+                        '</div><hr>';
+                    }
+                } else {
+                    html += '<br><p>Nenhum arquivo encontrado</p><br>';
+                }
+
+                $('.row.arquivos').animate({opacity: '0'}, 200).html(html).animate({opacity: '1'}, 200);
+            });
+        }
+
+        /**
+        * Handle disable file
+        */
+        $('#form').on('click', '.arquivos .btn.btn-danger', function (ev) {
+            ev.preventDefault();                        
+            $.get($(this).attr('href'), function () {
+                getArquivos();
+            })            
+        });
+
+
+        /**
+        * Adiciona arquivo
+        */        
+        $('#x-form-arquivo').submit(function (ev) {
+            ev.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '{{ baseUri }}/cliente/arquivo/{{cliente.id}}',
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('#x-form-arquivo .x-loading').show();                    
+                    $('#x-form-arquivo .btn').attr('disabled', true);
+                },
+                success: function (data) {
+                    $('#x-form-arquivo .btn').attr('disabled', false);
+                    $('#x-form-arquivo input[type="file"]').val('');
+                    $('#x-form-arquivo .x-message').html(data.message);
+
+                    setTimeout(function (){
+                        $('#x-form-arquivo .x-message').html('');
+
+                        if(data.status == true) {
+                            getArquivos();                                                    
+                        }
+                    }, 2000);                    
+                },
+                complete: function (data) {
+                    console.log('complete');
+                    $('#x-form-arquivo .x-loading').hide();
+                },
+                error: function (erro) {
+                    console.log(erro);
+                },
+                cache: false,
+                contentType: false,
+                processData: false,                
+            });            
+        });
+
+        getArquivos();
+    </script>
+
+    <!-- page scripts -->
+    <script src="{{ assetUri }}/web/js/jquery.friendurl.js"></script> 
+    <script src="{{ assetUri }}/web/js/jquery.chosen.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.cleditor.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.autosize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.placeholder.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.maskedinput.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-timepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/moment.min.js"></script>
+    <script src="{{ assetUri }}/web/js/daterangepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.hotkeys.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script>
+
+
+    <script type="text/javascript">
+        window.baseUri = "{{ baseUri }}";
+        $('#empresa').friendurl({id : 'url', divider: '-'});        
+    </script>
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/form-elements.js"></script>
+
+    <script src="{{ assetUri }}/web/js/admin/cases.js"></script>
+
+
+
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

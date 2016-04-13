@@ -1,0 +1,163 @@
+{% extends "/admin/base/main.html.twig" %}
+
+{% block titulo %}Adicionar Cliente{% endblock titulo %}
+{% block descricao %}Adicionar Cliente{% endblock descricao %}
+{% block header %}
+<div id="titlebar_left">
+    <ol class="breadcrumb">
+      <li><a href="{{ baseUri }}">Admin</a></li>
+      <li><a href="#">Cliente</a></li>
+    </ol>
+    <h1>Adicionar Cliente</h1>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<!-- start: Content -->
+<div id="content" class="col-sm-11">
+
+    <div class="row">
+        <div class="col-lg-12">                     
+            <div class="box">
+                <div class="box-header">
+                    <h2>Cliente</h2>
+                    <div class="box-icon">
+                        <!--
+                        <a href="form-elements.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
+                        <a href="form-elements.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="form-elements.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        -->
+                    </div>
+                </div>
+
+                <div class="box-content">
+                    <form role="form" method="post" action="{{ baseUri }}/cliente/novo" enctype="multipart/form-data" id="form">
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="empresa">* Nome da Empresa</label>
+                                <input type="text" class="form-control" id="empresa" name="empresa" required="required"/>                                
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label" for="nome">* Nome do Contato</label>                              
+                                <input type="text" class="form-control" name="nome" required="required"/>                               
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="telefone">Telefone</label>
+                                <input type="text" class="form-control" id="telefone" name="telefone" required="required"/>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label" for="email">Email</label>
+                                <input type="text" class="form-control" name="email" required="required"/>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="control-label" for="url">* URL Amigável</label>                            
+                                <input type="text" class="form-control" id="url" name="url" required="required" readonly />
+                            </div>                            
+                        </div>
+                       
+
+                        <br><br>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="usuario">* Usuário</label>                            
+                                <input type="text" class="form-control" name="usuario" required="required"/>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label" for="senha">* Senha</label>                            
+                                <input type="password" class="form-control" name="senha" required="required"/>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label" for="ativo">Ativo</label>                            
+								<select name="ativo" class="form-control">
+									<option value="1">Sim</option>
+									<option value="0">Não</option>
+								</select>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <a href="{{ baseUri }}/clientes" class="btn">Cancelar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Excluir</h4>
+          </div>
+          <div class="modal-body">
+            <p>Você tem certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirm">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- end: Content -->
+
+{% endblock content %}
+
+
+{% block javascripts %}
+    {{ parent() }}   
+
+    <!-- page scripts -->
+    <script src="{{ assetUri }}/web/js/jquery.friendurl.js"></script> 
+    <script src="{{ assetUri }}/web/js/jquery.chosen.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.cleditor.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.autosize.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.placeholder.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.maskedinput.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-timepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/moment.min.js"></script>
+    <script src="{{ assetUri }}/web/js/daterangepicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/jquery.hotkeys.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="{{ assetUri }}/web/js/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ assetUri }}/web/js/justgage.1.0.1.min.js"></script> 
+
+
+    <script type="text/javascript">
+        window.baseUri = "{{ baseUri }}";
+        $('#empresa').friendurl({id : 'url', divider: '-'});        
+    </script>
+    
+
+    <!-- inline scripts related to this page -->
+    <script src="{{ assetUri }}/web/js/pages/form-elements.js"></script>
+
+    <script src="{{ assetUri }}/web/js/admin/cases.js"></script>
+
+    <!-- end: JavaScript-->
+{% endblock javascripts %}

@@ -1,12 +1,12 @@
 <?php
 
 $settings = array(
-    'slim' => array(
+    'cliente' => array(
         'templates.path'      => ROOT.'/templates/',
         'view'                => new \Slim\Views\Twig(),
         'debug'               => true,
         'cookies.encrypt'     => true,
-        'cookies.secret_key'  => md5('appsecretkey'),
+        'cookies.secret_key'  => md5('appsecretkeyclient'),
         'cookies.cipher'      => MCRYPT_RIJNDAEL_256,
         'cookies.cipher_mode' => MCRYPT_MODE_CBC,
         'log.enabled'         => true,
@@ -18,10 +18,10 @@ $settings = array(
         'provider'            => 'PDO',
         'auth.type'           => 'sessao',
         'chave.expira'        => 86400,
-        'login.url'           => '/admin/login',
+        'login.url'           => '/cliente/login',
         'secured.urls'        => array(
-                                    array('path' => '/admin'),
-                                    array('path' => '/admin/.+'),                                    
+                                    array('path' => '/cliente'),
+                                    array('path' => '/cliente/.+'),                                    
                                 ),
         'upload.mimetypes'    => array(
                                     'image/png',
@@ -37,7 +37,7 @@ $settings = array(
                                     /* array(
                                         'descricao' => 'Home',
                                         'url'       => '/admin/home',
-                                    ), */
+                                    ),
                                     array(
                                         'descricao' => 'Cases',
                                         'url'       => '/admin/cases',
@@ -57,15 +57,12 @@ $settings = array(
                                     array(
                                         'descricao' => 'Sobre',
                                         'url'       => '/admin/sobre/pt',
-                                    ),
-                                    array(
-                                        'descricao' => 'Clientes',
-                                        'url'       => '/admin/clientes',
-                                    )                                    
+                                    )
+                                    */
                                 ),
     ),
     'session_cookies' => array(
-        'expires' => '2 weeks',
+        'expires' => '1 weeks',
     ),
     'database' => 'mysql',
     'mailer' => array(
