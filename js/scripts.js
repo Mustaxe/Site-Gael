@@ -144,6 +144,48 @@ jQuery(document).ready(function ($) {
 
 	});
 
+	// Validacao e envio (Ingles)
+	$("#form-padrao-ingles").validate({
+		rules: {
+			nome: {
+				required: true,
+				minlength: 3
+			},
+			email: {
+				required: true,
+				email: true
+			},
+			descricao: {
+				required: true
+			}
+		},
+		messages: {
+			nome: "Name is invalid",
+			email: "E-mail is invalid",
+			descricao: "Message is invalid"
+		}
+	});
+
+	jQuery('#form-padrao-ingles').submit(function(){
+		if ($("#form-padrao-ingles").valid() == true){
+
+			var dados = jQuery( this ).serialize();
+
+			jQuery.ajax({
+				type: "POST",
+				url: "http://gael.ag/service/contatos",
+				data: dados,
+				success: function( data )
+				{
+					animationSuccess();
+				}
+			});
+
+			return false;a
+		}
+
+	});
+
 	/********************************************************
 	 * GENERAL
 	 ********************************************************/

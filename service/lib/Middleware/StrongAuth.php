@@ -105,9 +105,11 @@ class StrongAuth extends \Slim\Middleware
             // verifica se o ip do usuário requisitando a API é o mesmo que o servidor, ou outro IP
             // autorizado, definido na configuração 'ip.servidor'
 			
-			/* if ( !in_array($ipUsuario, $app->config('ip.servidor')) ) {
+			/*
+            if ( !in_array($ipUsuario, $app->config('ip.servidor')) ) {
 				throw new HttpForbiddenException();
-			} */
+			}
+            */
 
             //$secured_urls = isset($config['security.urls']) && is_array($config['security.urls']) ? $config['security.urls'] : array();
             $secured_urls = $app->rotaCrud->findAll();

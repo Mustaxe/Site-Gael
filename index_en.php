@@ -359,12 +359,12 @@
 
 							<div class="title"><?= stripslashes($sobre[$lang]->titulo) ?></div>
 							<div class="sub-title"><?= stripslashes($sobre[$lang]->subtitulo) ?></div>
-							<div class="button-know hidden-mobile">Click to know</div>
+							<div class="button-know hidden-mobile">Click and discover</div>
 
 							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
 							<br>
 							<br>
-							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Presentation</a>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Download the presentation</a>
 							<?php } ?>
 
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
@@ -396,10 +396,10 @@
 						<img src="svg/tlt-contact.svg" alt="Contact" style="max-width: 91%" />
 					</h2>
 					<hr/>
-					<form id="form-padrao" class="container-contact">
+					<form id="form-padrao-ingles" class="container-contact">
 						<div class="ct-animation">
 							<div class="icon-success">
-								<img src="svg/ico-sucesso.svg" alt="Sua mensagem foi enviada"/>
+								<img src="svg/ico-sucesso.svg" alt="Your message was sent"/>
 								<p>Your message was sent</p>
 							</div>
 							<div class="ct-field">

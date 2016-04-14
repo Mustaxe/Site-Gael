@@ -373,6 +373,78 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
 
 
 /**
+ *
+ *
+ * Duplicar case
+ *
+ */
+$app->map('/admin/cases/duplicar/:caseId', function ($caseId) use ($app, $cases) {
+    
+
+    $params = $app->request;
+
+    if(is_numeric($caseId))
+    {
+
+        /**
+        *
+        * Obtemos o case a ser duplicado
+        *
+        */
+        $q = "SELECT * FROM tbl_cases WHERE id = " . $caseId;
+        $resCase = $cases->Query($q);
+
+        if($resCase->cod == 200)
+        {
+            /**
+            *
+            * O case pode se duplicado
+            *
+            */
+
+            $caseOriginal = $resCase->res[0];            
+
+
+            $cases->imagem_thumb = $caseOriginal['imagem_thumb'];
+            $cases->imagem_thumb_over = $caseOriginal['imagem_thumb_over'];
+            $cases->imagem_integra1 = $caseOriginal['imagem_integra1'];
+            $cases->imagem_integra2 = $caseOriginal['imagem_integra2'];
+            $cases->imagem_integra3 = $caseOriginal['imagem_integra3'];
+            $cases->imagem_integra4 = $caseOriginal['imagem_integra4'];
+            $cases->imagem_integra5 = $caseOriginal['imagem_integra5'];
+            $cases->titulo = $caseOriginal['titulo'];
+            $cases->descricao = $caseOriginal['descricao'];
+            $cases->texto = $caseOriginal['texto'];
+            $cases->status = $caseOriginal['status'];
+            $cases->ativo = $caseOriginal['ativo'];
+            $cases->categorias = $caseOriginal['categorias'];
+            $cases->ordem = 0; //$caseOriginal['ordem'];
+            $cases->imagens = $caseOriginal['imagens'];
+            $cases->lang = $caseOriginal['lang'] == 'pt' ? 'en' : 'pt';
+
+            $res = $cases->create();            
+
+            if ($res->cod != 200)
+            {
+                echo '{ "status": false, "message": "Falha ao tentar duplicar o case"}';
+            }
+
+            echo '{ "status": true, "message": "Case duplicado com sucesso"}';
+        }
+        else
+        {
+            echo '{ "status": false, "message": "Case não foi encontrado"}';
+        }
+    }
+    else
+    {
+        echo '{ "status": false, "message": "Identificador é inválido"}';
+    }
+    $app->response->headers->set('Content-Type', 'application/json;charset=utf-8');       
+})->via('GET')->name('duplica_cases');
+
+
+/**
 *
 * Obtem os cases para ordenar baseado no idioma
 *
@@ -798,7 +870,7 @@ $app->delete('/admin/cases/:id', function ($id) use ($app, $cases, $projetos) {
  */
 $app->get('/admin/cases', function () use ($app, $cases, $projetos) {
     $cases = new CasesDao($app);
-    $res   = $cases->getCasesComArquivosListagem();
+    $res   = $cases->getCasesComArquivosListagemSemLang();
 
     $colunas = array_keys($res->res[0]);
 

@@ -188,4 +188,33 @@ class CasesDao
 
         return $result;
     }
+
+    public function getCasesComArquivosListagemSemLang()
+    {
+        $sql = '
+            SELECT
+                C.id,
+                C.titulo AS "Título",
+                C.descricao AS "Descrição",
+                C.texto AS "Texto",
+                IF(lang = \'pt\', \'Português\', \'Inglês\') AS "Idioma",
+                C.ordem AS "Ordem",                
+                CONCAT("/service/web/uploads/", A1.extensao, "/", A1.nome) AS "Thumb",
+                CONCAT("/service/web/uploads/", A2.extensao, "/", A2.nome) AS "ThumbHover",
+                C.ativo AS "Ativo"
+            FROM
+                tbl_cases C
+            LEFT OUTER JOIN 
+                tbl_arquivo A1 ON A1.id = C.imagem_thumb
+            LEFT OUTER JOIN
+                tbl_arquivo A2 ON A2.id = C.imagem_thumb_over
+            WHERE
+                C.status = 1 AND A1.status = 1 AND A2.status = 1
+            ORDER BY
+                C.ordem ASC';
+
+        $result = $this->db->query($sql);
+
+        return $result;
+    }
 }
