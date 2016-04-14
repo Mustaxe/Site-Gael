@@ -180,10 +180,8 @@ $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
 });
 
 function duplicar(element, caseId) {
-	$.get('{{ baseUri }}/cases/duplicar/' + caseId, function (data) { 
-
+	$.get('{{ baseUri }}/cases/duplicar/' + caseId, function (data) {
 		if(data.status == true) {
-
 			alert(data.message);
 			location.href = '{{ baseUri }}/cases';
 		} else {

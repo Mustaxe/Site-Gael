@@ -422,10 +422,7 @@ $app->map('/admin/cases/duplicar/:caseId', function ($caseId) use ($app, $cases)
             $cases->imagens = $caseOriginal['imagens'];
             $cases->lang = $caseOriginal['lang'] == 'pt' ? 'en' : 'pt';
 
-
-            $res = $cases->create();
-
-            //var_dump($res); die;
+            $res = $cases->create();            
 
             if ($res->cod != 200)
             {

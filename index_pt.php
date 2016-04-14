@@ -354,7 +354,7 @@
 							<?php if(!empty($sobre[$lang]->arquivo)) { ?>
 							<br>
 							<br>
-							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Apresentação</a>
+							<a href="<?= $sobre[$lang]->arquivo ?>" class="button-know hidden-mobile" target="_blank">Baixe nossa apresentação</a>
 							<?php } ?>
 
 							<div class="thumb-video hidden-mobile"><img src="images/about/video.png" alt="Video" /></div>
