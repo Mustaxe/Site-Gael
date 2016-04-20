@@ -60,7 +60,15 @@ $app->get('/categorias/:ativo', function ($ativo) use ($app, $categorias, $proje
 });
 
 
-$app->get('/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categorias, $projetos) {
+$app->get('/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categorias, $projetos) {	
+
+	/**
+	*
+	* Tipo 'E' = Empresa
+	* - Busca todas as empresas independentimento do idioma 
+	*
+	*
+	*/
 
 	$query = "
 		SELECT 
@@ -70,7 +78,7 @@ $app->get('/categorias/:ativo/:lang', function ($ativo, $lang) use ($app, $categ
 		INNER JOIN
 			tbl_categorias D ON FIND_IN_SET(D.id, C.categorias)
 		WHERE 
-			D.ativo = 1 AND D.status = 1 AND D.lang = '" . $lang . "'
+			D.ativo = 1 AND D.status = 1 AND (D.lang = '" . $lang . "' OR (D.lang = 'pt' AND D.tipo = 'E')) 
 		GROUP BY 
 			D.id
 		ORDER BY 
