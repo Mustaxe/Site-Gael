@@ -294,7 +294,7 @@
 								<div class='box-info'>
 									<div class='job-info'>
 										<div class='btn-close-job'>
-											<i><img src='images/ico-back.png' alt='Voltar'/></i> VOLTAR
+											<i><img src='images/ico-back.png' alt='Back'/></i> BACK
 										</div>
 										<h3>" . $json_work["res"][$i]["titulo"] . "</h3>
 											<div class='call'>" . $json_work["res"][$i]["descricao"] . "</div>

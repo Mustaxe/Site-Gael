@@ -59,6 +59,8 @@
 
 		Template.call(this);
 
+		var lblVoltar = LANG == 'pt' ? 'VOLTAR' : 'BACK';
+
 		this.templateAssets = new TemplateWorkJobAssets();
 
 		this.template =  "<div class='container-job' data-name='{{id}}'>" +
@@ -68,7 +70,7 @@
 			"		<div class='box-info'>" +
 			"			<div class='job-info'>" +
 			"				<div class='btn-close-job'>" +
-			"					<i><img src='images/ico-back.png' alt='Voltar'/></i> VOLTAR" +
+			"					<i><img src='images/ico-back.png' alt='" + lblVoltar + "'/></i> " + lblVoltar +
 			"				</div>" +
 			"				<h3>{{titulo}}</h3>" +
 			"				<div class='call'>{{descricao}}</div>" +
