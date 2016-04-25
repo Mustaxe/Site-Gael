@@ -35,6 +35,7 @@ $_URL_UPLOAD = array(
     'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
     'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
     'homologacao.gael.ag' => '/service/web/uploads/',
+    'www.gael.ag' => '/service/web/uploads/',
     'gael.ag' => '/service/web/uploads/'
 );
 $URL_UPLOAD = $_URL_UPLOAD[$_SERVER['HTTP_HOST']];
@@ -43,6 +44,7 @@ $_URL_UPLOAD_MOBILE = array(
     'localhost' => '/git/site_gael/Site-Gael/service/web/uploads/',
     'localhost:8080' => '/git/site_gael/Site-Gael/service/web/uploads/',
     'homologacao.gael.ag' => '/service/web/uploads/',
+    'www.gael.ag' => '/service/web/uploads/',
     'gael.ag' => '/service/web/uploads/'
 );
 $URL_UPLOAD_MOBILE = $_URL_UPLOAD_MOBILE[$_SERVER['HTTP_HOST']];

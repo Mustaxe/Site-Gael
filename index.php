@@ -19,6 +19,7 @@ ini_set("display_errors", 0);
 $ENVIRONENTS = array(
 	'localhost:8080' => 'localhost:8080/git/site_gael/Site-Gael',
 	'homologacao.gael.ag' => 'homologacao.gael.ag',
+	'www.gael.ag' => 'gael.ag',
 	'gael.ag' => 'gael.ag'
 );
 
