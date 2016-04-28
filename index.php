@@ -8,20 +8,52 @@ ini_set("display_errors", 0);
 * TODO_CONFIG: Config de path
 *	
 */
-
-/**
-*
-* PRODUCAO:
-* $_SERVER[HTTP_HOST] = "gael.ag";
-*
-*/
-
-$ENVIRONENTS = array(
+$ENVIRONMENTES = array(
 	'localhost:8080' => 'localhost:8080/git/site_gael/Site-Gael',
+	'192.168.1.30:8080' => '192.168.1.30:8080/git/site_gael/Site-Gael',
 	'homologacao.gael.ag' => 'homologacao.gael.ag',
 	'www.gael.ag' => 'gael.ag',
 	'gael.ag' => 'gael.ag'
 );
+
+
+
+/*******************************************************************************
+*
+* Detecta o dispositivo, se é mobile ou desktop
+* - Verificação dos USER_AGENT atraves de palavras chave
+*	 [Android, IEMobile, iPhone, iPad, webOS, BlackBerry, iPod, Symbian]
+*
+*
+********************************************************************************/
+$iPhone =  stripos($_SERVER['HTTP_USER_AGENT'],"iPhone");
+$iPad =  stripos($_SERVER['HTTP_USER_AGENT'],"iPad");
+$Android =  stripos($_SERVER['HTTP_USER_AGENT'],"Android");
+$webOS =  stripos($_SERVER['HTTP_USER_AGENT'],"webOS");
+$BlackBerry =  stripos($_SERVER['HTTP_USER_AGENT'],"BlackBerry");
+$iPod =  stripos($_SERVER['HTTP_USER_AGENT'],"iPod");
+$IEMobile =  stripos($_SERVER['HTTP_USER_AGENT'],"IEMobile");
+$Symbian =  stripos($_SERVER['HTTP_USER_AGENT'],"Symbian");
+
+if($iPhone || $iPad || $Android || $webOS || $BlackBerry || $iPod || $IEMobile || $Symbian) {
+
+	//echo $_SERVER['HTTP_USER_AGENT'];
+	//echo  $ENVIRONMENTES[$_SERVER['HTTP_HOST']] . '/mobile';
+
+	
+	echo '
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+				<script type="text/javascript"> window.location.href = "http://' . $ENVIRONMENTES[$_SERVER['HTTP_HOST']] . '/mobile/"; </script>
+			</head>
+			<body>Teste</body>
+		</html>';
+	
+	die;
+}
+
 
 
 /**
@@ -29,7 +61,7 @@ $ENVIRONENTS = array(
 * Redefine a variavel global HTTP_HOST
 *
 */
-$_SERVER[HTTP_HOST] = $ENVIRONENTS[$_SERVER['HTTP_HOST']];
+$_SERVER[HTTP_HOST] = $ENVIRONMENTES[$_SERVER['HTTP_HOST']];
 
 
 

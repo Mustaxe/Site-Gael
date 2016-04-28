@@ -1,7 +1,7 @@
 ;(function($, window){
 	'use strict';
 
-	function Job(elem){
+	function Job(elem) {		
 
 		this.elem = elem;
 
@@ -12,6 +12,8 @@
 		this.navNext = null;
 		this.navPrev = null;
 		this.btnMore = null;
+
+		this.textBox = null;
 
 		this.templateJob = new TemplateWorkJob();
 
@@ -52,7 +54,7 @@
 
 	};
 
-	Job.prototype.onClickClose = function onClickClose(){
+	Job.prototype.onClickClose = function onClickClose(){		
 		this.stopVideo(this.assetsContent.eq(this.nav.currentPage - 1));
 		this.window.trigger('work.close.gallery');
 	};
@@ -364,6 +366,9 @@
 	}
 
 	Job.prototype.applySizeJobInfo = function applySizeJobInfo(){
+
+		console.log('applySizeJobInfo');
+
 		this.textJobInfo.css({
 			'height': 315 - this.callJobInfo.height()
 		});
@@ -389,3 +394,5 @@
 	window.Job = Job;
 
 })(jQuery, window);
+
+
