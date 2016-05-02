@@ -85,7 +85,7 @@ $largura = (int)$_GET['largura'];
 		}	
 		.x-flag-language {
 			position: absolute;
-			top: 5px;
+			top: -3px;
 			right: 70px;
 			background-color: #623180;
 			width: 40px;
