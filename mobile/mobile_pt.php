@@ -98,11 +98,13 @@ $largura = (int)$_GET['largura'];
 		    border-radius: 0;
 		}	
 		.x-flag-language {
-			float: right;		
+			position: absolute;
+			top: 5px;
+			right: 70px;
 			background-color: #623180;
 			width: 40px;
 			height: 40px;
-			margin: 15px 80px 5px 5px;
+			
 			padding: 2px;
 			border: none;
 			border-radius: 50%;
@@ -110,7 +112,7 @@ $largura = (int)$_GET['largura'];
 		.x-flag-language img {
 			position: relative;
 		    width: 30px;
-		    height: 20px;
+		    height: 20px !important;
 		    top: 10px;
 		    left: 5px;
 		}
@@ -142,18 +144,17 @@ $largura = (int)$_GET['largura'];
 				</ul>
 
 				<div class="outside js-outside"></div>
-			</nav>
-
-			<div class="x-flag-language">
-				<a href="mobile.php?lang=en">
-					<img src="images/lang/bt_en_peq.png" alt="Idioma">
-				</a>
-			</div>
-			<h1 class="logo">				
+			</nav>				
+			<h1 class="logo">
+				<div class="x-flag-language">
+					<a href="mobile.php?lang=en">
+						<img src="images/lang/bt_en_peq.png" alt="Idioma">
+					</a>
+				</div>
 				<figure class="fix-logo">
 					<img src="images/logo.png" alt="Gael">
 				</figure>
-			</h1>
+			</h1>			
 		</header> <!-- header -->
 
 		<script>
