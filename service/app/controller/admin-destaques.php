@@ -363,63 +363,65 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
         $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
     }
 
-    
+
 
     /**
     *
     * Cria imagem mobile
-    * Redimensionamento de imagens para Mobile
+    * Redimensionamento de imagens para Mobile, caso exista.
     *
     */
     
+    if( (strlen($_FILES['imagem']['name']) > 0 ) && ( strlen($_FILES['thumb']['name']) > 0) )
+    {        
+        /**
+        *
+        * Imagem Texto
+        */
+        $baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
+        $base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
 
-    /**
-    *
-    * Imagem Texto
-    */
-    $baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
-    $base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
-
-    /**
-    *
-    * Imagem Background
-    */
-    $maskData = $arquivos->findById($ImagemUpload->res['id'], array("id", "nome", "extensao"));
-    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+        /**
+        *
+        * Imagem Background
+        */
+        $maskData = $arquivos->findById($ImagemUpload->res['id'], array("id", "nome", "extensao"));
+        $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
 
 
-    $d = $base->getImageGeometry();
-    $w = ($d['width'] * 0.7);
+        $d = $base->getImageGeometry();
+        $w = ($d['width'] * 0.7);
 
-    $maskWidth = $mask->getImageWidth();
-    $maskHeight = $mask->getImageHeight();
+        $maskWidth = $mask->getImageWidth();
+        $maskHeight = $mask->getImageHeight();
 
-    $baseWidth = $base->getImageWidth();
-    $baseHeight = $base->getImageHeight();
+        $baseWidth = $base->getImageWidth();
+        $baseHeight = $base->getImageHeight();
 
-    $left = ($maskWidth - $baseWidth + 100);
-    $top = ($maskHeight - $baseHeight + 100);
+        $left = ($maskWidth - $baseWidth + 100);
+        $top = ($maskHeight - $baseHeight + 100);
 
-    $base->resizeImage($w, 0, Imagick::FILTER_LANCZOS, 1);
+        $base->resizeImage($w, 0, Imagick::FILTER_LANCZOS, 1);
 
-    $mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
+        $mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
 
-    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+        $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
 
-    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
-    $mask->setImageCompression(imagick::COMPRESSION_JPEG);
-    $mask->setImageCompressionQuality(70);
-    $mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
-    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+        $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+        $mask->setImageCompression(imagick::COMPRESSION_JPEG);
+        $mask->setImageCompressionQuality(70);
+        $mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
+        $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
 
-    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
-    $mask->setImageCompression(imagick::COMPRESSION_JPEG);
-    $mask->setImageCompressionQuality(70);
-    $mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
-    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');    
-    
+        $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+        $mask->setImageCompression(imagick::COMPRESSION_JPEG);
+        $mask->setImageCompressionQuality(70);
+        $mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
+        $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');    
+        
 
-    /***************** Redimensionamento de imagens para Mobile *******************/
+        /***************** Redimensionamento de imagens para Mobile *******************/
+    }
 
 
     /**
