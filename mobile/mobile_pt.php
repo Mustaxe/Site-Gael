@@ -251,25 +251,23 @@ $largura = (int)$_GET['largura'];
 			<section id="case" class="js-case">
 				<div class="back js-back" data-scroll-goto="1">voltar</div>
 				<ul class="slider list-cases js-list-cases"></ul>
-
-				<!-- <div class="btn-info js-btn-info" data-scroll-goto="1"></div> -->
-
-         		<!--  <div class="info-case js-info-case">
-
-	            <div class="btn-back-info js-btn-back-info"></div>
-
-	            <div class="wrap-content js-wrap-content">
-	              <div class="content js-content">
-	                <div class="fix-content">
-	                  <h3 class="js-title"></h3>
-
-	                  <div class="js-text"></div>
-	                </div>
-	            </div> -->
-				<!--               <h3 class="js-title"></h3>
-
-				<div class="js-text"></div> -->
-				<!-- </div> -->
+				<!-- 
+				<div class="btn-info js-btn-info" data-scroll-goto="1"></div>				
+         		<div class="info-case js-info-case">
+	            	<div class="btn-back-info js-btn-back-info"></div>
+	            		<div class="wrap-content js-wrap-content">
+	              			<div class="content js-content">
+	                			<div class="fix-content">
+	                  				<h3 class="js-title"></h3>
+	                  				<div class="js-text"></div>
+	                			</div>
+	            			</div>
+							<h3 class="js-title"></h3>
+							<div class="js-text">
+						</div>
+					</div>
+				</div>
+				-->
 
 		</section>
 	</div>

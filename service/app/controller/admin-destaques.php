@@ -290,7 +290,8 @@ $app->map('/admin/destaques/novo', function () use ($app, $destaques, $projetos,
  *   )
  * )
  */
-$app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos){
+$app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projetos, $arquivos, $URL_UPLOAD, $URL_UPLOAD_MOBILE) {
+    
     $params  = $app->request;
 
     $res = $destaques->findById($id);
@@ -319,14 +320,11 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
 
 
 	$destaques->titulo = $params->post('titulo');
-
 	$destaques->link = $params->post('link');
-
 	$destaques->ativo = $params->post('ativo');
-
 	$destaques->caseid = $params->post('caseid');
-
 	$destaques->ativo = $params->post('ativo');
+
 
     if(strlen($_FILES['imagem']['name']) > 0) {
         $uploader = $app->uploader;
@@ -355,18 +353,84 @@ $app->post('/admin/destaques/:id', function ($id) use ($app, $destaques, $projet
         $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
     }
 
+
     $res = $destaques->save(array('id' => $id), 'id = :id');
 
-    if ($res->cod == 200) {
-        $app->flash('notice', 'Informação atualizada com sucesso');
-        $app->redirect($app->urlFor('listagem_destaques'));
+    
+    if (!($res->cod == 200))
+    {
+        $app->flash('error', 'Não foi possível atualizar a informação.');
+        $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
     }
 
-    $app->flash('error', 'Não foi possível atualizar a informação.');
+    
 
-    $app->redirect($app->urlFor('busca_destaques', array('id' => $id)));
+    /**
+    *
+    * Cria imagem mobile
+    * Redimensionamento de imagens para Mobile
+    *
+    */
+    
+
+    /**
+    *
+    * Imagem Texto
+    */
+    $baseData = $arquivos->findById($ThumbUpload->res['id'], array("id", "nome", "extensao"));
+    $base = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $baseData->res['extensao'] . '/' . $baseData->res['nome']);
+
+    /**
+    *
+    * Imagem Background
+    */
+    $maskData = $arquivos->findById($ImagemUpload->res['id'], array("id", "nome", "extensao"));
+    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD . $maskData->res['extensao'] . '/' . $maskData->res['nome']);
+
+
+    $d = $base->getImageGeometry();
+    $w = ($d['width'] * 0.7);
+
+    $maskWidth = $mask->getImageWidth();
+    $maskHeight = $mask->getImageHeight();
+
+    $baseWidth = $base->getImageWidth();
+    $baseHeight = $base->getImageHeight();
+
+    $left = ($maskWidth - $baseWidth + 100);
+    $top = ($maskHeight - $baseHeight + 100);
+
+    $base->resizeImage($w, 0, Imagick::FILTER_LANCZOS, 1);
+
+    $mask->compositeImage($base, Imagick::COMPOSITE_DEFAULT, $left, $top, Imagick::CHANNEL_ALPHA);
+
+    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+
+    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1920.jpg');
+    $mask->setImageCompression(imagick::COMPRESSION_JPEG);
+    $mask->setImageCompressionQuality(70);
+    $mask->resizeImage(1024,0,Imagick::FILTER_LANCZOS,1);
+    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+
+    $mask = new Imagick($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-1024.jpg');
+    $mask->setImageCompression(imagick::COMPRESSION_JPEG);
+    $mask->setImageCompressionQuality(70);
+    $mask->resizeImage(640,0,Imagick::FILTER_LANCZOS,1);
+    $mask->writeImage($_SERVER['DOCUMENT_ROOT'] . $URL_UPLOAD_MOBILE . substr($maskData->res['nome'], 0, strlen($maskData->res['nome']) -4) . '-640.jpg');    
+    
+
+    /***************** Redimensionamento de imagens para Mobile *******************/
+
+
+    /**
+    *
+    * All right
+    */
+    
+    $app->flash('notice', 'Informação atualizada com sucesso');
+    $app->redirect($app->urlFor('listagem_destaques'));
+    
 })->name('edita_destaques');
-
 
 
 /**
@@ -398,10 +462,8 @@ $app->get('/admin/destaques/:cases/:lang', function ($cases, $lang) use ($app, $
 
 
     $app->response->headers->set('Content-Type', 'text/html;charset=utf-8');
-    echo $html;
-    
+    echo $html;    
 })->name('listagem_cases_ajax');
-
 
 
 /**
@@ -422,7 +484,6 @@ $app->get('/admin/destaques', function () use ($app, $destaques, $projetos){
 
     $app->render('admin/destaques/listagem.html.twig', array('destaques'=>$res->res, 'colunas'=>$colunas));
 })->name('listagem_destaques');
-
 
 
 /**
