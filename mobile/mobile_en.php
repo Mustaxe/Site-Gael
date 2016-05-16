@@ -8,7 +8,7 @@ $json_info = json_decode($json_info, TRUE);
 /**
 * Tradução desse campo
 */
-$json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
+//$json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
 
 
   //JSON DESTAQUES
