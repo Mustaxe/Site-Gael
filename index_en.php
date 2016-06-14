@@ -1,61 +1,60 @@
 <?php
-	ini_set("display_errors", 0);
 	
 
-	/**
-	*
-	* JSON INFO
-	*
-	*/
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_info = curl_exec($ch);
-    $json_info = json_decode($json_info, TRUE);
+/**
+*
+* JSON INFO
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_info = curl_exec($ch);
+$json_info = json_decode($json_info, TRUE);
 
-    /**
-    * Tradução desse campo
-    */
-    $json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
+/**
+* Tradução desse campo
+*/
+//$json_info["res"]["contato_email"] = 'CVs to RH@GAEL.AG <br> +55 11 2395 4400';
 
 
-	/**
-	*
-	* Obtem os destaques ativos baseado no idioma
-	*
-	*/
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/en");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_destaques = curl_exec($ch);
-    $json_destaques = json_decode($json_destaques, TRUE);
-    
+/**
+*
+* Obtem os destaques ativos baseado no idioma
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/en");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_destaques = curl_exec($ch);
+$json_destaques = json_decode($json_destaques, TRUE);
 
-    /**
-    *
-    * Obtem as categorias ativas baseado no idioma
-    *
-    */
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/en");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_categorias = curl_exec($ch);
-    $json_categorias = json_decode($json_categorias, TRUE);	
 
-	$length = sizeof($json_categorias['res']);
-	$json_categorias_e =  array();
-	$json_categorias_j =  array();
+/**
+*
+* Obtem as categorias ativas baseado no idioma
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/en");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_categorias = curl_exec($ch);
+$json_categorias = json_decode($json_categorias, TRUE);	
 
-	for ($i=0; $i < $length  ; $i++) {
-		$obj = $json_categorias['res'][$i];
-		if($obj['tipo'] == 'E'){
-			array_push($json_categorias_e , $obj);
-		}else{
-			array_push($json_categorias_j , $obj);
-		}
+$length = sizeof($json_categorias['res']);
+$json_categorias_e =  array();
+$json_categorias_j =  array();
+
+for ($i=0; $i < $length  ; $i++) {
+	$obj = $json_categorias['res'][$i];
+	if($obj['tipo'] == 'E'){
+		array_push($json_categorias_e , $obj);
+	}else{
+		array_push($json_categorias_j , $obj);
 	}
+}
 
 
-	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
-	$title = "GAEL – Group Activations and Experiences Live";
-	$description = "Group Activations and Experiences Live the agency to innovate in the relationship between brands and consumers. - Tel.: (11) 2395-4400";
+$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+$title = "GAEL – Group Activations and Experiences Live";
+$description = "Group Activations and Experiences Live the agency to innovate in the relationship between brands and consumers. - Tel.: (11) 2395-4400";
 ?>
 
 <!DOCTYPE HTML>
@@ -294,7 +293,7 @@
 								<div class='box-info'>
 									<div class='job-info'>
 										<div class='btn-close-job'>
-											<i><img src='images/ico-back.png' alt='Voltar'/></i> VOLTAR
+											<i><img src='images/ico-back.png' alt='Back'/></i> BACK
 										</div>
 										<h3>" . $json_work["res"][$i]["titulo"] . "</h3>
 											<div class='call'>" . $json_work["res"][$i]["descricao"] . "</div>

@@ -26,6 +26,10 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
 
+# REDIRECT DE WWW PARA URL SEM WWW
+#RewriteBase /
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
 # ##############################################################################
 # # VARIÁVEIS DE AMBIENTE                                                      #

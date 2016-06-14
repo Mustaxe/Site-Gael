@@ -1352,7 +1352,7 @@ input.error {
   background-color: #d8352f;
   padding: 20px 15px;
   height: auto;
-  max-height: 500px;
+  /*max-height: 500px;*/  
   overflow: hidden;
 }
 

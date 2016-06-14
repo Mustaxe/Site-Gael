@@ -1,55 +1,53 @@
 <?php
-	ini_set("display_errors", 0);	
+
+/**
+*
+* JSON INFO
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_info = curl_exec($ch);
+$json_info = json_decode($json_info, TRUE);
 
 
-	/**
-	*
-	* JSON INFO
-	*
-	*/
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/projetos");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_info = curl_exec($ch);
-    $json_info = json_decode($json_info, TRUE);
+/**
+*
+* Obtem os destaques ativos baseado no idioma
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/pt");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_destaques = curl_exec($ch);
+$json_destaques = json_decode($json_destaques, TRUE);
 
 
-	/**
-	*
-	* Obtem os destaques ativos baseado no idioma
-	*
-	*/
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/destaques/1/pt");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_destaques = curl_exec($ch);
-    $json_destaques = json_decode($json_destaques, TRUE);
+/**
+*
+* Obtem as categorias ativas baseado no idioma
+*
+*/
+$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/pt");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$json_categorias = curl_exec($ch);
+$json_categorias = json_decode($json_categorias, TRUE);	
 
+$length = sizeof($json_categorias['res']);
+$json_categorias_e =  array();
+$json_categorias_j =  array();
 
-    /**
-    *
-    * Obtem as categorias ativas baseado no idioma
-    *
-    */
-	$ch =  curl_init("http://" . $_SERVER[HTTP_HOST] . "/service/categorias/1/pt");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $json_categorias = curl_exec($ch);
-    $json_categorias = json_decode($json_categorias, TRUE);	
-
-	$length = sizeof($json_categorias['res']);
-	$json_categorias_e =  array();
-	$json_categorias_j =  array();
-
-	for ($i=0; $i < $length  ; $i++) {
-		$obj = $json_categorias['res'][$i];
-		if($obj['tipo'] == 'E'){
-			array_push($json_categorias_e , $obj);
-		}else{
-			array_push($json_categorias_j , $obj);
-		}
+for ($i=0; $i < $length  ; $i++) {
+	$obj = $json_categorias['res'][$i];
+	if($obj['tipo'] == 'E'){
+		array_push($json_categorias_e , $obj);
+	}else{
+		array_push($json_categorias_j , $obj);
 	}
+}
 
-	$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
-	$title = "GAEL – Grupo de Ativações e Experiências Live";
-	$description = "Grupo de Ativações e Experiências Live A agência que inova na relação entre marcas e consumidores. - Tel.: (11) 2395-4400";
+$currentURL = 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+$title = "GAEL – Grupo de Ativações e Experiências Live";
+$description = "Grupo de Ativações e Experiências Live A agência que inova na relação entre marcas e consumidores. - Tel.: (11) 2395-4400";
 ?>
 
 <!DOCTYPE HTML>

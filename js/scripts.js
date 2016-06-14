@@ -674,3 +674,6 @@ var pageWork = new Work($('#work'));
 pageWork.init();
 
 
+
+Job($('#wrap-job .text')).reset();	
+
