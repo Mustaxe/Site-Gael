@@ -21,8 +21,26 @@
 
 <!-- start: Container -->
 <div class="container x-content">
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <span class="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#xUpload"></span>
+        </div>
+    </div>
+
+    {% if message and status == true %}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert {% if status == true %} alert-success {% else %} alert-danger {% endif %}">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        {{ message }}
+                        Teste
+                    </div>
+                </div>
+            </div>
+    {% endif %}
     
-    <div class="col-sm-12">        
+    <div class="col-sm-12">
         <div class="x-files">
 
 
@@ -56,6 +74,30 @@
         </div>
     </div>      
 </div>
+
+<!-- Modal Upload -->
+<div class="modal fade" id="xUpload" role="dialog" aria-labelledby="xUploadLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h1 class="modal-title">Adicionar arquivo</h1>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ baseUri }}/arquivo" enctype="multipart/form-data" role="form" id="x-form-arquivo">
+                    <input type="file" name="arquivo" >
+                    <br>
+                    
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <span class="x-loading" style="display: none;"><img src="{{ assetUri }}/web/img/loading.gif"></span>
+                    <span class="x-message"></span>
+                </form>
+            </div>                
+        </div>
+    </div>
+</div>
+
+
 <!-- end: Container -->
 
 {% endblock content %}

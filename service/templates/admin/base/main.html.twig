@@ -40,6 +40,27 @@
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ assetUri }}/web/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="{{ assetUri }}/web/ico/favicon.png">
     <!-- end: Favicon and Touch Icons -->
+
+    <!-- start: JavaScript-->
+    <!--[if !IE]>-->
+            <script src="{{ assetUri }}/web/js/jquery-2.1.0.min.js"></script>
+    <!--<![endif]-->
+
+    <!--[if IE]>
+        <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <![endif]-->
+
+    <!--[if !IE]>-->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
+        </script>
+    <!--<![endif]-->
+
+    <!--[if IE]>
+        <script type="text/javascript">
+        window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
+        </script>
+    <![endif]-->
 </head>
 
 <body>
@@ -157,26 +178,7 @@
     </footer>
 
     {% block javascripts %}
-        <!-- start: JavaScript-->
-        <!--[if !IE]>-->
-                <script src="{{ assetUri }}/web/js/jquery-2.1.0.min.js"></script>
-        <!--<![endif]-->
-
-        <!--[if IE]>
-            <script src="assets/js/jquery-1.11.0.min.js"></script>
-        <![endif]-->
-
-        <!--[if !IE]>-->
-            <script type="text/javascript">
-                window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
-            </script>
-        <!--<![endif]-->
-
-        <!--[if IE]>
-            <script type="text/javascript">
-            window.jQuery || document.write("<script src='{{ assetUri }}/web/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
-            </script>
-        <![endif]-->
+        
         <script src="{{ assetUri }}/web/js/jquery-migrate-1.2.1.min.js"></script>
         <script src="{{ assetUri }}/web/js/bootstrap.min.js"></script>
 
@@ -184,6 +186,50 @@
         <script src="{{ assetUri }}/web/js/jquery-ui-1.10.3.custom.min.js"></script>
         <script src="{{ assetUri }}/web/js/jquery.sparkline.min.js"></script>
         <script src="{{ assetUri }}/web/js/raphael.min.js"></script>
+
+        <!-- CKEDITOR -->
+        <script type="text/javascript" src="{{ assetUri }}/web/ckeditor/ckeditor.js?"></script>
+        <script type="text/javascript">     
+            CKEDITOR.replace('editor',{
+                enterMode: CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P, 
+                toolbar: [
+                    {
+                        name: 'document', items : [ 'Source']
+                    },
+                    { 
+                        name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ]
+                    },
+                    { 
+                        name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
+                    },
+                    { 
+                        name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align'], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', ] 
+                    },
+                    { 
+                        name: 'links', 
+                            items: [
+                                //'Link', 'Unlink', 'Anchor'
+                            ] 
+                    },
+                    { 
+                        name: 'insert',
+                        items: [ 
+                            //'Image' , 'SpecialChar', 'HorizontalRule'
+                        ] 
+                    },                    
+                    {
+                        name: 'styles', items: [ 'Format'] 
+                    },
+                    {
+                        name: 'others', items: [ '-' ]
+                    },
+                    {
+                        name: 'tools', items : [ 'Maximize']
+                    }
+                ]
+            });            
+        </script>
         
         <!-- theme scripts -->
         <script src="{{ assetUri }}/web/js/custom.min.js"></script>

@@ -108,7 +108,7 @@ $app->post('/admin/sobre', function () use ($app, $URL_UPLOAD) {
     /**
     * Texto
     */
-    $_texto = $params->post('editor_content');    
+    $_texto = $params->post('editor');
     if(empty($_texto))
     {
         /**

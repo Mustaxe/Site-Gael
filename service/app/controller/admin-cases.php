@@ -126,20 +126,36 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
     	}        
 
         $cases->titulo = $params->post('titulo');
-
         $cases->descricao = $params->post('descricao');
-
-        $cases->texto = $params->post('editor_content');
+        /**
+        * Texto 
+        */
+        $cases->texto = $params->post('editor');
+        
 
 		/**
         *
-        * Converte array para lista
+        * Converte array de categorias para lista
         *
         */
 		$categorias = $params->post('categorias');
-		$categorias = implode(",", $categorias);
-		$cases->categorias = $categorias;
+        if(is_null($categorias) || !(count($categorias) > 0))
+        {            
+            $app->flash('error', 'Escolha uma categoria Empresa/Job');            
+            $app->redirect($app->urlFor('adiciona_cases'));
+            return;
+        }
+        else
+        {
+            $categorias = implode(",", $categorias);
+            $cases->categorias = $categorias;
+        }
 
+
+        /**
+        *
+        * Imagem thumb
+        */
         $ImagemThumb = isset($_FILES['imagem_thumb']) ? $_FILES['imagem_thumb'] : '';
         if (empty($ImagemThumb) || $ImagemThumb == 'undefined')
         {
@@ -156,7 +172,6 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
         $ImagemThumbOver = isset($_FILES['imagem_thumb_over']) ? $_FILES['imagem_thumb_over'] : '';
         if (empty($ImagemThumbOver) || $ImagemThumbOver == 'undefined') {
             $app->flash('error', 'O arquivo não foi fornecido.');
-
             return;
         }
 
@@ -557,15 +572,25 @@ $app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arq
         exit;
     }
 
-	/**
+
+    /**
     *
-    * Converte array para lista
+    * Converte array de categorias para lista
     *
     */
-	$categorias = $params->post('categorias');
-	$categorias = implode(",", $categorias);
-	$cases->categorias = $categorias;
-
+    $categorias = $params->post('categorias');
+    if(is_null($categorias) || !(count($categorias) > 0))
+    {            
+        $app->flash('error', 'Escolha uma categoria Empresa/Job');
+        $app->redirect($app->urlFor('edita_cases', array('id' => $id)));
+        return;
+    }
+    else
+    {
+        $categorias = implode(",", $categorias);
+        $cases->categorias = $categorias;
+    }
+	
 
 	/**
     *
@@ -586,9 +611,11 @@ $app->post('/admin/cases/:id', function ($id) use ($app, $cases, $projetos, $arq
     }
 
 
-	$cases->texto = $params->post('editor_content');
-	
-	$cases->ordem = $params->post('ordem');
+    /**
+    * Texto 
+    */
+	$cases->texto = $params->post('editor');
+	$cases->ordem = $params->post('ordem');    
 
     $titulo = trim($params->post('titulo'));
     if(!empty($titulo) && $titulo !== 'undefined')
