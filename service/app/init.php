@@ -80,12 +80,9 @@ else
 $app->setName('Inkuba');
 
 
-
 $services  = new Services($configSlim, $app);
 $bootstrap = new SlimBootstrap($app, $services, $configSlim);
 $app       = $bootstrap->bootstrap();
-
-
 
 
 /**
