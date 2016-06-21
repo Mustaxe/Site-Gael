@@ -62,6 +62,7 @@ $app->post('/contatos', function () use ($app, $contatos, $projetos) {
         'projeto = :projeto'
     );
 
+
     // enviar e-mail
 
     // Setar dados para o e-mail usando: setData() ou appendData()
@@ -74,7 +75,8 @@ $app->post('/contatos', function () use ($app, $contatos, $projetos) {
     $app->mailer->send(\Swift_Message::newInstance()
                         ->setSubject('Contato de gael.ag')
                         ->setFrom(array($params->post('email')))
-                        ->setTo(array($projeto->res['contato_email']))
+                        ->setTo(array('rh@gael.ag'))
+                        //->setTo(array($projeto->res['contato_email']))
                         //->setBcc(array($projeto->res['contato_email']))
                         //->setBody($templateEmail,'text/html'));
 						->setBody("<table>
