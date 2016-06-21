@@ -389,13 +389,38 @@ $largura = (int)$_GET['largura'];
 
 	<ul class="wrap-contact-content-type" data-scroll-index="10">
 		<li class="content js-contact-content" id="content-balloon">
-			<a class="inner" href="mailto:<?php echo $json_info['res']['contato_email']; ?>"><?php echo $json_info["res"]["contato_email"]; ?></a>
+			<?php			
+			$emails = explode(';', $json_info["res"]["contato_email"]);
+			foreach($emails as $email) {
+				if(!empty($email)) {
+			?>	
+				<a class="inner" href="mailto:<?= $email ?>">
+					<?= $email ?>
+				</a>
+			<?php } } ?>
 		</li>
 		<li class="content js-contact-content" id="content-phone">
-			<a class="inner" href="tel:<?php echo $json_info['res']['contato_fone']; ?>"><?php echo $json_info["res"]["contato_fone"]; ?></a>
+
+			<?php			
+			$fones = explode(';', $json_info["res"]["contato_fone"]);
+			foreach($fones as $fone) {
+				if(!empty($fone)) {
+			?>	
+				<a class="inner" href="tel:<?= $fone ?>"><?= $fone ?></a>
+			<?php } } ?>			
 		</li>
 		<li class="content js-contact-content" id="content-pin">
-			<a class="inner" href="https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f" target="_blank"><?php echo $json_info["res"]["contato_endereco"]; ?></a>
+			<?php
+			/**
+			* O primeiro item é a filial 1 e o segundo é a filial 2
+			*/
+			$count = 1;
+			$enderecos = explode(';', $json_info["res"]["contato_endereco"]);
+			foreach($enderecos as $endereco) {
+				if(!empty($endereco)) {
+			?>				
+				<a class="inner" href="<?= ( $count == 1 ? 'https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f' : 'https://www.google.com/maps/place/Av.+Rio+Branco,+1+-+Centro,+Rio+de+Janeiro+-+RJ,+Brasil/@-22.8974141,-43.182405,17z/data=!3m1!4b1!4m5!3m4!1s0x997f5a3945c06b:0x931e31dd184aa0c7!8m2!3d-22.8974191!4d-43.1802163') ?>" target="_blank"><?= $endereco ?></a>
+			<?php } $count++; } ?>	
 		</li>
 		<li class="content js-contact-content" id="content-facebook">
 			<a class="inner" href="https://www.facebook.com/agenciagael?fref=ts" target="_blank">/AGENCIAGAEL</a>

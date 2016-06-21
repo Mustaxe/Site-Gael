@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header"
                     <h2><i class="fa fa-edit"></i>Contato</h2>
                     <div class="box-icon">
                         <a href="form-elements.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
@@ -31,13 +31,85 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <form role="form" method="post" action="{{ baseUri }}/contato/{{contato.id }}" enctype="multipart/form-data"> 
+                    <form role="form" method="post" action="{{ baseUri }}/contato/{{contato.id }}" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-sm-12"><h1>Filial 1</h1></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Email</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="email1" value="{{contato.email1}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Telefone</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="fone1" value="{{contato.fone1}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Endereço</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="endereco1" value="{{contato.endereco1}}"/>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12"><h1>Filial 2</h1></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Email</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="email2" value="{{contato.email2}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Telefone</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="fone2" value="{{contato.fone2}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Endereço</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="endereco2" value="{{contato.endereco2}}"/>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+
+                        <!--
                         <div class="form-group">
                             <label class="control-label">Email</label>
                             <div class="controls">
                                 <input type="text" class="form-control" name="contato_email" value="{{contato.contato_email}}"/>
                             </div>
-                         </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label">Telefone</label>
                             <div class="controls">
@@ -49,13 +121,21 @@
                             <div class="controls">
                                 <input type="text" class="form-control" name="contato_endereco" value="{{contato.contato_endereco}}"/>
                             </div>
-                         </div>
-                        <div class="form-group">
-                            <label class="control-label">Vídeo</label>
-                            <div class="controls">
-                                <input type="text" class="form-control" name="video" value="{{contato.video}}"/>
+                        </div>
+                        -->
+
+
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Vídeo</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" name="video" value="{{contato.video}}"/>
+                                    </div>
+                                </div>
                             </div>
-                         </div>
+                        </div>
 
                         <div class="form-actions">
                           <button type="submit" class="btn btn-primary">Salvar</button>
