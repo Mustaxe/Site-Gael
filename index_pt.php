@@ -424,8 +424,7 @@ $description = "Grupo de Ativações e Experiências Live A agência que inova n
 									<a href="mailto:<?= $email ?>" style="font-size: 20px; <?= ($count == 1 ? 'padding-left: 0px;' : 'padding-left: 45px; margin-top: -20px; display: block;') ?> ">
 										<?= $email ?> 
 									</a>
-								<?php } $count++; } ?>
-								<br>
+								<?php } $count++; } ?>								
 							</li>
 							<li class="i-telefone">
 								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div>

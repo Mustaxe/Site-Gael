@@ -82,7 +82,8 @@
 	}
 
 	Job.prototype.openInfo = function openInfo() {
-		var textBoxMaxHeight = 500,
+		//var textBoxMaxHeight = 500,
+		var textBoxMaxHeight = 300,
 			textBoxHeight = (this.textJobInfo.position()).top  + this.textJobInfo.height() + 25;
 
 		if(textBoxHeight >= textBoxMaxHeight) {
