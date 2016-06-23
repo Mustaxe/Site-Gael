@@ -131,7 +131,7 @@ jQuery(document).ready(function ($) {
 
 			jQuery.ajax({
 				type: "POST",
-				url: "http://homologacao.gael.ag/service/contatos",
+				url: "http://gael.ag/service/contatos",
 				data: dados,
 				success: function( data )
 				{
