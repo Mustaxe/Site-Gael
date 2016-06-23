@@ -413,23 +413,49 @@ $description = "Grupo de Ativações e Experiências Live A agência que inova n
 						</div>
 						<ul>
 							<li class="i-email">
-								<div class="bg-ico">
-									<i>
-										<img src="svg/ico-email.svg" alt="E-mail"/>
-									</i>
-								</div>
-								<a style="font-size: 20px;" href="mailto:<?php echo $json_info["res"]["contato_email"]; ?>">
-									<?php echo $json_info["res"]["contato_email"]; ?>
-								</a>
+								<div class="bg-ico"><i><img src="svg/ico-email.svg" alt="E-mail"/></i></div>
+
+								<?php
+								$count = 1;
+								$emails = explode(';', $json_info["res"]["contato_email"]);
+								foreach($emails as $email) {
+									if(!empty($email)) {
+								?>									
+									<a href="mailto:<?= $email ?>" style="font-size: 20px; <?= ($count == 1 ? 'padding-left: 0px;' : 'padding-left: 45px; margin-top: -20px; display: block;') ?> ">
+										<?= $email ?> 
+									</a>
+								<?php } $count++; } ?>								
 							</li>
 							<li class="i-telefone">
-								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div><a style="font-size: 20px;"><?php echo $json_info["res"]["contato_fone"]; ?></a>
+								<div class="bg-ico"><i><img src="svg/ico-telefone.svg" alt="Telefone"/></i></div>
+
+								<?php
+								$count = 1;
+								$fones = explode(';', $json_info["res"]["contato_fone"]);
+								foreach($fones as $fone) {
+									if(!empty($fone)) {
+								?>	
+									<a href="" style="font-size: 20px; <?= ($count == 1 ? 'padding-left: 0px;' : 'padding-left: 45px; margin-top: -20px; display: block;') ?> ">
+										<?= $fone ?> 
+									</a>
+								<?php } $count++; } ?>
 							</li>
 							<li class="i-markee">
 								<div class="bg-ico"><i><img src="svg/ico-markee.svg" alt="Localização"/></i></div>
-								<a href="https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f" target="_blank" style="font-size: 20px;">
-									<?php echo $json_info["res"]["contato_endereco"]; ?>
-								</a>
+								<?php
+								/**
+								* O primeiro item é a filial 1 e o segundo é a filial 2
+								*/
+								$count = 1;
+								$enderecos = explode(';', $json_info["res"]["contato_endereco"]);
+								foreach($enderecos as $endereco) {
+									if(!empty($endereco)) {
+								?>										
+									<a href="<?= ( $count == 1 ? 'https://www.google.com/maps/place/Rua+Jaceru,+115+-+Vila+Gertrudes/@-23.6211575,-46.6936248,17z/data=!3m1!4b1!4m2!3m1!1s0x94ce50c14b0ed4b3:0x5a302c013000b08f' : 'https://www.google.com/maps/place/Av.+Rio+Branco,+1+-+Centro,+Rio+de+Janeiro+-+RJ,+Brasil/@-22.8974141,-43.182405,17z/data=!3m1!4b1!4m5!3m4!1s0x997f5a3945c06b:0x931e31dd184aa0c7!8m2!3d-22.8974191!4d-43.1802163') ?>" target="_blank" style="font-size: 20px; <?= ($count == 1 ? 'padding-left: 0px;' : 'padding-left: 45px; margin-top: -20px; display: block;') ?>">
+										<?= $endereco ?>
+									</a>
+								<?php } $count++; } ?>
+
 							</li>
 							<li class="i-facebook">
 								<div class="bg-ico"><i><img src="svg/ico-facebook.svg" alt="Localização"/></i></div>

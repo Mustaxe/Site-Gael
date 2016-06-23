@@ -61,7 +61,7 @@
                         <tr>
                             
                             {% for coluna in colunas_key %}
-                                {% if coluna == 'Ativo' %}
+                                {% if coluna == 'status' %}
                                     {% if attribute(linha, coluna) == '1' %}<td><span class="label label-success">Ativo</span></td>{% endif %}
                                     {% if attribute(linha, coluna) == '0' or attribute(linha, coluna) is empty %}<td><span class="label label-important">Inativo</span></td>{% endif %}
                                 {% else %}

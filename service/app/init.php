@@ -9,13 +9,14 @@ use app\bootstrap\Services;
 use Slim\Slim;
 use app\model\Clientes;
 
+
 require_once(__DIR__.'/../vendor/autoload.php');
+
 
 if (!defined('SLIM_ENVIRONMENT')) {
     $mode = getenv('SLIM_ENVIRONMENT') ? getenv('SLIM_ENVIRONMENT') : 'prod';
     define('SLIM_ENVIRONMENT', $mode);
 }
-
 
 
 /**
@@ -46,7 +47,7 @@ if($isCliente)
 else
 {  
     $configFiles = sprintf('%s/app/config/*{slim,%s}.php', ROOT, SLIM_ENVIRONMENT);
-} 
+}
 
 
 /**
@@ -214,6 +215,8 @@ $app->get('/cliente/:slug', function ($slug) use ($app) {
     $app->render('cliente/erros/404.html.twig');
     exit;
 });
+
+
 
 $app->run();
 

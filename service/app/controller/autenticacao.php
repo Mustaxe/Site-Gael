@@ -218,9 +218,7 @@ $app->map('/cliente/login', function () use ($app, $clientes) {
  *   )
  * )
  */
-$app->post('/cliente/logout', function () use ($app){
-
-    
+$app->post('/cliente/logout', function () use ($app) {    
 
 
     unset($_SESSION['X_CLIENTE_SESSION_KEY']);

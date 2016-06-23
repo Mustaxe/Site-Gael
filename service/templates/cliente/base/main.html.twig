@@ -238,7 +238,7 @@
     <footer>
         <div class="row text-center">
             <div class="col-sm-12">
-                &copy; {{ post.published_at|date("Y") }} IC Tecnologia
+                &copy; {{ post.published_at|date("Y") }} Gael
             </div>
         </div>
     </footer>    
@@ -277,6 +277,49 @@
         <script src="{{ assetUri }}/web/js/core.min.js"></script>
 
         <script type="text/javascript">
+
+            /**
+            * Adiciona arquivo
+            */        
+            $('#x-form-arquivo').submit(function (ev) {
+                ev.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '{{ baseUri }}/arquivo',
+                    type: 'POST',
+                    data: formData,
+                    beforeSend: function () {
+                        $('#x-form-arquivo .x-loading').show();                    
+                        $('#x-form-arquivo .btn').attr('disabled', true);
+                    },
+                    success: function (data) {                        
+                        
+                        $('#x-form-arquivo .x-message').html(data.message);
+                        if(data.status == true) {
+                            location.reload();
+                        } else {
+                            setTimeout(function () {
+                                $('#x-form-arquivo .btn').attr('disabled', false);
+                                $('#x-form-arquivo .x-message').html('');
+                            }, 3000);                            
+                        }
+                    },
+                    complete: function (data) {
+                        console.log('complete');
+                        $('#x-form-arquivo .x-loading').hide();
+                    },
+                    error: function (erro) {
+                        console.log(erro);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,                
+                });            
+            });
+
+
             function logout(){
                 $.post('{{ baseUri }}/logout', {}, function(data) {
                     if(data.cod == 200) { 
