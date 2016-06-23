@@ -79,7 +79,7 @@
 		});
 	}
 
-	Thumb.prototype.onClick = function onClick(){
+	Thumb.prototype.onClick = function onClick() {		
 
 		if(this.isFrozen){
 			return false;
@@ -87,9 +87,7 @@
 
 		window.goToByScroll(2);
 
-		if(this.effect){
-			$(window).trigger('work.open.gallery' , [this.idItem]);
-		}
+		if(this.effect){$(window).trigger('work.open.gallery' , [this.idItem]);}		
 	}
 
 	/*
