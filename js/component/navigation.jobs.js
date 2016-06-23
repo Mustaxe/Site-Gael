@@ -58,8 +58,9 @@
 		Navigation
 	*********************************************************************/
 
-	NavigationJobs.prototype.openGallery = function openGallery(pNum, effect){
-		var dataJob = this.data.filter(this.findID(pNum))[0];
+	NavigationJobs.prototype.openGallery = function openGallery(pNum, effect){	
+
+		var dataJob = this.data.filter(this.findID(pNum))[0];		
 
 		this.jobOpened = true;
 
@@ -82,6 +83,8 @@
 			'opacity': 1,
 			'display': 'block'
 		});
+
+		this.currentJobGallery.applySizeJobInfo(); ///
 	}
 
 	NavigationJobs.prototype.onCompleteOpen = function onCompleteOpen(){
