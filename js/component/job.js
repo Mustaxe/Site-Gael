@@ -1,7 +1,7 @@
 ;(function($, window){
 	'use strict';
 
-	function Job(elem) {		
+	function Job(elem) {	
 
 		this.elem = elem;
 
@@ -81,9 +81,8 @@
 		this.jobDescription = false;
 	}
 
-	Job.prototype.openInfo = function openInfo() {
-		//var textBoxMaxHeight = 500,
-		var textBoxMaxHeight = 300,
+	Job.prototype.openInfo = function openInfo() {		
+		var textBoxMaxHeight = 500,
 			textBoxHeight = (this.textJobInfo.position()).top  + this.textJobInfo.height() + 25;
 
 		if(textBoxHeight >= textBoxMaxHeight) {
@@ -343,13 +342,11 @@
 			rotation: 180
 		});
 
-		var textJobHeight = this.textJobInfo.height() ;
-
+		var textJobHeight = this.textJobInfo.height() ;		
 		if(textJobHeight >= 280) {
 
 			this.applySizeJobInfo();
 		}
-
 	}
 
 	Job.prototype.refreshNavJob = function refreshNavJob() {

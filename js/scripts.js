@@ -675,5 +675,4 @@ pageWork.init();
 
 
 
-Job($('#wrap-job .text')).reset();	
-
+Job($('#wrap-job .text')).reset();
