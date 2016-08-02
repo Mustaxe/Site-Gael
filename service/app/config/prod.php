@@ -27,7 +27,7 @@ $settings = array(
         'host'     => '127.0.0.1',
     	'username' => 'root',
     	'password' => '',
-    	'database' => 'gael_db'
+    	'database' => 'gael_db_v1'
     )
 );
 

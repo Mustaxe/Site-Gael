@@ -182,10 +182,10 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
         $cases->imagem_thumb_over = $ImagemThumbOverUpload->res['id'];
 
 		$_FILES = $cases->reArrayFiles($_FILES['imagem_integra']);
-		
+		        
 		$casesImagens = '';
-		for($i=0; $i < sizeof($_FILES); $i++) {
-
+		for($i=0; $i < sizeof($_FILES); $i++)
+        {
 			$uploader = $app->uploader;
 			$uploader->setTipo('cases');
 
@@ -220,8 +220,6 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
 			$casesImagens .= $ImagemIntegraUpload->res['id'] . ',';
 		}
 		$cases->imagens = substr($casesImagens, 0, (strlen($casesImagens)-1));
-
-
 
 		// COMENTADOS ABAIXO - QUANTIDADE DE UPLOADS FIXOS
 
@@ -280,7 +278,7 @@ $app->map('/admin/cases/novo', function () use ($app, $cases, $projetos, $catego
                 tbl_cases
             WHERE
                 status = 1 AND ativo = 1 AND lang = '" . $lang . "'
-            ORDER B
+            ORDER BY
                 ordem DESC
             LIMIT 1";
 
